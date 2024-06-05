@@ -154,8 +154,11 @@ const requests = [
 const Requests = () => {
   const dispatch = useDispatch();
   const { loading, user } = useSelector((state) => state.requestList);
+  // eslint-disable-next-line
   let approved = 0;
+  // eslint-disable-next-line
   let pending = 0;
+  // eslint-disable-next-line
   let rejected = 0;
   requests.forEach((item) => {
     if (item.mentorshipStatus === "approved") {
