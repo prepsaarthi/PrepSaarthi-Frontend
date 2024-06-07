@@ -40,7 +40,7 @@ const MentorList = () => {
 
   useEffect(() => {
     if (loading === false) {
-      setUser([...mentList?.users]);
+      setUser([...mentList.users]);
     }
   }, [loading, mentList]);
 
