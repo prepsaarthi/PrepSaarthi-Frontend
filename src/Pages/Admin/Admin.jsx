@@ -213,7 +213,7 @@ export default function AdminDashboard() {
         {menudata === "Admins" && <AllAdmin />}
       </Box>
       <Box>
-        <Line
+        {/* <Line
           data={{
             labels: dataset.map((data) => data.label),
             datasets: [
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
               },
             },
           }}
-        />
+        /> */}
       </Box>
     </div>
   );

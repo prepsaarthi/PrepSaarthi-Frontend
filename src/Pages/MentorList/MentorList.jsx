@@ -40,7 +40,7 @@ const MentorList = () => {
 
   useEffect(() => {
     if (loading === false) {
-      setUser([...mentList.users]);
+      setUser([...mentList?.users]);
     }
   }, [loading, mentList]);
 
@@ -141,8 +141,10 @@ const MentorList = () => {
               </Button>
             </Box>
             <Grid container maxWidth={"90vw"} m="0 auto">
-              {loading === false &&
-                user?.map((item, i) => (
+              {loading === false ? (user?.length === 0 ? (<>
+              <Typography>No Mentors added Yet</Typography>
+              </> ): (<>
+              { user?.map((item, i) => (
                   <Grid
                     item
                     xs={12}
@@ -259,6 +261,8 @@ const MentorList = () => {
                     </Card>
                   </Grid>
                 ))}
+              </>)):(<Loader />)
+                }
             </Grid>
           </>
         )
