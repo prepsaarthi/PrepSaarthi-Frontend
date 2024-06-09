@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearError } from "../../action/userAction";
 import Loader from "../../Components/Loader/Loader";
 import EditIcon from "@mui/icons-material/Edit";
+import MetaData from "../../utils/Metadata";
 const Mentor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -116,6 +117,7 @@ const Mentor = () => {
 
   return (
     <>
+    <MetaData title="Your Profile"/>
       {loading || stuLoading ? (
         <Loader />
       ) : (

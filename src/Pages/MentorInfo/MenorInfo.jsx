@@ -15,6 +15,7 @@ import Loader from "../../Components/Loader/Loader";
 import toast from "react-hot-toast";
 import { getAllConnectionsStu, clearError } from "../../action/studentAction";
 import { Link } from "react-router-dom";
+import MetaData from "../../utils/Metadata";
 const convertToIST = (time) => {
   const utcTimestampString = time;
   const utcTimestamp = new Date(utcTimestampString);
@@ -60,6 +61,7 @@ const MenorInfo = ({ active }) => {
   // const [loader,setLoading] = useState(-1);
   return (
     <>
+        <MetaData title={`Your Profile`} />
       {loading ? (
         <Loader />
       ) : (

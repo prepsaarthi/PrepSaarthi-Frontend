@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { clearError, signUpMentor } from "../../action/userAction";
 import toast from "react-hot-toast";
+import MetaData from "../../utils/Metadata";
 
 const defaultTheme = createTheme();
 
@@ -41,9 +42,7 @@ export default function MentorSignUp() {
   );
   const [avatar, setAvatar] = React.useState("");
   const dispatch = useDispatch();
-  const { error, loading, user } = useSelector(
-    (state) => state.mentor
-  );
+  const { error, loading, user } = useSelector((state) => state.mentor);
   const handleSubmit = (event) => {
     event.preventDefault();
     const mentorInformation = new FormData();
@@ -86,141 +85,144 @@ export default function MentorSignUp() {
     }
   }, [dispatch, error, navigate, user]);
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: "2.5vmax",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            pb: "2.5vmax",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  required
-                  fullWidth
-                  id="mentorName"
-                  label="Your Name"
-                  onChange={handleChange}
-                />
-              </Grid>
+    <>
+      <MetaData title="Sign Up Mentor" />
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: "2.5vmax",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              pb: "2.5vmax",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="name"
+                    required
+                    fullWidth
+                    id="mentorName"
+                    label="Your Name"
+                    onChange={handleChange}
+                  />
+                </Grid>
 
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="college"
-                  label="College"
-                  name="college"
-                  autoComplete="college"
-                  onChange={handleChange}
-                />
-              </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="college"
+                    label="College"
+                    name="college"
+                    autoComplete="college"
+                    onChange={handleChange}
+                  />
+                </Grid>
 
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="phoneNo"
-                  label="Mobile Number"
-                  name="phoneNo"
-                  type="number"
-                  autoComplete="number"
-                  onChange={handleChange}
-                />
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="phoneNo"
+                    label="Mobile Number"
+                    name="phoneNo"
+                    type="number"
+                    autoComplete="number"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box display="flex" alignItems="center">
+                    <Box
+                      component="img"
+                      src={avatarPrview}
+                      width="30px"
+                      height="30px"
+                      sx={{ aspectRatio: "1/1" }}
+                      mr="10px"
+                    ></Box>
+                    <Button variant="contained" component="label">
+                      Upload Your Photo
+                      <input
+                        type="file"
+                        hidden
+                        name="avatar"
+                        onChange={handleChange}
+                      />
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="p">
+                    By signing up you are agreeing to our{" "}
+                    <Link style={{ textDecoration: "underline" }} to="/policy">
+                      Privacy & Policy
+                    </Link>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" alignItems="center">
-                  <Box
-                    component="img"
-                    src={avatarPrview}
-                    width="30px"
-                    height="30px"
-                    sx={{ aspectRatio: "1/1" }}
-                    mr="10px"
-                  ></Box>
-                  <Button variant="contained" component="label">
-                    Upload Your Photo
-                    <input
-                      type="file"
-                      hidden
-                      name="avatar"
-                      onChange={handleChange}
-                    />
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="p">
-                  By signing up you are agreeing to our{" "}
-                  <Link style={{ textDecoration: "underline" }} to="/policy">
-                    Privacy & Policy
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                loading={loading}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  p: "0.8vmax 0",
+                  fontSize: { xs: "2.3vmax", md: "2vmax", lg: "1.1vmax" },
+                  bgcolor: "var(--button1)",
+                  "&:hover": { backgroundColor: "var(--button1Hover)" },
+                }}
+              >
+                Sign Up
+              </LoadingButton>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link to="/login" variant="body2" component={ReactLink}>
+                    Already have an account? Sign in
                   </Link>
-                </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <LoadingButton
-              type="submit"
-              fullWidth
-              variant="contained"
-              loading={loading}
-              sx={{
-                mt: 3,
-                mb: 2,
-                p: "0.8vmax 0",
-                fontSize: { xs: "2.3vmax", md: "2vmax", lg: "1.1vmax" },
-                bgcolor: "var(--button1)",
-                "&:hover": { backgroundColor: "var(--button1Hover)" },
-              }}
-            >
-              Sign Up
-            </LoadingButton>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/login" variant="body2" component={ReactLink}>
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }

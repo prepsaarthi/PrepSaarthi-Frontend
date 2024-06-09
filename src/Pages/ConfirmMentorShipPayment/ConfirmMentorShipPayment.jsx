@@ -17,6 +17,7 @@ import {
   paymentInitatorSub,
   reset,
 } from "../../action/paymentAction";
+import MetaData from "../../utils/Metadata";
 const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
   const dispatch = useDispatch();
   useEffect(() => {}, []);
@@ -121,6 +122,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
   }, [dispatch, loading, paymentError, order, item.id, sub.price]);
   return (
     <>
+        <MetaData title="Confirm Your Mentorship" />
       <Box
         sx={{
           display: "flex",

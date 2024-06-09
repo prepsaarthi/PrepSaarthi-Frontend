@@ -2,6 +2,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 import EditPersonalInfo from "./EditPersonalInfo";
 import EditMentorInfo from "./EditMentorInfo";
+import MetaData from "../../utils/Metadata";
 
 const EditProfile = () => {
   function CustomTabPanel(props) {
@@ -35,6 +36,8 @@ const EditProfile = () => {
   }
   return (
     <>
+        <MetaData title="Edit Profile" />
+
       <Box
         sx={{
           width: { xs: "90%", md: "50%", lg: "30%" },

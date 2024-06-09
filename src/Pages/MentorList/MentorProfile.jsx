@@ -26,6 +26,7 @@ import {
 import toast from "react-hot-toast";
 import RatingMentor from "./RatingMentor";
 import ConfirmMentorShipPayment from "../ConfirmMentorShipPayment/ConfirmMentorShipPayment";
+import MetaData from "../../utils/Metadata";
 
 const MentorProfile = () => {
   const dispatch = useDispatch();
@@ -150,6 +151,7 @@ const MentorProfile = () => {
   const navigate = useNavigate();
   return (
     <>
+        <MetaData title={`About ${user?.name}`} />
       {loading ? (
         <Loader />
       ) : (
@@ -175,7 +177,7 @@ const MentorProfile = () => {
                 ></Box>
               </Box>
               <Box
-                sx={{ minHeight: { xs: "125vh", md: "178vh", lg: "188vh" } }}
+                sx={{ minHeight: { xs: "143vh", md: "178vh", lg: "188vh" } }}
                 position="relative"
                 maxWidth="100vw"
               >

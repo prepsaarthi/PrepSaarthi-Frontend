@@ -34,6 +34,7 @@ import {
 } from "../../action/userAction";
 import Loader from "../../Components/Loader/Loader";
 import LoadingButton from "@mui/lab/LoadingButton";
+import MetaData from "../../utils/Metadata";
 
 const defaultTheme = createTheme();
 
@@ -160,6 +161,8 @@ const EditMentorInfo = () => {
 
   return (
     <>
+        <MetaData title="Edit Your Profile Info" />
+
       {userLoad ? (
         <Loader />
       ) : (

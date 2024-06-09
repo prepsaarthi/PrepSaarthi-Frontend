@@ -14,6 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, clearMessage, loadUser, updateStudentFinalInfo } from "../../action/studentAction";
 import toast from "react-hot-toast";
+import MetaData from '../../utils/Metadata';
 const defaultTheme = createTheme();
 
 const convertBase64 = (file) => {
@@ -115,6 +116,8 @@ const EditProfileStudent = () => {
       
     }, [error, dispatch]);
     return (
+        <>
+            <MetaData title="Edit Your Profile" />
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -223,6 +226,7 @@ const EditProfileStudent = () => {
           </Box>
         </Container>
       </ThemeProvider>
+      </>
     );
 }
 

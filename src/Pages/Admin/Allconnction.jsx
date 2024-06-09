@@ -5,6 +5,7 @@ import { Box, Tabs } from "@mui/material";
 import Connection from "./Connection";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllConnections } from "../../action/userAction";
+import MetaData from "../../utils/Metadata";
 const Allconnction = () => {
   const dispatch = useDispatch();
   const [newConnection, setNewConnection] = useState([]);
@@ -77,6 +78,8 @@ const Allconnction = () => {
   }
 
   return (
+    <>
+        <MetaData title="Connections" />
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
@@ -112,6 +115,7 @@ const Allconnction = () => {
         {loading === false && <Connection connection={resolvedConnection} />}
       </CustomTabPanel>
     </Box>
+    </>
   );
 };
 

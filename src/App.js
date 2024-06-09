@@ -12,6 +12,7 @@ import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
+import TrackPageView from "./Pages/TrackPageView/TrackPageView.jsx";
 import ConfirmMentorShipPayment from "./Pages/ConfirmMentorShipPayment/ConfirmMentorShipPayment.jsx";
 import { Toaster } from "react-hot-toast";
 import { clearError, loadUser } from "./action/userAction.js";
@@ -22,6 +23,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoutes from "./Components/Route/PrivateRoutes.jsx";
 import PrivateRouteStu from "./Components/Route/PrivateRouteStu.jsx";
+import MetaData from "./utils/Metadata.jsx";
 const App = () => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.mentor);
@@ -44,6 +46,7 @@ const App = () => {
 
   return (
     <>
+    <MetaData title="PrepSaarthi" />
       <Navbar />
       <Routes>
         <Route element={<PrivateRoutes allowedRoles={["admin"]} />}>
@@ -73,6 +76,7 @@ const App = () => {
         <Route path="/role/mentor/final" element={<FinalStep />}></Route>
       </Routes>
       <Footer />
+      <TrackPageView />
       <Toaster />
     </>
   );

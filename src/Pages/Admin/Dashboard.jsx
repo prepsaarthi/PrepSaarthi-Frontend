@@ -11,6 +11,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import SchoolIcon from "@mui/icons-material/School";
 import FaceIcon from "@mui/icons-material/Face";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
+import MetaData from "../../utils/Metadata";
 const earning = 2000;
 const students = 103;
 const mentors = 90;
@@ -65,6 +66,8 @@ const Dashboard = () => {
   ];
   return (
     <>
+        <MetaData title="Dashboard" />
+
       <Grid container spacing={2}>
         {cards.map((item, i) => (
           <Grid key={i} item xs={12} sm={6} md={3}>

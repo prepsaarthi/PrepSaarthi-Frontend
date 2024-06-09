@@ -188,6 +188,7 @@ const Authenticity = ({ mentorName, idcard }) => {
       </Modal>
       <Box
         sx={{
+            overflow:'hidden',
           width: "95%",
           borderRadius: "1vmax",
           border: "0.5px solid grey",

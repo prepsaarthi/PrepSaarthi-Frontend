@@ -21,6 +21,7 @@ import {
   loginUser as stuLogin,
 } from "../../action/studentAction";
 import toast from "react-hot-toast";
+import MetaData from "../../utils/Metadata";
 const defaultTheme = createTheme();
 
 export default function SignIn() {
@@ -83,6 +84,8 @@ export default function SignIn() {
     studentLoad,
   ]);
   return (
+    <>
+    <MetaData title="Login - PrepSaarthi" />
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs" sx={{ mb: "8vmax" }}>
         <CssBaseline />
@@ -186,5 +189,6 @@ export default function SignIn() {
         </Box>
       </Container>
     </ThemeProvider>
+    </>
   );
 }

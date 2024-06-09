@@ -19,6 +19,7 @@ import {
   getAllMentors,
   reset,
 } from "../../action/userAction";
+import MetaData from "../../utils/Metadata";
 const MentorAll = () => {
   const dispatch = useDispatch();
   const { users, error, loading } = useSelector((state) => state.allMentors);
@@ -52,6 +53,8 @@ const MentorAll = () => {
   }, [dispatch]);
   return (
     <>
+        <MetaData title="All Mentors" />
+
       <>
         {loading ? (
           <Loader />

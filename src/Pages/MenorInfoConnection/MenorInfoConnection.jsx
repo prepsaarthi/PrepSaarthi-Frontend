@@ -14,6 +14,7 @@ import Loader from "../../Components/Loader/Loader";
 import toast from "react-hot-toast";
 import { clearError } from "../../action/studentAction";
 import { allMentorConnection } from "../../action/userAction";
+import MetaData from "../../utils/Metadata";
 const convertToIST = (time) => {
   const utcTimestampString = time;
   const utcTimestamp = new Date(utcTimestampString);
@@ -55,6 +56,8 @@ const MenorInfoConnection = ({ active }) => {
   // const [loader,setLoading] = useState(-1);
   return (
     <>
+        <MetaData title="Mentor Info Connection" />
+
       {loading ? (
         <Loader />
       ) : (

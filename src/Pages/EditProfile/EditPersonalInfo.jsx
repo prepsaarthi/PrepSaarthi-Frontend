@@ -20,6 +20,7 @@ import {
   updateMentorInfo,
 } from "../../action/userAction";
 import toast from "react-hot-toast";
+import MetaData from "../../utils/Metadata";
 
 const defaultTheme = createTheme();
 
@@ -123,6 +124,8 @@ const EditPersonalInfo = () => {
     updateLoading,
   ]);
   return (
+    <>
+        <MetaData title="Edit Personal Info" />
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -256,6 +259,7 @@ const EditPersonalInfo = () => {
         </Box>
       </Container>
     </ThemeProvider>
+    </>
   );
 };
 

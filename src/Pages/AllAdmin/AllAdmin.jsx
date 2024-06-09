@@ -19,6 +19,7 @@ import {
   getAllAdmin,
   reset,
 } from "../../action/userAction";
+import MetaData from "../../utils/Metadata";
 
 const AllAdmin = () => {
   const dispatch = useDispatch();
@@ -53,6 +54,8 @@ const AllAdmin = () => {
   }, [dispatch]);
   return (
     <>
+        <MetaData title="All Admins - PrepSaarthi" />
+
       <>
         {loading ? (
           <Loader />

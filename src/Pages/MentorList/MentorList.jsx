@@ -16,6 +16,7 @@ import { clearError, getMentorList } from "../../action/metorListAction";
 import toast from "react-hot-toast";
 import Loader from "../../Components/Loader/Loader";
 import { Link } from "react-router-dom";
+import MetaData from "../../utils/Metadata";
 const MentorList = () => {
   const dispatch = useDispatch();
   const {
@@ -66,6 +67,8 @@ const MentorList = () => {
   };
   return (
     <>
+        <MetaData title="All Mentors" />
+
       {loading ? (
         <Loader />
       ) : (

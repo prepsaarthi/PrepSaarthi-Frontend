@@ -4,6 +4,7 @@ import { Pendingreq, ApprovedReq, RejectedReq } from "./AllRequest";
 import { useSelector, useDispatch } from "react-redux";
 import { getMentorRequest } from "../../action/metorListAction";
 import Loader from "../../Components/Loader/Loader";
+import MetaData from "../../utils/Metadata";
 const requests = [
   {
     name: "Dinesh Raj",
@@ -209,6 +210,8 @@ const Requests = () => {
 
   return (
     <>
+        <MetaData title="Requests" />
+
       {loading ? (
         <Loader />
       ) : (
