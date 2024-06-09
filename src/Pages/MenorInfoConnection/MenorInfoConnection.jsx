@@ -60,10 +60,12 @@ const MenorInfoConnection = ({ active }) => {
       ) : (
         <>
           {success?.connection?.length === 0 ? (
-            <h3>No Connection To show</h3>
+            <Box sx={{height:'100%',minWidth:'65vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
+            <Typography fontSize={"2vmax"} fontWeight={600}>No Connection To show:(</Typography>
+            </Box>
           ) : (
             <>
-              <Box sx={{ overflowY: "scroll", height: "42vmax" }}>
+              <Box sx={{ overflowY: "scroll", height: "42vmax",minWidth:'65vw' }}>
                 {success?.connection?.map((item, i) => {
                   if (item.isActive === active) {
                     return (

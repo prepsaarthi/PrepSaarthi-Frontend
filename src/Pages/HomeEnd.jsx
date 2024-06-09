@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import "./homeend.css";
-import { Button } from "@mui/material";
+import { Button, Icon } from "@mui/material";
+import { Link } from "react-router-dom";
 const HomeEnd = () => {
   const [answer, setAnswer] = useState(false);
   const [index, setIndex] = useState(-1);
@@ -48,6 +50,13 @@ const HomeEnd = () => {
         "PrepSaarthi is exclusively designed for aspirants preparing for the IIT JEE exam through online mode.PrepSaarthi ensures a supportive environment for students preparing via online mode.Students opting for offline mode can also join to overcome challenges in their offline classes.Thus, PrepSaarthi caters to the needs of both online and offline students.",
     },
   ];
+
+  const openWhatsapp = () => {
+    const phoneNumber = '+917007158127';
+    const message = 'Hello! I would like to chat with you.';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
   return (
     <>
       <div className="_home-end">
@@ -111,13 +120,17 @@ const HomeEnd = () => {
           <h2 className="_home-middle-heading">More Questions?</h2>
           <p className="_more-doubts">Dont worry we are here &#128522;</p>
           <div className={`_more-question  ${cssClass}`}>
-            <Button
+            <Button 
               className={`askus_button ${buttonBG}`}
               variant="contained"
               onMouseEnter={() => handleBackground("_containerBG", "_buttonBG")}
               onMouseLeave={() => handleBackground("", "")}
+              startIcon={<WhatsAppIcon sx={{fontSize:"2vmax !important"}}/>}
+              // sx={{width:'100%'}}
+              onClick={openWhatsapp}
             >
-              Let's clear your doubts
+              Lets Clear Your Doubt
+
             </Button>
           </div>
         </div>

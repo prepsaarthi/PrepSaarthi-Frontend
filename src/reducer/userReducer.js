@@ -32,7 +32,7 @@ const initalState = {};
 //       return {
 //         ...state,
 //         loading: true,
-//       };
+//      te };
 //     })
 //     .addCase(addItemToCart.fulfilled, (state, action) => {
 //       return {

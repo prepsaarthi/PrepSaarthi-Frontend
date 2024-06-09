@@ -13,6 +13,7 @@ import {
   reset,
   getAllReviews,
   deleteReviews,
+  updateStudentFinalInfo,
 } from "../action/studentAction";
 
 const initalState = {};
@@ -410,6 +411,44 @@ export const deleteReviewReducer = createReducer(initalState, (builder) => {
       return {
         ...state,
         isDeleted: false,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+
+
+export const updateStudent = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(updateStudentFinalInfo.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(updateStudentFinalInfo.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+    })
+    .addCase(updateStudentFinalInfo.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(clearMessage.fulfilled, (state, action) => {
+      return {
+        ...state,
+        user: {},
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {

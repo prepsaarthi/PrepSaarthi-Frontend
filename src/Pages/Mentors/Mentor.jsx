@@ -1,21 +1,24 @@
 import React, { useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import "./mentor.css";
-import { Box, Tabs } from "@mui/material";
+import { Box, Tabs, Typography } from "@mui/material";
 import MenorInfo from "../MentorInfo/MenorInfo";
 import MenorInfoConnection from "../MenorInfoConnection/MenorInfoConnection";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearError } from "../../action/userAction";
 import Loader from "../../Components/Loader/Loader";
-
+import EditIcon from "@mui/icons-material/Edit";
 const Mentor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error, loading, user } = useSelector((state) => state.mentor);
+  const { error, loading, user, isAuthenticated } = useSelector(
+    (state) => state.mentor
+  );
   const {
     loading: stuLoading,
     user: stuUser,
+    isAuthenticated: stuAuth,
   } = useSelector((state) => state.student);
 
   useEffect(() => {
@@ -26,6 +29,15 @@ const Mentor = () => {
       dispatch(clearError());
     }
   }, [error, dispatch, navigate]);
+  // useEffect(() => {
+  //   if (isAuthenticated === false) {
+  //       navigate("/login");
+  //   }
+  //   if (stuAuth === false) {
+  //       navigate("/login");
+  //   }
+  //   return
+  // }, [isAuthenticated, stuAuth, navigate]);
 
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -123,6 +135,33 @@ const Mentor = () => {
                     }
                     alt={user?.user?.name || stuUser?.user?.name}
                   />
+                  <Link
+                    to={
+                      user?.user?.role === "mentor" ||
+                      user?.user?.role === "admin"
+                        ? "/update/profile/mentor"
+                        : stuUser?.user?.role === "student" &&
+                          "/update/profile/student"
+                    }
+                  >
+                    {" "}
+                    <EditIcon
+                      sx={{
+                        position: "absolute",
+                        bottom: "10px",
+                        right: "-5px",
+                        bgcolor: "var(--button1)",
+                        borderRadius: "50%",
+                        fontSize: "35px",
+                        padding: "5px",
+                        color: "white",
+                        transition:'0.3s',
+                        "&:hover": {
+                          fontSize:'40px',
+                        },
+                      }}
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="_mentor-profile-and-name">
@@ -153,48 +192,75 @@ const Mentor = () => {
               </div>
             </div>
             <div className="right__col">
-              <Box sx={{ width: "100%" }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                    sx={{
-                      justifyContent: "center",
-                      backgroundColor: "#2b2b2b",
-                    }}
-                  >
-                    <Tab
-                      sx={{ minWidth: "50%", color: "white" }}
-                      label="Active Mentorship"
-                      {...a11yProps(0)}
-                    />
-                    <Tab
-                      sx={{ minWidth: "50%", color: "white" }}
-                      label="Past Mentoships"
-                      {...a11yProps(1)}
-                    />
-                  </Tabs>
-                </Box>
-                <CustomTabPanel value={value} index={0}>
-                  {stuLoading === false &&
-                    stuUser?.user?.role === "student" && (
-                      <MenorInfo active={true} />
-                    )}
-                  {loading === false && user?.user?.role === "mentor" && (
-                    <MenorInfoConnection active={true} />
+              {user?.user?.signedUpFor === "mentor" &&
+              user?.user?.role === "user" ? (
+                <>
+                  {user?.user?.isStepLastCompleted === false ? (
+                    <>
+                      <Box>
+                        <Typography>
+                          Kindly complete the mentor application to activate
+                          your Mentor's dashboard
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      <Box>
+                        <Typography>
+                          You can access your mentor's dashboard once your
+                          account is verified{" "}
+                        </Typography>
+                      </Box>
+                    </>
                   )}
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                  {stuLoading === false &&
-                    stuUser?.user?.role === "student" && (
-                      <MenorInfo active={false} />
-                    )}
-                  {loading === false && user?.user?.role === "mentor" && (
-                    <MenorInfoConnection active={false} />
-                  )}
-                </CustomTabPanel>
-              </Box>
+                </>
+              ) : (
+                <>
+                  <Box sx={{ width: "100%" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                        sx={{
+                          justifyContent: "center",
+                          backgroundColor: "#2b2b2b",
+                        }}
+                      >
+                        <Tab
+                          sx={{ minWidth: "50%", color: "white" }}
+                          label="Active Mentorship"
+                          {...a11yProps(0)}
+                        />
+                        <Tab
+                          sx={{ minWidth: "50%", color: "white" }}
+                          label="Past Mentoships"
+                          {...a11yProps(1)}
+                        />
+                      </Tabs>
+                    </Box>
+                    <CustomTabPanel value={value} index={0}>
+                      {stuLoading === false &&
+                        stuUser?.user?.role === "student" && (
+                          <MenorInfo active={true} />
+                        )}
+                      {loading === false && user?.user?.role === "mentor" && (
+                        <MenorInfoConnection active={true} />
+                      )}
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
+                      {stuLoading === false &&
+                        stuUser?.user?.role === "student" && (
+                          <MenorInfo active={false} />
+                        )}
+                      {loading === false && user?.user?.role === "mentor" && (
+                        <MenorInfoConnection active={false} />
+                      )}
+                    </CustomTabPanel>
+                  </Box>
+                </>
+              )}
             </div>
           </div>
         </div>

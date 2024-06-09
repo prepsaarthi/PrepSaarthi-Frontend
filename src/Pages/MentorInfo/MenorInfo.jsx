@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -13,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import toast from "react-hot-toast";
 import { getAllConnectionsStu, clearError } from "../../action/studentAction";
+import { Link } from "react-router-dom";
 const convertToIST = (time) => {
   const utcTimestampString = time;
   const utcTimestamp = new Date(utcTimestampString);
@@ -63,10 +65,13 @@ const MenorInfo = ({ active }) => {
       ) : (
         <>
           {isConnection?.length === 0 ? (
-            <h3>No Mentorship To show</h3>
+                <Box sx={{height:'100%',minWidth:'65vw', display:'flex', flexDirection:"column", alignItems:'center', justifyContent:'center'}}>
+                <Typography fontSize={"2vmax"} fontWeight={600}>No mentorships to show</Typography>
+                <Typography component={Link} to="/lists/mentors">Click here to buy best mentorship for you</Typography>
+                </Box>
           ) : (
             <>
-              <Box sx={{ overflowY: "scroll", height: "42vmax" }}>
+              <Box sx={{ overflowY: "scroll", height: "42vmax" ,minWidth:'65vw', p:'1vmax'}}>
                 {connection?.connection?.map((item, i) => {
                   if (item.isActive === active) {
                     return (
@@ -126,6 +131,17 @@ const MenorInfo = ({ active }) => {
                                     .split(".")[0]
                                 }{" "}
                                 at {convertToIST(item?.boughtAt).split("T")[0]}
+                              </Typography>
+                              <Typography
+                                variant="p"
+                                component="span"
+                                width={"100%"}
+                                textAlign={"center"}
+                                fontSize="0.8vmax"
+                                color="red"
+                              >
+                                {item?.isConnected === false &&
+                                  item?.isActive === true && <>Active till {(item?.expiresIn)?.split('T')[0]}</>}{" "}
                               </Typography>
                               <Typography
                                 variant="p"

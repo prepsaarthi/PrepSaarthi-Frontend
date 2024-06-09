@@ -36,6 +36,21 @@ export const signUpStudent = createAsyncThunk(
   }
 );
 
+//Update Profile
+
+export const updateStudentFinalInfo = createAsyncThunk(
+  "student/update/updateInfo",
+  async (userData, { rejectWithValue }) => {
+    try {
+      console.log(userData);
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      const { data } = await axiosInstance.put(`/v1/student/self/update/profile`, userData, config);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 
 export const loadUser = createAsyncThunk(

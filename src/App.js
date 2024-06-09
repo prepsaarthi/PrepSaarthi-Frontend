@@ -11,8 +11,9 @@ import FinalStep from "./Pages/MentorsFinalSTeo/FinalStep.jsx";
 import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
+import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
 import ConfirmMentorShipPayment from "./Pages/ConfirmMentorShipPayment/ConfirmMentorShipPayment.jsx";
-import  { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { clearError, loadUser } from "./action/userAction.js";
 import {
   clearError as stuErrorClear,
@@ -51,8 +52,12 @@ const App = () => {
         <Route element={<PrivateRoutes allowedRoles={["mentor", "admin"]} />}>
           <Route path="/update/profile/mentor" element={<EditProfile />} />
         </Route>
+
         <Route element={<PrivateRouteStu allowedRoles={["student"]} />}>
-          {/* <Route path="/update/profile/mentor" element={<EditProfileStudent />} /> */}
+          <Route
+            path="/update/profile/student"
+            element={<EditProfileStudent />}
+          />
           <Route
             path="/mentorship/buy/:id"
             element={<ConfirmMentorShipPayment />}
@@ -62,9 +67,9 @@ const App = () => {
         <Route path="/" element={<Home />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<SignIn />}></Route>
+        <Route path="/user/:id" element={<Mentor />}></Route>
         <Route path="/lists/mentors" element={<MentorList />}></Route>
         <Route path="/mentors/:id" element={<MentorProfile />}></Route>
-        <Route path="/user/:id" element={<Mentor />}></Route>
         <Route path="/role/mentor/final" element={<FinalStep />}></Route>
       </Routes>
       <Footer />

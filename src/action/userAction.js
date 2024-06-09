@@ -35,7 +35,7 @@ export const signUpMentor = createAsyncThunk(
     }
   }
 );
-// SIGN UP
+// Update Profile
 export const updateMentorFinalInfo = createAsyncThunk(
   "mentor/update/updateInfo",
   async (userData, { rejectWithValue }) => {

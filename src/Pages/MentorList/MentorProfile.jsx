@@ -31,6 +31,7 @@ const MentorProfile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { error, loading, user } = useSelector((state) => state.mentorDeatil);
+  const {  user:mentor } = useSelector((state) => state.mentor);
   const { user: stuUser, isAuthenticated } = useSelector(
     (state) => state.student
   );
@@ -39,7 +40,7 @@ const MentorProfile = () => {
     loading: cLoading,
     connection,
   } = useSelector((state) => state.connectionCount);
-
+  console.log(mentor?.user?.signedUpFor)
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getSuccessMentorConnection(id));
@@ -256,7 +257,11 @@ const MentorProfile = () => {
                                   api: "xyz",
                                   price: user?.ppd,
                                 });
-                              } else {
+                              } 
+                              else if(mentor?.user?.signedUpFor === 'mentor'){
+                                toast.error("Mentors Can't Buy Mentorship")
+                              }
+                              else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");
                               }
@@ -280,7 +285,11 @@ const MentorProfile = () => {
                                   api: "xyz",
                                   price: user?.ppm,
                                 });
-                              } else {
+                              }
+                              else if(mentor?.user?.signedUpFor === 'mentor'){
+                                toast.error("Mentors Can't Buy Mentorship")
+                              }
+                               else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");
                               }

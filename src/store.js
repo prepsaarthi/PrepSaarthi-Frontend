@@ -25,6 +25,7 @@ import {
   newReviewReducer,
   reviewReducer,
   studentSignup,
+  updateStudent,
 } from "./reducer/studentReducer";
 import { newPayment, newSubscription } from "./reducer/paymnentReducer";
 const store = configureStore({
@@ -35,6 +36,7 @@ const store = configureStore({
     mentorUpdateLastStep: updateMentorFinalReducer,
     mentorList: mentorListReducer,
     updateMentorInfo: updateMentor,
+    updateStudentInfo:updateStudent,
     requestList: mentorRequestListReducer,
     roleUpdate: updateMentorRole,
     allStudents: allStudentsReducer,

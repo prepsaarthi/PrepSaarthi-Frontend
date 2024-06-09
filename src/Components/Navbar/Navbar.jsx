@@ -36,7 +36,6 @@ function ResponsiveAppBar() {
   const [loggedIn, setLogin] = React.useState(true);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   React.useEffect(() => {
     if (isAuthenticated || stuAuth) {
       setLogin(true);
@@ -185,7 +184,7 @@ function ResponsiveAppBar() {
             {Boolean(loggedIn) || Boolean() ? (
               <>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src={user?.user?.avatar?.public_URI || stuUser?.user?.avatar?.public_URI}/>
                 </IconButton>
                 <Menu
                   sx={{ mt: "45px" }}
@@ -224,7 +223,12 @@ function ResponsiveAppBar() {
                   <MenuItem
                     onClick={() => {
                       handleCloseUserMenu();
+                      if(user?.user.role === "admin"|| user?.user.role === "mentor"){
                       navigate("/update/profile/mentor");
+                    }else if(stuUser?.user.role === "student"){
+                        navigate("/update/profile/student");
+                      }
+                      
                     }}
                   >
                     <Typography textAlign="center">Edit Profile</Typography>
@@ -260,12 +264,25 @@ function ResponsiveAppBar() {
             ) : (
               <>
                 <Box to="/login" component={Link}>
-                  <IconButton components={Link} to="/login" sx={{ p: 0 }}>
+                  {/* <IconButton components={Link} to="/login" sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
                       src="/static/images/avatar/2.jpg"
                     />
-                  </IconButton>
+                  </IconButton> */}
+                  <Link to="/signup">
+                    <Button
+                      variant="contained"
+                      sx={{
+                        bgcolor: "var(--button2)",
+                        width: {xs:"10vmax", md:'8vmax'},
+                        ml: "1vmax",
+                        fontSize:{xs:'1.2vmax', md:'0.9vmax'}
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
                 </Box>
               </>
             )}

@@ -1,9 +1,10 @@
 import React from "react";
 import "./homeTop.css";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import CastleIcon from "@mui/icons-material/Castle";
+import { Link } from "react-router-dom";
 const HomeTop = () => {
   const HomeTopSecond = [
     {
@@ -58,6 +59,7 @@ const HomeTop = () => {
             Connect with IIT-JEE Toppers through PrepSaarthi and take your
             preparation to next level
           </p>
+          <Box component={Link} to="/lists/mentors">
           <Button
             size="large"
             sx={{
@@ -72,6 +74,7 @@ const HomeTop = () => {
           >
             Mentorship
           </Button>
+          </Box>
           <Button
             size="large"
             sx={{
@@ -106,6 +109,7 @@ const HomeTop = () => {
             </div>
           ))}
         </div>
+        <Box display={'flex'} alignSelf={"center"} component={Link} to="/signup">
         <Button
           size="large"
           sx={{
@@ -124,6 +128,7 @@ const HomeTop = () => {
         >
           Join Us
         </Button>
+        </Box>
       </div>
     </>
   );

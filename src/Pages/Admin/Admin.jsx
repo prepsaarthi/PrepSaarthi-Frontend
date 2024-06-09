@@ -19,6 +19,7 @@ import Students from "../Students/Students";
 import MentorAll from "../MentorAll/MentorAll.jsx";
 import AllAdmin from "../AllAdmin/AllAdmin.jsx";
 import Allconnction from "./Allconnction.jsx";
+import MetaData from "../../utils/Metadata.jsx";
 
 export default function AdminDashboard() {
   const [open, setOpen] = useState(false);
@@ -196,6 +197,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
+      <MetaData title="Admin Dashboard" />
       <Box display="flex" justifyContent="flex-end" bgcolor="var(--text2)">
         <Button onClick={toggleDrawer(true)} sx={{ color: "var(--button1)" }}>
           Admin Menu

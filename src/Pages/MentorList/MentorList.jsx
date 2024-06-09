@@ -140,9 +140,12 @@ const MentorList = () => {
                 New Mentors
               </Button>
             </Box>
+            <Box minHeight={'100vh'} sx={{display:'flex'}}>
             <Grid container maxWidth={"90vw"} m="0 auto">
               {loading === false ? (user?.length === 0 ? (<>
-              <Typography>No Mentors added Yet</Typography>
+              <Box sx={{height:'100%',width:'100vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
+              <Typography component={'span'} fontWeight={600}  fontSize="2vmax" margin='0 auto' variant="p">No Mentors added Yet</Typography>
+              </Box>
               </> ): (<>
               { user?.map((item, i) => (
                   <Grid
@@ -264,6 +267,7 @@ const MentorList = () => {
               </>)):(<Loader />)
                 }
             </Grid>
+            </Box>
           </>
         )
       )}
