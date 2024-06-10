@@ -17,8 +17,7 @@ const Footer = () => {
             <div className="col" id="company">
               <img src="/images/logo.png" alt="" className="logo" />
               <p>
-                We are specialized in designings, make your business a brand.
-                Try our premium services.
+              Connecting those striving for success with those who've achieved it
               </p>
               <div className="social">
                 <Link to="/d">
@@ -39,8 +38,8 @@ const Footer = () => {
             <div className="col" id="services">
               <h3>Services</h3>
               <div className="links">
-                <Link to="#">Counselling</Link>
                 <Link to="#">Mentoring</Link>
+                <Link to="#">Courses</Link>
               </div>
             </div>
 

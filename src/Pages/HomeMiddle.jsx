@@ -93,41 +93,22 @@ const HomeMiddle = () => {
   ];
   const steps = [
     {
-      img: (
-        <>
-          <BadgeIcon sx={{ fontSize: "6vmax" }} />
-        </>
-      ),
-      steps: "Register/Login",
-      description: "1:1 Discussions With The Mentors",
+      img: "/images/card1.png",
+      serviceName: "Register/Login to get started",
     },
     {
-      img: (
-        <>
-          <PersonSearchIcon sx={{ fontSize: "6vmax" }} />
-        </>
-      ),
-      steps: "Select your mentor",
-      description:
-        'We provide you "Freedom Of Choice" to select mentor as per your wish',
+      img: "/images/card2.png",
+      serviceName: "Select your mentor",
     },
     {
-      img: (
-        <>
-          <CurrencyRupeeIcon sx={{ fontSize: "6vmax" }} />
-        </>
-      ),
-      steps: "Make a payment",
-      description: "Choose a payment method and click Pay Now",
+      img: "/images/card3.png",
+      serviceName: "Make a payment",
+      // description: "Choose a payment method and click Pay Now",
     },
     {
-      img: (
-        <>
-          <PeopleIcon sx={{ fontSize: "6vmax" }} />
-        </>
-      ),
-      steps: "Connect to your mentor",
-      description: "Selected mentor will reach out to you",
+      img: "/images/card4.png",
+      serviceName: "Connect to your mentor",
+      // description: "Choose a payment method and click Pay Now",
     },
   ];
   return (
@@ -204,7 +185,7 @@ const HomeMiddle = () => {
                     component="div"
                     textAlign="start"
                     sx={{
-                      fontSize: isSmallScreen ? "1.4vmax" : "1.2vmax",
+                      fontSize: isSmallScreen ? "1.7vmax" : "1.2vmax",
                       textAlign: isSmallScreen ? "center" : "start",
                       fontWeight: "600",
                     }}
@@ -216,131 +197,70 @@ const HomeMiddle = () => {
             </Card>
           ))}
         </div>
-        <Box
-          sx={{
-            display: { xs: "block", md: "flex" },
-            width: "90%",
-            m: { xs: "0 auto", md: "6vmax auto" },
-          }}
-        >
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Typography
-              variant="p"
+        <h2 className="_home-middle-heading">How to get started?</h2>
+        <div className="_how-work _how-work2">
+          {steps.map((item, i) => (
+            <Card
+              key={i}
+              raised={true}
               sx={{
-                fontSize: "2.6vmax",
-                fontWeight: 900,
-                color: "#333333",
-                textAlign: { xs: "center", md: "start" },
-                display: { xs: "none", md: "block" },
+                height: isSmallScreen ? 200 : 330,
+                width: "95%",
+                borderRadius: "1.5vmax",
               }}
             >
-              How To Get Started?
-            </Typography>
-            <Box sx={{ display: { xs: "block", md: "none" } }}>
-              <h2 className="_home-middle-heading">How do get started?</h2>
-            </Box>
-            <Typography
-              variant="p"
-              sx={{
-                fontSize: "1.5vmax",
-                fontWeight: 500,
-                textAlign: { xs: "center", md: "start" },
-              }}
-            >
-              By following this 4 steps you can be a member of PrepSaarthi
-            </Typography>
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <Grid container>
-              {steps.map((item, i) => (
-                <Grid item xs={6}>
-                  <Card
-                    key={i}
-                    raised={true}
+              <CardActionArea
+                sx={{
+                  padding: "1.2vmax",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  image={item.img}
+                  alt="green iguana"
+                  sx={{
+                    height: isSmallScreen ? 130 : 200,
+                    borderRadius: "1vmax",
+                    objectFit: "cover",
+                  }}
+                />
+                <CardContent sx={{ padding: 0, mt: "1vmax" }}>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    textAlign="start"
                     sx={{
-                      height: isSmallScreen ? 200 : 330,
-                      m: "1vmax",
-                      width: "95%",
-                      borderRadius: "1.5vmax",
+                      fontSize: isSmallScreen ? "1.7vmax" : "1.2vmax",
+                      textAlign: isSmallScreen ? "center" : "start",
+                      fontWeight: "600",
                     }}
                   >
-                    <CardActionArea
-                      sx={{
-                        padding: "1.2vmax",
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "flex-start",
-                      }}
-                    >
-                      {/* <CardMedia
-                component="img"
-                image={item.img}
-                alt="green iguana"
-                sx={{
-                  height: isSmallScreen ? 130 : 200,
-                  borderRadius: "1vmax",
-                  objectFit: "cover",
-                }}
-              /> */}
-                      <Icon
-                        sx={{
-                          fontSize: "9vmax",
-                          border: "0.3px solid grey",
-                          alignSelf: { xs: "center", md: "start" },
-                          borderRadius: "50%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {item.img}
-                      </Icon>
-                      <CardContent sx={{ padding: 0, mt: "1vmax" }}>
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                          textAlign="start"
-                          sx={{
-                            fontSize: isSmallScreen ? "1.4vmax" : "1.2vmax",
-                            textAlign: isSmallScreen ? "center" : "start",
-                            fontWeight: "600",
-                          }}
-                        >
-                          {item.steps}
-                        </Typography>
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                          textAlign="start"
-                          sx={{
-                            fontSize: isSmallScreen ? "1.4vmax" : "1.2vmax",
-                            textAlign: isSmallScreen ? "center" : "start",
-                            fontWeight: "600",
-                          }}
-                        >
-                          {item.description}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Box>
+                    {item.serviceName}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
+        </div>
       </div>
     </>
   );
 };
 
 export default HomeMiddle;
+
+{/* <Typography
+  variant="p"
+  sx={{
+    fontSize: "1.5vmax",
+    fontWeight: 500,
+    textAlign: { xs: "center", md: "start" },
+  }}
+>
+  By following this 4 steps you can be a member of PrepSaarthi
+</Typography> */}

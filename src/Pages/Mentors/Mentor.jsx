@@ -30,15 +30,12 @@ const Mentor = () => {
       dispatch(clearError());
     }
   }, [error, dispatch, navigate]);
-  // useEffect(() => {
-  //   if (isAuthenticated === false) {
-  //       navigate("/login");
-  //   }
-  //   if (stuAuth === false) {
-  //       navigate("/login");
-  //   }
-  //   return
-  // }, [isAuthenticated, stuAuth, navigate]);
+  useEffect(() => {
+    if (isAuthenticated === false && stuAuth === false) {
+        navigate("/login");
+        return;
+    }
+  }, [isAuthenticated, stuAuth, navigate]);
 
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -117,10 +114,11 @@ const Mentor = () => {
 
   return (
     <>
-    <MetaData title="Your Profile"/>
       {loading || stuLoading ? (
         <Loader />
       ) : (
+        <>
+        <MetaData title="Your Profile"/>
         <div className="header__wrapper">
           <div className="cols__container">
             <div className="left__col">
@@ -266,6 +264,7 @@ const Mentor = () => {
             </div>
           </div>
         </div>
+        </>
       )}
     </>
   );

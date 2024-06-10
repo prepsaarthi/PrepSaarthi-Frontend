@@ -133,35 +133,37 @@ export default function SignIn() {
               <LoadingButton
                 type="submit"
                 fullWidth
+                name='mentor'
                 variant="contained"
-                loading={loading || studentLoad}
+                loading={loading}
                 sx={{
                   mt: 3,
                   mb: 2,
-                  fontSize: { xs: "2.2vmax", md: "2vmax", lg: "1.1vmax" },
+                  mr:2,
+                  fontSize: { xs: "2.1vmax", md: "1.8vmax", lg: "1vmax" },
                   bgcolor: "var(--button1)",
                   "&:hover": { bgcolor: "var(--button1Hover)" },
                 }}
                 onClick={handleSubmit}
               >
-                Sign In
+               Mentor
               </LoadingButton>
               <LoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 name="stu"
-                loading={loading || studentLoad}
+                loading={studentLoad}
                 onClick={handleSubmit}
                 sx={{
                   mt: 3,
                   mb: 2,
-                  fontSize: { xs: "2.2vmax", md: "2vmax", lg: "1.1vmax" },
+                  fontSize: { xs: "2.1vmax", md: "1.8vmax", lg: "1vmax" },
                   bgcolor: "var(--button1)",
                   "&:hover": { bgcolor: "var(--button1Hover)" },
                 }}
               >
-                Sign In Student
+                Student
               </LoadingButton>
             </Box>
             <Grid container>

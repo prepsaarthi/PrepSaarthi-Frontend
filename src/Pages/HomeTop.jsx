@@ -45,9 +45,9 @@ const HomeTop = () => {
           <h2>
             A platform that empowers you with the{" "}
             <Typography
-              component="span"
+              component="p"
               variant="p"
-              sx={{ color: "var(--button2)" }}
+              sx={{ color: "var(--button2)" , fontSize:{xs:'3.5vmax', md:'2vmax'}, display:{xs:'block', md:'inline'},fontWeight:{xs:900}}}
             >
               "FREEDOM OF CHOICE"
             </Typography>{" "}
@@ -72,12 +72,13 @@ const HomeTop = () => {
             }}
             variant="contained"
           >
-            Mentorship
+            Explore Your Mentor
           </Button>
           </Box>
           <Button
             size="large"
             sx={{
+              // display:'none',
               bgcolor: "#ffc43b",
               width: { sm: "15vmax" },
               height: { sm: "4vmax" },
@@ -90,11 +91,11 @@ const HomeTop = () => {
           </Button>
         </div>
         <div className="_home-top-right">
-          {/* <img
+          <img
             className="_mob"
-            src="https://unchaai.com/wp-content/uploads/2024/02/Untitled-design-1-1536x1418.png"
+            src="/images/boy.png"
             alt="homepage"
-          /> */}
+          />
           {/* <img src="/images/path.jpg" alt="homepage" /> */}
         </div>
       </div>
@@ -113,14 +114,14 @@ const HomeTop = () => {
         <Button
           size="large"
           sx={{
-            width: { sm: "12vmax" },
-            height: { sm: "4vmax" },
-            mt: "4vmax",
+            width: {xs:"18vmax", sm: "12vmax" },
+            height: { xs:"6vmax", sm: "4vmax" },
+            mt: {xs:"1vmax", md:'4vmax'},
             mb: "3vmax",
             alignSelf: "center",
             bgcolor: "#ffc43b",
             fontWeight: 700,
-            fontSize: "1vmax",
+            fontSize: {xs:"2vmax", md:'1vmax'},
             "&:hover": { bgcolor: "#ffce5d" },
           }}
           className="_home-top-button"
