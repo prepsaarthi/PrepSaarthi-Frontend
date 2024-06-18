@@ -35,7 +35,11 @@ const Mentor = () => {
         navigate("/login");
         return;
     }
-  }, [isAuthenticated, stuAuth, navigate]);
+    if (user?.user?.verified === false || stuUser?.user?.verified === false) {
+        navigate("/verify/account");
+        return;
+    }
+  }, [isAuthenticated, stuAuth, navigate,user?.user?.verified ,stuUser?.user?.verified ]);
 
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -138,6 +142,7 @@ const Mentor = () => {
                   <Link
                     to={
                       user?.user?.role === "mentor" ||
+                       user?.user?.role === "user"  ||
                       user?.user?.role === "admin"
                         ? "/update/profile/mentor"
                         : stuUser?.user?.role === "student" &&

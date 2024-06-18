@@ -9,9 +9,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import { Link, useNavigate } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
-
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import { useSelector, useDispatch } from "react-redux";
 import { clearError, clearMessage, logoutUser } from "../../action/userAction";
 import {
@@ -21,7 +26,32 @@ import {
 } from "../../action/studentAction";
 import toast from "react-hot-toast";
 
-function ResponsiveAppBar() {
+const drawerWidth = 240;
+const navItems = [
+  {item:'Login/Signup',
+    link:'/signup'
+  },
+  {item:'Home',
+    link:'/'
+  },
+  {item:'Our Mentors',
+    link:'/lists/mentors'
+  },
+  {item:'Become a mentor',
+    link:'/signup'
+  },
+  {item:'FAQs',
+    link:'/#_faq-end'
+  },
+  {item:'About us',
+    link:'/signup'
+  },
+  {item:'Settings',
+    link:'/signup'
+  },
+];
+
+function ResponsiveAppBar(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { message, user, isAuthenticated, error } = useSelector(
@@ -83,7 +113,36 @@ function ResponsiveAppBar() {
     navigate("/role/mentor/final");
   };
 
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        PrepSaarthi
+      </Typography>
+      <Divider />
+      <List sx={{flexDirection:'column'}}>
+        {navItems.map((item, i) => (
+          <Link to={item.link} >
+          <ListItem key={i} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center', color:'black' }} >
+              <ListItemText primary={item.item} />
+            </ListItemButton>
+          </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Box>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
   return (
+    <>
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -105,17 +164,16 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -141,8 +199,16 @@ function ResponsiveAppBar() {
               >
                 <Typography textAlign="center">Mentorship</Typography>
               </MenuItem>
-            </Menu>
+            </Menu> */}
+             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {navItems.map((item, i) => (
+              <Button key={i} sx={{ color: '#fff' }}>
+                {item.item}
+              </Button>
+            ))}
           </Box>
+          </Box>
+          
           <Typography
             variant="h5"
             noWrap
@@ -273,8 +339,9 @@ function ResponsiveAppBar() {
                   <Link to="/signup">
                     <Button
                       variant="contained"
+                      disableElevation
                       sx={{
-                        bgcolor: "var(--button2)",
+                        bgcolor: "#0054a7",
                         width: {xs:"10vmax", md:'8vmax'},
                         ml: "1vmax",
                         fontSize:{xs:'1.2vmax', md:'0.9vmax'}
@@ -290,6 +357,24 @@ function ResponsiveAppBar() {
         </Toolbar>
       </Container>
     </AppBar>
+    <nav>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </nav>
+    </>
   );
 }
 export default ResponsiveAppBar;

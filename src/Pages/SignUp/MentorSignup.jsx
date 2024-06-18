@@ -81,7 +81,7 @@ export default function MentorSignUp() {
       dispatch(clearError());
     }
     if (user) {
-      navigate("/role/mentor/final");
+      navigate("/verify/account");
     }
   }, [dispatch, error, navigate, user]);
   return (
@@ -190,7 +190,7 @@ export default function MentorSignUp() {
                 <Grid item xs={12}>
                   <Typography variant="p">
                     By signing up you are agreeing to our{" "}
-                    <Link style={{ textDecoration: "underline" }} to="/policy">
+                    <Link style={{ textDecoration: "underline" }} to="/privacy">
                       Privacy & Policy
                     </Link>
                   </Typography>

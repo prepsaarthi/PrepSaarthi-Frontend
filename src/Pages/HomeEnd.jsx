@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import "./homeend.css";
 import { Button, Icon } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 const HomeEnd = () => {
   const [answer, setAnswer] = useState(false);
   const [index, setIndex] = useState(-1);
   const [cssClass, setClass] = useState("");
   const [buttonBG, setBG] = useState("");
-
+  
   const toggleAnwser = (i) => {
     if (index !== i) {
       setAnswer(true);
@@ -57,11 +57,21 @@ const HomeEnd = () => {
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   }
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
   return (
     <>
       <div className="_home-end">
-        <h2 className="_home-middle-heading">FAQ</h2>
-        <div className="_home-end-faq">
+        <h2 className="_home-middle-heading" id="_faq-end">FAQ</h2>
+        <div className="_home-end-faq" >
           {faq.map((item, i) => {
             if (i % 2 === 0) {
               return (

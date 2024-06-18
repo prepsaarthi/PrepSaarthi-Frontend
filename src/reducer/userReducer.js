@@ -4,6 +4,7 @@ import { serializeError } from "serialize-error";
 import {
   allMentorConnection,
   assignConnection,
+  changePassword,
   clearError,
   clearMessage,
   deleteUser,
@@ -14,13 +15,20 @@ import {
   loadUser,
   loginUser,
   logoutUser,
+  resendOTP,
   reset,
+  resetPassword,
   resolveConnection,
+  sendOTP,
   signUpMentor,
+  stuVerifyOTP,
+  sturesendOTP,
+  stusendOTP,
   updateMentorFinalInfo,
   updateMentorFinalInfoAfter,
   updateMentorInfo,
   updateRoleMentor,
+  verifyOTP,
 } from "../action/userAction";
 
 const initalState = {};
@@ -631,6 +639,266 @@ export const resoveConnectionReducer = createReducer(initalState, (builder) => {
       return {
         ...state,
         success: false,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+
+export const sendOTPReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(sendOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(sendOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(sendOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(stusendOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(stusendOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(stusendOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        message: null,
+      };
+    })
+
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const reSendOTPReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(resendOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(resendOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(resendOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    })
+    .addCase(sturesendOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(sturesendOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(sturesendOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        message: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const verifyOTPReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(verifyOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(verifyOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(verifyOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(stuVerifyOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(stuVerifyOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+      };
+    })
+    .addCase(stuVerifyOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        message: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const resetPasswordReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(resetPassword.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(resetPassword.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+        message: action.payload.message,
+        userId:action.payload.userId
+      };
+    })
+    .addCase(resetPassword.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        message: null,
+      };
+    })
+    .addCase(clearMessage.fulfilled, (state, action) => {
+      return {
+        ...state,
+        message: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const changePasswordReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(changePassword.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(changePassword.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+      };
+    })
+    .addCase(changePassword.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {

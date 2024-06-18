@@ -132,6 +132,7 @@ const FinalStep = () => {
       toast.success("Your application is submitted successfully");
       navigate(`/mentors/${user?.user?._id}`);
       dispatch(clearMessage());
+      dispatch(loadUser())
     }
   }, [
     error,
@@ -142,15 +143,13 @@ const FinalStep = () => {
     navigate,
     user?.user?._id,
   ]);
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
         {userLoad ? (
           <Loader />
-        ) : user?.user.isStepLastCompleted && user?.user.role === "user" ? (
+        ) : user?.user?.isStepLastCompleted && user?.user?.role === "user" ? (
           <h1>Your application is under process</h1>
         ) : user?.user.isStepLastCompleted && user?.user.role === "mentor" ? (
           <h1>You are already a mentor</h1>
@@ -389,7 +388,7 @@ const FinalStep = () => {
                         By proceeding ahead you are agreeing to our{" "}
                         <Link
                           style={{ textDecoration: "underline" }}
-                          to="/policy"
+                          to="/privacy"
                         >
                           Privacy & Policy
                         </Link>

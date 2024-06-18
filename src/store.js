@@ -5,13 +5,18 @@ import {
   allMentorReducer,
   allStudentsReducer,
   assignConnectionReducer,
+  changePasswordReducer,
   deleteUserReducer,
   mentorDetailsReducer,
   mentorSignup,
+  reSendOTPReducer,
+  resetPasswordReducer,
   resoveConnectionReducer,
+  sendOTPReducer,
   updateMentor,
   updateMentorFinalReducer,
   updateMentorRole,
+  verifyOTPReducer,
 } from "./reducer/userReducer";
 import {
   allConnectionReducer,
@@ -54,6 +59,11 @@ const store = configureStore({
     newReviews: newReviewReducer,
     allReview: reviewReducer,
     deleteReview: deleteReviewReducer,
+    newOTPsend:sendOTPReducer,
+    resendOtherOTP:reSendOTPReducer,
+    verifyUser:verifyOTPReducer,
+    passwordReset:resetPasswordReducer,
+    passwordChange:changePasswordReducer
   },
 });
 

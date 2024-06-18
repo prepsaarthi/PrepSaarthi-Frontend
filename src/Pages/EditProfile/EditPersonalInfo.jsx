@@ -226,7 +226,7 @@ const EditPersonalInfo = () => {
               <Grid item xs={12}>
                 <Typography variant="p">
                   By signing up you are agreeing to our{" "}
-                  <Link style={{ textDecoration: "underline" }} to="/policy">
+                  <Link style={{ textDecoration: "underline" }} to="/privacy">
                     Privacy & Policy
                   </Link>
                 </Typography>

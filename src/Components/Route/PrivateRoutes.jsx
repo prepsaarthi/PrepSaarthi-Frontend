@@ -15,10 +15,16 @@ const PrivateRoutes = ({ allowedRoles }) => {
     !allowedRoles.includes(user.user.role)
   ) {
     return <Navigate to="/unauthorized" />;
-  }
-
-  if (loading === false) {
-    return <Outlet />;
+    }
+    
+    if (loading === false) {
+      if(user.user.verified){
+        return <Outlet />;
+        }
+        else{
+          return <Navigate to="/verify/account" />;
+          
+    }
   }
 };
 

@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { clearError, clearMessage, loginUser } from "../../action/userAction";
+import { clearError, clearMessage, loginUser, reset } from "../../action/userAction";
 import {
   clearError as stuErrorClean,
   clearMessage as stuClear,
@@ -64,11 +64,12 @@ export default function SignIn() {
       dispatch(stuClear());
     }
     if (loading === false && isAuthenticated) {
-      navigate(`/user/${user?.user?._id}`);
+      navigate(`/verify/account`);
     }
     if (studentLoad === false && studentAuth) {
-      navigate(`/user/${stu?.user?._id}`);
+      navigate(`/verify/account`);
     }
+    dispatch(reset())
   }, [
     error,
     stuError,
@@ -167,10 +168,11 @@ export default function SignIn() {
               </LoadingButton>
             </Box>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs> 
                 <Link
+                  component={ReactLink}
                   style={{ textDecoration: "none" }}
-                  href="#"
+                  to='/forgot/password'
                   variant="body2"
                 >
                   Forgot password?

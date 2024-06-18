@@ -143,8 +143,8 @@ const EditMentorInfo = () => {
 
   useEffect(() => {
     if (userLoad === false) {
-      setExam(user?.user?.exam.name);
-      setRank(user?.user?.exam.rank);
+      setExam(user?.user?.exam?.name);
+      setRank(user?.user?.exam?.rank);
       setDropper(user?.user?.isDropper);
       setMode(user?.user?.studyMode);
       setBranch(user?.user?.branch);
@@ -166,7 +166,9 @@ const EditMentorInfo = () => {
       {userLoad ? (
         <Loader />
       ) : (
-        <ThemeProvider theme={defaultTheme}>
+        <>
+        {user?.user?.isStepLastCompleted ? (
+          <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -447,7 +449,7 @@ const EditMentorInfo = () => {
                       By proceeding ahead you are agreeing to our{" "}
                       <Link
                         style={{ textDecoration: "underline" }}
-                        to="/policy"
+                        to="/privacy"
                       >
                         Privacy & Policy
                       </Link>
@@ -474,6 +476,10 @@ const EditMentorInfo = () => {
             </Box>
           </Container>
         </ThemeProvider>
+        ):(<>
+        Kindly complete the mentor form
+        </>)}
+        </>
       )}
     </>
   );

@@ -18,8 +18,14 @@ const PrivateRouteStu = ({ allowedRoles }) => {
   }
 
   if (loading === false) {
-    return <Outlet />;
+    if(user.user.verified){
+      return <Outlet />;
+      }
+      else{
+        return <Navigate to="/verify/account" />;
+        
   }
+}
 };
 
 export default PrivateRouteStu;

@@ -83,7 +83,7 @@ export default function StudentSignUp() {
     }
     if (!loading && isAuthenticated) {
       toast.success("Signed up successfully");
-      navigate(`/user/${user?.user?._id}`);
+      navigate(`/verify/account`);
     }
   }, [error, dispatch, isAuthenticated, loading, navigate, user?.user?._id]);
   return (
@@ -187,7 +187,7 @@ export default function StudentSignUp() {
                 <Grid item xs={12}>
                   <Typography variant="p">
                     By signing up you are agreeing to our{" "}
-                    <Link style={{ textDecoration: "underline" }} to="/policy">
+                    <Link style={{ textDecoration: "underline" }} to="/privacy">
                       Privacy & Policy
                     </Link>
                   </Typography>

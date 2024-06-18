@@ -12,7 +12,9 @@ import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
+import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword.jsx";
 import TrackPageView from "./Pages/TrackPageView/TrackPageView.jsx";
+import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy.jsx";
 import ConfirmMentorShipPayment from "./Pages/ConfirmMentorShipPayment/ConfirmMentorShipPayment.jsx";
 import { Toaster } from "react-hot-toast";
 import { clearError, loadUser } from "./action/userAction.js";
@@ -24,6 +26,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PrivateRoutes from "./Components/Route/PrivateRoutes.jsx";
 import PrivateRouteStu from "./Components/Route/PrivateRouteStu.jsx";
 import MetaData from "./utils/Metadata.jsx";
+import OTPVerification from "./Pages/OTPVerification/OTPVerification.jsx";
 const App = () => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.mentor);
@@ -49,12 +52,19 @@ const App = () => {
     <MetaData title="PrepSaarthi" />
       <Navbar />
       <Routes>
+
+{/* ADMIN & Mentor Route  */}
+        <Route path="/verify/account" element={<OTPVerification />} />
+        <Route element={<PrivateRoutes allowedRoles={["admin", 'mentor','user']} />}>
+        <Route path="/role/mentor/final" element={<FinalStep />} />
+        <Route path="/update/profile/mentor" element={<EditProfile />} />
+        </Route>
+
+{/* ADMIN exclusive route  */}
         <Route element={<PrivateRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Route>
-        <Route element={<PrivateRoutes allowedRoles={["mentor", "admin"]} />}>
-          <Route path="/update/profile/mentor" element={<EditProfile />} />
-        </Route>
+
 
         <Route element={<PrivateRouteStu allowedRoles={["student"]} />}>
           <Route
@@ -67,13 +77,15 @@ const App = () => {
           />
         </Route>
 
+        {/* <Route path="/verify/account" element={<OTPVerification />}></Route> */}
         <Route path="/" element={<Home />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<SignIn />}></Route>
         <Route path="/user/:id" element={<Mentor />}></Route>
         <Route path="/lists/mentors" element={<MentorList />}></Route>
         <Route path="/mentors/:id" element={<MentorProfile />}></Route>
-        <Route path="/role/mentor/final" element={<FinalStep />}></Route>
+        <Route path="/privacy" element={<PrivacyPolicy />}></Route>
+        <Route path="/forgot/password" element={<ForgotPassword />}></Route>
       </Routes>
       <Footer />
       <TrackPageView />
