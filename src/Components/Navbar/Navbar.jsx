@@ -246,7 +246,7 @@ function ResponsiveAppBar(props) {
                   <Avatar alt="Remy Sharp" src={user?.user?.avatar?.public_URI || stuUser?.user?.avatar?.public_URI}/>
                 </IconButton>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: "45px",display:'flex', flexDirection:'column' }}
                   id="menu-appbarr"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
