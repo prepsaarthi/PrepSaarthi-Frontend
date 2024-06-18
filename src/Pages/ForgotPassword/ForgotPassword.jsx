@@ -48,7 +48,7 @@ const ForgotPassword = () => {
           navigate(`/user/${userId}`);
     
       }
-}, [stuAuth, isAuthenticated, navigate])
+}, [stuAuth, isAuthenticated, navigate, userId])
  
   useEffect(() => {
     if (loading === false && success & message !==null) {
@@ -89,7 +89,7 @@ useEffect(() => {
     }else{
         setButton(true)
     }
-})
+}, [otp,password,confirmPassword])
   return (
     <>
       {success ? (

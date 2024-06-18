@@ -92,7 +92,6 @@ export default function OTPVerification() {
     vSuccess,
     vMessage,
   ]);
-  {console.log("hidi")}
 
   useEffect(() => {
     if (

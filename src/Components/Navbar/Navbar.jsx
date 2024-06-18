@@ -64,7 +64,6 @@ function ResponsiveAppBar(props) {
     error: stuError,
   } = useSelector((state) => state.student);
   const [loggedIn, setLogin] = React.useState(true);
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   React.useEffect(() => {
     if (isAuthenticated || stuAuth) {
@@ -94,16 +93,11 @@ function ResponsiveAppBar(props) {
       navigate("/login");
     }
   }, [message, error, dispatch, navigate, stuMessage, stuError]);
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
@@ -236,7 +230,6 @@ function ResponsiveAppBar(props) {
             <Box display="flex">
               <Button
                 onClick={() => {
-                  handleCloseNavMenu();
                   navigate("/lists/mentors");
                 }}
                 sx={{ my: 2, color: "white", display: "block" }}
