@@ -98,28 +98,29 @@ export default function OTPVerification() {
       mAuth &&
       mentor?.user?.role === "user" &&
       mentor?.user?.verified &&
+      mentor?.user?.isStepLastCompleted
+    ) {
+      navigate(`/user/${mentor?.user?._id}`);
+    }
+    if(!sloading && !mloading && !sAuth && !mAuth){
+      navigate('/notfound')
+  }
+    if (
+      mAuth &&
+      mentor?.user?.role === "user" &&
+      mentor?.user?.verified &&
       !mentor?.user?.isStepLastCompleted
     ) {
       navigate("/role/mentor/final");
     }
     if (sAuth && stuUser?.user?.role === "student" && stuUser?.user?.verified) {
-      navigate(`/user/${user}`);
+      navigate(`/user/${stuUser?.user?._id}`);
     }
-    if (
-      mAuth &&
-      mentor?.user?.role === "user" &&
-      mentor?.user?.verified &&
-      mentor?.user?.isStepLastCompleted
-    ) {
-      navigate(`/user/${user}`);
-    }
-    if(!sloading && !mloading && !sAuth && !mAuth){
-      navigate('/notfound')
-  }
+   
   }, [sloading, mloading, user, mentor, stuUser, navigate, sAuth, mAuth,stuUser?.user?.verified,mentor?.user?.verified]);
   return (
     <>
-   {!sloading && !mloading && (
+   {(!mentor?.user?.verified || !stuUser?.user?.verified) && !sloading && !mloading && (
     <Card
     sx={{
       display: "flex",

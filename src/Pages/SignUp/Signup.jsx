@@ -1,12 +1,13 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import StudentSignUp from "./StudentSignup";
 import MentorSignUp from "./MentorSignup";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
-
     return (
       <div
         role="tabpanel"
@@ -22,6 +23,7 @@ const Signup = () => {
     );
   }
 
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -33,6 +35,34 @@ const Signup = () => {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
+  const { loading, isAuthenticated,user:mUser } = useSelector(
+    (state) => state.mentor
+  );
+  const {
+    loading: studentLoad,
+    isAuthenticated: studentAuth,
+    user:sUser
+
+  } = useSelector((state) => state.student);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+   
+    if (loading === false && isAuthenticated) {
+      navigate(`/user/${mUser?.user?._id}`);
+    }
+    if (studentLoad === false && studentAuth) {
+      navigate(`/user/${sUser?.user?._id}`);
+    }
+  }, [
+    loading,
+    isAuthenticated,
+    studentLoad,
+    studentAuth,
+    mUser?.user?._id,
+    sUser?.user?._id,
+    navigate,
+  ]);
   return (
     <>
       <Box
