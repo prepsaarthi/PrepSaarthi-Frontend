@@ -163,7 +163,7 @@ function ResponsiveAppBar(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { md: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -194,13 +194,7 @@ function ResponsiveAppBar(props) {
                 <Typography textAlign="center">Mentorship</Typography>
               </MenuItem>
             </Menu> */}
-             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item, i) => (
-              <Button key={i} sx={{ color: '#fff' }}>
-                {item.item}
-              </Button>
-            ))}
-          </Box>
+  
           </Box>
           
           <Typography
