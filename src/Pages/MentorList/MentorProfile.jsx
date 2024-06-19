@@ -219,7 +219,7 @@ const MentorProfile = () => {
                   >
                     <Box
                       component="img"
-                      src="/images/mentor1.png"
+                      src={user?.avatar?.public_URI}
                       sx={{
                         width: 130,
                         aspectRatio: "1/1",

@@ -101,7 +101,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         description: "Test Transaction",
         image: Logo,
         order_id: order.id,
-        callback_url: `http://localhost:5000/v1/paymentVerification?id=${item.id}&price=${sub.price}`,
+        callback_url: `${process.env.CLIENT_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}`,
         prefill: {
           name: "Gaurav Kumar",
           email: "gaurav.kumar@example.com",

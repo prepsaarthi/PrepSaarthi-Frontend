@@ -59,12 +59,12 @@ const EditProfile = () => {
           >
             <Tab
               sx={{ minWidth: "50%", color: "white" }}
-              label="Student"
+              label="Personal Info"
               {...a11yProps(0)}
             />
             <Tab
               sx={{ minWidth: "50%", color: "white" }}
-              label="Mentors"
+              label="Mentorship Info"
               {...a11yProps(1)}
             />
           </Tabs>
