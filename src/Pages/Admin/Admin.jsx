@@ -20,22 +20,31 @@ import MentorAll from "../MentorAll/MentorAll.jsx";
 import AllAdmin from "../AllAdmin/AllAdmin.jsx";
 import Allconnction from "./Allconnction.jsx";
 import MetaData from "../../utils/Metadata.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllConnections, getAllMentors, getAllStudents } from "../../action/userAction.js";
 
 export default function AdminDashboard() {
   const [open, setOpen] = useState(false);
   const [menudata, setMenuData] = useState("Dashboard");
-
+  const dispatch = useDispatch()
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-
+  useEffect(() => {
+    dispatch(getAllStudents());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllMentors());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllConnections());
+  }, [dispatch]);
   useEffect(() => {
     const page = sessionStorage.getItem("menu");
     if (Boolean(page)) {
       setMenuData(page);
     }
   }, []);
-
   const naviagteMenu = (text) => {
     setMenuData(text);
     sessionStorage.setItem("menu", text);

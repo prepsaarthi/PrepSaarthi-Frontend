@@ -9,6 +9,7 @@ import {
   deleteUserReducer,
   mentorDetailsReducer,
   mentorSignup,
+  mentoringStatus,
   reSendOTPReducer,
   resetPasswordReducer,
   resoveConnectionReducer,
@@ -63,7 +64,8 @@ const store = configureStore({
     resendOtherOTP:reSendOTPReducer,
     verifyUser:verifyOTPReducer,
     passwordReset:resetPasswordReducer,
-    passwordChange:changePasswordReducer
+    passwordChange:changePasswordReducer,
+    status:mentoringStatus
   },
 });
 

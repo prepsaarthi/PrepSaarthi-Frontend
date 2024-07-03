@@ -3,14 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, CardActionArea, Grid, Icon } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useMediaQuery } from "@mui/material";
-import BadgeIcon from "@mui/icons-material/Badge";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import PeopleIcon from "@mui/icons-material/People";
 import "./homemiddle.css";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -127,7 +123,7 @@ const HomeMiddle = () => {
             className="mySwiper"
           >
             {mentors.map((item, index) => (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <div className="_mentor-card" key={index}>
                   <div className="_home-miidle-mentor-info">
                     <h2>{item.name}</h2>
@@ -253,14 +249,3 @@ const HomeMiddle = () => {
 };
 
 export default HomeMiddle;
-
-{/* <Typography
-  variant="p"
-  sx={{
-    fontSize: "1.5vmax",
-    fontWeight: 500,
-    textAlign: { xs: "center", md: "start" },
-  }}
->
-  By following this 4 steps you can be a member of PrepSaarthi
-</Typography> */}

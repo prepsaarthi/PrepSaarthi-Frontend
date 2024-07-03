@@ -87,7 +87,7 @@ const HomeTop = () => {
             }}
             variant="contained"
           >
-            Courses
+            Products
           </Button>
         </div>
         <div className="_home-top-right">

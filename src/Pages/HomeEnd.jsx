@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import "./homeend.css";
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -9,7 +9,7 @@ const HomeEnd = () => {
   const [index, setIndex] = useState(-1);
   const [cssClass, setClass] = useState("");
   const [buttonBG, setBG] = useState("");
-  
+
   const toggleAnwser = (i) => {
     if (index !== i) {
       setAnswer(true);
@@ -52,31 +52,35 @@ const HomeEnd = () => {
   ];
 
   const openWhatsapp = () => {
-    const phoneNumber = '+917007158127';
-    const message = 'Hello! I would like to chat with you.';
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  }
+    const phoneNumber = "+917007158127";
+    const message = "Hello! I would like to chat with you.";
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
   const location = useLocation();
 
   useEffect(() => {
     if (location.hash) {
       const element = document.querySelector(location.hash);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
       }
     }
   }, [location]);
   return (
     <>
       <div className="_home-end">
-        <h2 className="_home-middle-heading" id="_faq-end">FAQ</h2>
-        <div className="_home-end-faq" >
+        <h2 className="_home-middle-heading" id="_faq-end">
+          FAQ
+        </h2>
+        <div className="_home-end-faq">
           {faq.map((item, i) => {
             if (i % 2 === 0) {
               return (
-                <>
                   <div
+                    key={i}
                     className={
                       answer && index === i
                         ? "_faq-align-start toggleHeight"
@@ -96,12 +100,11 @@ const HomeEnd = () => {
                       <span>{item.answer}</span>
                     </div>
                   </div>
-                </>
               );
             } else {
               return (
-                <>
                   <div
+                    key={i}
                     className={
                       answer && index === i
                         ? "_faq-align-end toggleHeight"
@@ -121,7 +124,6 @@ const HomeEnd = () => {
                       <span>{item.answer}</span>
                     </div>
                   </div>
-                </>
               );
             }
           })}
@@ -130,17 +132,16 @@ const HomeEnd = () => {
           <h2 className="_home-middle-heading">More Questions?</h2>
           <p className="_more-doubts">Dont worry we are here &#128522;</p>
           <div className={`_more-question  ${cssClass}`}>
-            <Button 
+            <Button
               className={`askus_button ${buttonBG}`}
               variant="contained"
               onMouseEnter={() => handleBackground("_containerBG", "_buttonBG")}
               onMouseLeave={() => handleBackground("", "")}
-              startIcon={<WhatsAppIcon sx={{fontSize:"2vmax !important"}}/>}
+              startIcon={<WhatsAppIcon sx={{ fontSize: "2vmax !important" }} />}
               // sx={{width:'100%'}}
               onClick={openWhatsapp}
             >
               Lets Clear Your Doubt
-
             </Button>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import { ThemeProvider } from "@emotion/react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import {
   Avatar,
   Box,
@@ -150,9 +152,63 @@ const FinalStep = () => {
         {userLoad ? (
           <Loader />
         ) : user?.user?.isStepLastCompleted && user?.user?.role === "user" ? (
-          <h1>Your application is under process</h1>
+          <Box
+          sx={{
+            background: "rgba( 255, 255, 255, 0.25 )",
+            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+            backdropFilter: " blur( 13px )",
+            borderRadius: "10px",
+            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+            height: { xs: "60vh", md: "80vh" },
+            width: "95%",
+            margin: "10px auto",
+            display: "flex",
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            p: 2,
+          }}
+        >
+         < HourglassBottomIcon sx={{fontSize:{xs:'3.8vmax', md:'2.8vmax'}, color:'#ffff72'}}/>
+          <Typography
+            component="h2"
+            variant="p"
+            color={"grey"}
+            sx={{ fontSize: { xs: "2.5vmax", md: "1.8vmax" } }}
+          >
+            Your application is under process
+          </Typography>
+        </Box>
         ) : user?.user.isStepLastCompleted && user?.user.role === "mentor" ? (
-          <h1>You are already a mentor</h1>
+          <Box
+          sx={{
+            background: "rgba( 255, 255, 255, 0.25 )",
+            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+            backdropFilter: " blur( 13px )",
+            borderRadius: "10px",
+            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+            height: { xs: "60vh", md: "80vh" },
+            width: "95%",
+            margin: "10px auto",
+            display: "flex",
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            p: 2,
+          }}
+        >
+          <CheckCircleIcon sx={{fontSize:{xs:'3.8vmax', md:'2.8vmax'}, color:'lightgreen'}}/> 
+          <Typography
+            component="h2"
+            variant="p"
+            color={"grey"}
+            sx={{ fontSize: { xs: "2vmax", md: "1.8vmax" } }}
+          >
+            You are already a mentor
+          </Typography>
+        </Box>
         ) : (
           !user?.user.isStepLastCompleted &&
           user?.user.role === "user" &&
@@ -171,7 +227,7 @@ const FinalStep = () => {
                 <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                   <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography textAlign='center' component="h1" variant="h5">
                   Last step for becoming a mentor
                 </Typography>
                 <Typography
@@ -190,7 +246,7 @@ const FinalStep = () => {
                   component="form"
                   action="/somewhere_else"
                   onSubmit={handleSubmit}
-                  sx={{ mt: 3 }}
+                  sx={{ mt:3}}
                 >
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -296,7 +352,7 @@ const FinalStep = () => {
                         fullWidth
                         type="number"
                         id="gradyr"
-                        label="Graduation Year"
+                        label="Current Year (eg.1st,2nd ,etc.)"
                         name="yearOfStudy"
                         onChange={handleChange}
                       />
@@ -359,7 +415,7 @@ const FinalStep = () => {
                         required
                         fullWidth
                         id="priced"
-                        label="Charges Per Day"
+                        label="Charges Per Week"
                         name="priced"
                         onChange={handleChange}
                       />
@@ -372,7 +428,7 @@ const FinalStep = () => {
                           width="30px"
                           mr="10px"
                         ></Box>
-                        <Button variant="contained" component="label">
+                        <Button variant="contained" component="label" sx={{fontSize:{xs:'1.5vmax' , md:'1vmax'}}}>  
                           Upload Your College ID Card
                           <input
                             type="file"

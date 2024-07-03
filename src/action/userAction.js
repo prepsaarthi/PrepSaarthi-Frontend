@@ -75,6 +75,23 @@ export const updateMentorFinalInfoAfter = createAsyncThunk(
     }
   }
 );
+// update mentoring status 
+export const updateMentoringStatus = createAsyncThunk(
+  "admin/mentoring/update",
+  async (status, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.put(
+        `/v1/mentor/update/status`,
+        {status},
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 // Update
 export const updateMentorInfo = createAsyncThunk(
   "mentor/update/updateInfo",

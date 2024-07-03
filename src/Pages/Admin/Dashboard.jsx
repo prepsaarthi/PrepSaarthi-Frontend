@@ -6,17 +6,25 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
+
 import React from "react";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import SchoolIcon from "@mui/icons-material/School";
 import FaceIcon from "@mui/icons-material/Face";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import MetaData from "../../utils/Metadata";
+import { useSelector } from "react-redux";
 const earning = 2000;
 const students = 103;
 const mentors = 90;
 const connections = 50;
 const Dashboard = () => {
+  const { users } = useSelector((state) => state.allStudents);
+  const { users:mentors } = useSelector((state) => state.allMentors);
+  const { connection } = useSelector(
+    (state) => state.connections
+  );
   const CustomIconWrapper = styled("div")(({ variant }) => ({
     display: "inline-flex",
     alignItems: "center",
@@ -38,6 +46,7 @@ const Dashboard = () => {
         : "",
     borderRadius: "50%",
   }));
+  const sumPrice = connection?.connection?.reduce((sum, item) => sum + item.price, 0);
 
   const CustomIcon = ({ icon, variant }) => {
     return <CustomIconWrapper variant={variant}>{icon}</CustomIconWrapper>;
@@ -45,22 +54,22 @@ const Dashboard = () => {
   const cards = [
     {
       name: "Earning",
-      total: earning,
+      total: sumPrice,
       icon: <CustomIcon icon={<CurrencyRupeeIcon />} variant={"rupee"} />,
     },
     {
       name: "Student",
-      total: students,
+      total: users?.users?.length,
       icon: <CustomIcon icon={<FaceIcon />} variant={"student"} />,
     },
     {
       name: "Mentors",
-      total: mentors,
+      total: mentors?.users?.length,
       icon: <CustomIcon icon={<SchoolIcon />} variant={"mentor"} />,
     },
     {
       name: "Connections",
-      total: connections,
+      total: connection?.connection?.length,
       icon: <CustomIcon icon={<SyncAltIcon />} variant={"connection"} />,
     },
   ];
@@ -91,7 +100,7 @@ const Dashboard = () => {
                     {item.name}
                   </Typography>
                   <Typography variant="h3">
-                    {item.total.toLocaleString("en-IN")}
+                    {item?.total?.toLocaleString("en-IN") || <CircularProgress />}
                   </Typography>
                 </CardContent>
               </CardActionArea>

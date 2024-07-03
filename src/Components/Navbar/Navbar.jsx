@@ -27,29 +27,7 @@ import {
 import toast from "react-hot-toast";
 
 const drawerWidth = 240;
-const navItems = [
-  {item:'Login/Signup',
-    link:'/signup'
-  },
-  {item:'Home',
-    link:'/'
-  },
-  {item:'Our Mentors',
-    link:'/lists/mentors'
-  },
-  {item:'Become a mentor',
-    link:'/signup'
-  },
-  {item:'FAQs',
-    link:'/#_faq-end'
-  },
-  {item:'About us',
-    link:'/signup'
-  },
-  {item:'Settings',
-    link:'/signup'
-  },
-];
+
 
 function ResponsiveAppBar(props) {
   const dispatch = useDispatch();
@@ -65,6 +43,30 @@ function ResponsiveAppBar(props) {
   } = useSelector((state) => state.student);
   const [loggedIn, setLogin] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const navItems = [
+    {item:isAuthenticated || stuAuth ? 'Your Profile' : 'Login/Signup',
+      link:'/signup'
+    },
+    {item:'Home',
+      link:'/'
+    },
+    {item:'Our Mentors',
+      link:'/lists/mentors'
+    },
+    {item:'Become a mentor',
+      link:'/signup'
+    },
+    {item:'FAQs',
+      link:'/#_faq-end'
+    },
+    {item:'About us',
+      link:'/signup'
+    },
+    {item:'Settings',
+      link:'/signup'
+    },
+  ];
   React.useEffect(() => {
     if (isAuthenticated || stuAuth) {
       setLogin(true);

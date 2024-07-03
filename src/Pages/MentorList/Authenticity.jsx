@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, List, ListItem, ListItemText, Button } from "@mui/material";
 import React from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
@@ -8,8 +8,19 @@ import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 const Authenticity = ({ mentorName, idcard }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openID, setOpenID] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpenID = () => {
+    setOpenID(true);
+  };
+  const handleCloseID = () => {
+    setOpenID(false);
+  };
 
   const Backdrop = React.forwardRef((props, ref) => {
     const { open, className, ...other } = props;
@@ -22,6 +33,18 @@ const Authenticity = ({ mentorName, idcard }) => {
     );
   });
 
+  const CustomListItem = styled(ListItem)({
+    "&::before": {
+      content: '"•"',
+      color: "#007FFF",
+      display: "inline-block",
+      width: "1em",
+      marginLeft: "-1em",
+    },
+    color: "#333", // Text color
+    fontSize: "26px", // Font size
+    margin: "10px 0", // Margin between items
+  });
   Backdrop.propTypes = {
     className: PropTypes.string.isRequired,
     open: PropTypes.bool,
@@ -133,6 +156,7 @@ const Authenticity = ({ mentorName, idcard }) => {
       }
     `
   );
+
   return (
     <Box
       sx={{
@@ -181,14 +205,43 @@ const Authenticity = ({ mentorName, idcard }) => {
           <h2 id="unstyled-modal-title" className="modal-title">
             Our Verification Process
           </h2>
-          <p id="unstyled-modal-description" className="modal-description">
-            Aliquid amet deserunt earum!
-          </p>
+          <Box>
+            <Typography variant="h5" component="h2" gutterBottom>
+              Candidate Selection Process
+            </Typography>
+            <List>
+              <CustomListItem>
+                <ListItemText primary="Application Shortlisting: Review and shortlist applications." />
+              </CustomListItem>
+              <CustomListItem>
+                <ListItemText primary="Screening Round: Conduct a screening round for selected candidates." />
+              </CustomListItem>
+              <CustomListItem>
+                <ListItemText primary="One-hour Workshop (Online): Participate in an online workshop." />
+              </CustomListItem>
+            </List>
+            <Typography
+              variant="body1"
+              style={{ color: "#333", fontSize: "16px", margin: "10px 0" }}
+            >
+              Upon completing these steps successfully, candidates can become
+              permanent mentors on our platform and set their own fees based on
+              their expertise.
+            </Typography>
+          </Box>
         </ModalContent>
       </Modal>
-      <Box
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={openID}
+        onClose={handleCloseID}
+        slots={{ backdrop: StyledBackdrop }}
+      >
+        <ModalContent sx={{ width:{xs:'95vw',md:"60vw"}, height:{xs:'85vh', md:'60vh'}}}>
+        <Box
         sx={{
-            overflow:'hidden',
+          overflow: "hidden",
           width: "95%",
           borderRadius: "1vmax",
           border: "0.5px solid grey",
@@ -205,8 +258,18 @@ const Authenticity = ({ mentorName, idcard }) => {
           src={idcard?.public_URI}
           borderRadius={"1.5vmax"}
           alt="id card"
+          sx={{
+            width:'100%',
+            height:'100%',
+            objectFit:'contain',
+            objectPosition:'center'
+          }}
         ></Box>
       </Box>
+      <Button onClick={handleCloseID} sx={{color:"blue"}}>CLOSE</Button>
+        </ModalContent>
+      </Modal>
+     <Button variant="contained"onClick={handleOpenID}>Tap to view ID Card</Button>
     </Box>
   );
 };

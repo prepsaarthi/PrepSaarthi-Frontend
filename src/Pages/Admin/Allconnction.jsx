@@ -14,9 +14,9 @@ const Allconnction = () => {
   const { connection, loading } = useSelector(
     (state) => state.connections
   );
-  useEffect(() => {
-    dispatch(getAllConnections());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllConnections());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (loading === false) {

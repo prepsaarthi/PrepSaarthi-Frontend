@@ -19,3 +19,8 @@ a{
 .css-6hp17o-MuiList-root-MuiMenu-list{
     flex-direction: column;
 }
+._mentor-profile-and-name, ul {
+    align-items: center;
+    display: flex;
+    flex-direction: column !important; 
+}

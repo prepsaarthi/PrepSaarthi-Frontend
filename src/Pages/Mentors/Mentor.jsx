@@ -1,20 +1,34 @@
 import React, { useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import "./mentor.css";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
-import LockIcon from '@mui/icons-material/Lock';
+import LockIcon from "@mui/icons-material/Lock";
 import { Box, Tabs, Typography } from "@mui/material";
 import MenorInfo from "../MentorInfo/MenorInfo";
 import MenorInfoConnection from "../MenorInfoConnection/MenorInfoConnection";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearError } from "../../action/userAction";
+import {
+  clearError,
+  clearMessage,
+  updateMentoringStatus,
+} from "../../action/userAction";
 import Loader from "../../Components/Loader/Loader";
 import EditIcon from "@mui/icons-material/Edit";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import MetaData from "../../utils/Metadata";
+import toast from "react-hot-toast";
 const Mentor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {
+    loading: statusLoading,
+    user: mentoringStatus,
+    error: statusError,
+  } = useSelector((state) => state.status);
   const { error, loading, user, isAuthenticated } = useSelector(
     (state) => state.mentor
   );
@@ -33,7 +47,22 @@ const Mentor = () => {
     }
   }, [error, dispatch, navigate]);
   useEffect(() => {
-    if (isAuthenticated === false && stuAuth === false) {
+    if (statusError) {
+      toast.error(statusError.message);
+      dispatch(clearError());
+    }
+    if (mentoringStatus?.success) {
+      toast.success("Your Status Changed Successfully");
+      dispatch(clearMessage());
+    }
+  }, [statusError, mentoringStatus, dispatch]);
+  useEffect(() => {
+    if (
+      loading === false &&
+      stuLoading === false &&
+      isAuthenticated === false &&
+      stuAuth === false
+    ) {
       navigate("/login");
       return;
     }
@@ -47,6 +76,8 @@ const Mentor = () => {
     navigate,
     user?.user?.verified,
     stuUser?.user?.verified,
+    loading,
+    stuLoading,
   ]);
 
   function CustomTabPanel(props) {
@@ -201,6 +232,44 @@ const Mentor = () => {
                         <span>BITSAT({user?.exam?.rank})</span>
                       )}
                     </p>
+                    {user?.user?.isStepLastCompleted &&
+                      user?.user?.role === "mentor" && (
+                        <FormControl sx={{ p: 2 }}>
+                          <FormLabel
+                            id="demo-radio-buttons-group-label"
+                            disabled={statusLoading}
+                          >
+                            Your Status
+                          </FormLabel>
+                          <hr />
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue={
+                              user?.user?.mentoringStatus === "active"
+                                ? "active"
+                                : "inactive"
+                            }
+                            name="radio-buttons-group"
+                          >
+                            <FormControlLabel
+                              value="active"
+                              control={<Radio />}
+                              label="Active"
+                              onClick={() =>
+                                dispatch(updateMentoringStatus("active"))
+                              }
+                            />
+                            <FormControlLabel
+                              value="inactive"
+                              control={<Radio />}
+                              label="Inactive"
+                              onClick={() =>
+                                dispatch(updateMentoringStatus("inactive"))
+                              }
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      )}
                   </div>
                 </div>
               </div>
@@ -210,8 +279,36 @@ const Mentor = () => {
                   <>
                     {user?.user?.isStepLastCompleted === false ? (
                       <>
-                        <Box>
-                          <Typography>
+                        <Box
+                          sx={{
+                            background: "rgba( 255, 255, 255, 0.25 )",
+                            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                            backdropFilter: " blur( 13px )",
+                            borderRadius: "10px",
+                            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+                            height: { xs: "60vh", md: "96%" },
+                            width: "95%",
+                            margin: "10px auto",
+                            display: "flex",
+                            textAlign: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            p: 2,
+                          }}
+                        >
+                          <LockIcon
+                            sx={{
+                              color: "grey",
+                              fontSize: { xs: "6vmax", md: "3vmax" },
+                            }}
+                          />
+                          <Typography
+                            component="h2"
+                            variant="p"
+                            color={"grey"}
+                            sx={{ fontSize: { xs: "2vmax", md: "1.8vmax" } }}
+                          >
                             Kindly complete the mentor application to activate
                             your Mentor's dashboard
                           </Typography>
@@ -219,30 +316,15 @@ const Mentor = () => {
                       </>
                     ) : (
                       <>
-                        <Box sx={{ position: "relative", minHeight: "40vmax" ,overflow:'hidden'}}>
-                          <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Facere reprehenderit, odio voluptatem
-                            explicabo, pariatur consectetur sequi amet animi,
-                            obcaecati asperiores maxime? Necessitatibus ipsam
-                            expedita itaque mollitia numquam officia sunt
-                            molestiae velit? Distinctio eligendi similique
-                            reprehenderit debitis consequuntur quas accusamus
-                            aspernatur, labore a ab fugit voluptatem soluta,
-                            autem esse eos suscipit?Lorem ipsum dolor sit amet
-                            consectetur adipisicing elit. Officiis quae, saepe,
-                            magni aperiam officia necessitatibus amet deleniti
-                            suscipit eius voluptatem odit! Corporis eaque itaque
-                            fuga nesciunt repellendus, excepturi delectus
-                            tempore at, ipsum maiores dolorum commodi et error
-                            laudantium cum sapiente quam saepe odio asperiores,
-                            voluptatibus similique! Saepe, rem facilis eveniet
-                            necessitatibus temporibus aliquid illo natus?
-                            Perferendis assumenda aut voluptates.
-                          </p>
+                        <Box
+                          sx={{
+                            position: "relative",
+                            minHeight: "40vmax",
+                            overflow: "hidden",
+                          }}
+                        >
                           <Box
                             sx={{
-                              background: "rgba( 104, 146, 236, 0.35 )",
                               boxShadow:
                                 "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                               backdropFilter: "blur(4px)",
@@ -254,14 +336,44 @@ const Mentor = () => {
                               left: 0,
                               width: "100%",
                               height: "100%",
-                              display:'flex',
-                              alignItems:'center',
-                              justifyContent:'center'
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
                             }}
                           >
-                            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center'}}> 
-                              <LockIcon sx={{fontSize:'12vmax'}} />
-                              <Typography sx={{fontSize:'1.5vmax'}}>
+                            <Box
+                              sx={{
+                                background: "rgba( 255, 255, 255, 0.25 )",
+                                boxShadow:
+                                  "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                                backdropFilter: " blur( 13px )",
+                                borderRadius: "10px",
+                                border: "1px solid rgba( 255, 255, 255, 0.18 )",
+                                height: { xs: "60vh", md: "80vh" },
+                                width: "95vw",
+                                margin: "10px auto",
+                                display: "flex",
+                                textAlign: "center",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                flexDirection: "column",
+                                p: 2,
+                              }}
+                            >
+                              <LockIcon
+                                sx={{
+                                  fontSize: { xs: "3.8vmax", md: "2.8vmax" },
+                                  color: "grey",
+                                }}
+                              />
+                              <Typography
+                                component="h2"
+                                variant="p"
+                                color={"grey"}
+                                sx={{
+                                  fontSize: { xs: "2vmax", md: "1.8vmax" },
+                                }}
+                              >
                                 You can access your mentor's dashboard once your
                                 account is verified{" "}
                               </Typography>

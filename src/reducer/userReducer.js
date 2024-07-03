@@ -27,6 +27,7 @@ import {
   updateMentorFinalInfo,
   updateMentorFinalInfoAfter,
   updateMentorInfo,
+  updateMentoringStatus,
   updateRoleMentor,
   verifyOTP,
 } from "../action/userAction";
@@ -308,6 +309,45 @@ export const updateMentorFinalReducer = createReducer(
         };
       })
       .addCase(updateMentorFinalInfoAfter.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      })
+      .addCase(clearMessage.fulfilled, (state, action) => {
+        return {
+          ...state,
+          user: {},
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
+export const mentoringStatus = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(updateMentoringStatus.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(updateMentoringStatus.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          user: action.payload,
+        };
+      })
+      .addCase(updateMentoringStatus.rejected, (state, action) => {
         return {
           ...state,
           loading: false,

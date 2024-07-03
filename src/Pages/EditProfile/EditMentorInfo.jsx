@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Tooltip from "@mui/material/Tooltip";
+import LockIcon from '@mui/icons-material/Lock';
 import {
   Avatar,
   Box,
@@ -477,7 +478,27 @@ const EditMentorInfo = () => {
           </Container>
         </ThemeProvider>
         ):(<>
-        Kindly complete the mentor form
+           <Box sx={{
+                          background: 'rgba( 255, 255, 255, 0.25 )',
+                          boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+                          backdropFilter:' blur( 13px )',
+                          borderRadius: '10px',
+                          border: '1px solid rgba( 255, 255, 255, 0.18 )',
+                          height:'80vh',
+                          width:'95%',
+                          margin:'10px auto',
+                          display:'flex',
+                          textAlign:'center',
+                          justifyContent:'center',
+                          alignItems:'center',
+                          flexDirection:'column',
+                          p:2
+                        }}>
+                          <LockIcon sx={{color:'grey', fontSize:{xs:'6vmax',md:'3vmax'}}}/>
+                          <Typography component='h2' variant="p" color={'grey'} sx={{fontSize:{xs:'2.8vmax', md:'1.5vmax'}}}>
+                            Kindly complete the mentor application 
+                          </Typography>
+                        </Box>
         </>)}
         </>
       )}

@@ -1,23 +1,24 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import { Tabs } from "@mui/base/Tabs";
 import { TabsList as BaseTabsList } from "@mui/base/TabsList";
 import { TabPanel as BaseTabPanel } from "@mui/base/TabPanel";
-import { buttonClasses } from "@mui/base/Button";
 import { Tab as BaseTab, tabClasses } from "@mui/base/Tab";
+import { buttonClasses } from "@mui/base/Button";
 import "./mentorprofile.css";
+import CloseIcon from '@mui/icons-material/Close';
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
+import LoginIcon from '@mui/icons-material/Login';
 import MentorIntro from "./MentorIntro";
 import Authenticity from "./Authenticity";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../action/userAction";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import {
   clearError,
@@ -32,7 +33,9 @@ const MentorProfile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { error, loading, user } = useSelector((state) => state.mentorDeatil);
-  const {  user:mentor } = useSelector((state) => state.mentor);
+  const { user: mentor, isAuthenticated: menAuth } = useSelector(
+    (state) => state.mentor
+  );
   const { user: stuUser, isAuthenticated } = useSelector(
     (state) => state.student
   );
@@ -41,7 +44,7 @@ const MentorProfile = () => {
     loading: cLoading,
     connection,
   } = useSelector((state) => state.connectionCount);
-  console.log(mentor?.user?.signedUpFor)
+  console.log(mentor?.user?.signedUpFor);
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getSuccessMentorConnection(id));
@@ -72,7 +75,6 @@ const MentorProfile = () => {
     800: "#004C99",
     900: "#003A75",
   };
-
   const grey = {
     50: "#F3F6F9",
     100: "#E5EAF2",
@@ -119,7 +121,6 @@ const MentorProfile = () => {
       cursor: not-allowed;
     }
   `;
-
   const TabPanel = styled(BaseTabPanel)(
     ({ theme }) => `
   width: 100%;
@@ -132,7 +133,6 @@ const MentorProfile = () => {
   opacity: 0.9;
   `
   );
-
   const TabsList = styled(BaseTabsList)(
     ({ theme }) => `
   min-width: 400px;
@@ -148,14 +148,76 @@ const MentorProfile = () => {
   };
   `
   );
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
+    bgcolor: "background.paper",
+    borderRadius: "10px",
+    outline: "none",
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    p: 1,
+    background: "rgba( 255, 255, 255, 0.25 )",
+    boxShadow: " 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+    backdropFilter: "blur( 13px )",
+    border: "1px solid rgba( 255, 255, 255, 0.18 )",
+  };
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {setOpen(false)
+    navigate('/lists/mentors')
+  };
+  useEffect(() => {
+    if (!isAuthenticated && !menAuth) {
+      setOpen(true);
+    }
+  }, [open , isAuthenticated, menAuth]);
+
   const navigate = useNavigate();
   return (
     <>
-        <MetaData title={`About ${user?.name}`} />
+      <MetaData title={!isAuthenticated && !menAuth ? 'Please Login' : `About ${user?.name}`} />
       {loading ? (
         <Loader />
       ) : (
         <>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Box sx={{
+                width:{xs:'90%', md:'40%'},
+                height:{xs:'80%', md:'60%'},
+                bgcolor:'white',
+                borderRadius:'10px',
+                display:'flex',
+                flexDirection:'column',
+                alignItems:'center',
+                justifyContent:'center',
+                position:'relative'
+              }}>
+                <Link to="/lists/mentors">
+                <CloseIcon sx={{position:'absolute',
+                  top:'10px',
+                  right:'10px'
+                }}/>
+                </Link>
+                  <Typography component='h2' variant="p" sx={{color:'grey', mb:'2vmax', textAlign:'center '}}>
+                    Please login to view mentor's details
+                  </Typography>
+                  <Link to="/login">
+                  <Button variant="contained" startIcon={<LoginIcon  sx={{fontSize:'2vmax'}}/>} sx={{width:{xs:'24vmax', md:'14vmax'}, height:{xs:'8vmax', md:'5vmax'}, fontSize:{xs:'2.1vmax', md:'1.1vmax'}}}>Login</Button>
+                  </Link>
+              </Box>
+            </Box>
+          </Modal>
           {showPage ? (
             <ConfirmMentorShipPayment
               item={user}
@@ -219,7 +281,7 @@ const MentorProfile = () => {
                   >
                     <Box
                       component="img"
-                      src={user?.avatar?.public_URI}
+                      src={isAuthenticated || menAuth ? user?.avatar?.public_URI : '/images/profile.png'}
                       sx={{
                         width: 130,
                         aspectRatio: "1/1",
@@ -244,9 +306,9 @@ const MentorProfile = () => {
                       }}
                     >
                       <Typography component="h1" variant="p">
-                        {user?.name}
+                        {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
-                      {!stuUser?.user?.activeAssignedMentors ? (
+                      { (isAuthenticated || menAuth) && !stuUser?.user?.activeAssignedMentors ? (
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
                           <Button
                             variant="outlined"
@@ -259,11 +321,11 @@ const MentorProfile = () => {
                                   api: "xyz",
                                   price: user?.ppd,
                                 });
-                              } 
-                              else if(mentor?.user?.signedUpFor === 'mentor'){
-                                toast.error("Mentors Can't Buy Mentorship")
-                              }
-                              else {
+                              } else if (
+                                mentor?.user?.signedUpFor === "mentor"
+                              ) {
+                                toast.error("Mentors Can't Buy Mentorship");
+                              } else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");
                               }
@@ -287,11 +349,11 @@ const MentorProfile = () => {
                                   api: "xyz",
                                   price: user?.ppm,
                                 });
-                              }
-                              else if(mentor?.user?.signedUpFor === 'mentor'){
-                                toast.error("Mentors Can't Buy Mentorship")
-                              }
-                               else {
+                              } else if (
+                                mentor?.user?.signedUpFor === "mentor"
+                              ) {
+                                toast.error("Mentors Can't Buy Mentorship");
+                              } else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");
                               }
@@ -301,7 +363,7 @@ const MentorProfile = () => {
                             {Intl.NumberFormat("en-IN").format(user?.ppm)}/month
                           </Button>
                         </Box>
-                      ) : (
+                      ) : (isAuthenticated || menAuth) && (
                         <Typography
                           variant="p"
                           textAlign={"center"}
@@ -311,7 +373,9 @@ const MentorProfile = () => {
                         </Typography>
                       )}
                     </Box>
-                    <Box
+                   {(isAuthenticated || menAuth) ? (
+                    <>
+                     <Box
                       width="100%"
                       sx={{ p: { xs: "1vmax", md: "0 25vmax" } }}
                     >
@@ -398,6 +462,12 @@ const MentorProfile = () => {
                         </TabPanel>
                       </Tabs>
                     </Box>
+                    </>
+                   ):(
+                    <>
+                    <Typography component='h2'>Please Login To View Mentor Details</Typography>
+                    </>
+                   )}
                   </Box>
                 </Box>
               </Box>
