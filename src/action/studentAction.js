@@ -155,6 +155,22 @@ export const logoutUser = createAsyncThunk(
       }
     }
   );
+  export const updatePasswordStudent = createAsyncThunk(
+    "student/mentoring/update/password",
+    async (payload, { rejectWithValue }) => {
+      try {
+        const config = { headers: { "Content-Type": "application/json" } };
+        const { data } = await axiosInstance.put(
+          `/v1/student/self/update/password`,
+          {payload},
+          config
+        );
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.response.data);
+      }
+    }
+  );
 
   export const clearError = createAsyncThunk("user/clearError/student", async () => {
     return null;

@@ -14,6 +14,7 @@ import {
   getAllReviews,
   deleteReviews,
   updateStudentFinalInfo,
+  updatePasswordStudent,
 } from "../action/studentAction";
 
 const initalState = {};
@@ -421,6 +422,46 @@ export const deleteReviewReducer = createReducer(initalState, (builder) => {
     });
 });
 
+
+export const updateStudentPassword = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(updatePasswordStudent.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(updatePasswordStudent.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          status:'success'
+        };
+      })
+      .addCase(updatePasswordStudent.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      })
+      .addCase(clearMessage.fulfilled, (state, action) => {
+        return {
+          ...state,
+          status: {},
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
 
 export const updateStudent = createReducer(initalState, (builder) => {
   builder

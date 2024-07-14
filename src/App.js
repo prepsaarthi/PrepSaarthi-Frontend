@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 import Signup from "./Pages/SignUp/Signup.jsx";
 import SignIn from "./Pages/SignIn/SignIn.jsx";
 import AdminDashboard from "./Pages/Admin/Admin.jsx";
+import PasswordUpdate from "./Pages/PasswordUpdate/PasswordUpdate.jsx";
+import Settings from "./Pages/Settings/Settings.jsx";
 import FinalStep from "./Pages/MentorsFinalSTeo/FinalStep.jsx";
 import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
@@ -56,8 +58,10 @@ const App = () => {
 {/* ADMIN & Mentor Route  */}
         <Route path="/verify/account" element={<OTPVerification />} />
         <Route element={<PrivateRoutes allowedRoles={["admin", 'mentor','user']} />}>
+        <Route path="/password/change" element={<PasswordUpdate />}></Route>
         <Route path="/role/mentor/final" element={<FinalStep />} />
         <Route path="/update/profile/mentor" element={<EditProfile />} />
+        <Route path="/settings" element={<Settings />} />
         </Route>
 
 {/* ADMIN exclusive route  */}
@@ -67,6 +71,8 @@ const App = () => {
 
 
         <Route element={<PrivateRouteStu allowedRoles={["student"]} />}>
+        <Route path="/password/change" element={<PasswordUpdate />}></Route>
+        <Route path="/settings" element={<Settings />} />
           <Route
             path="/update/profile/student"
             element={<EditProfileStudent />}
@@ -79,7 +85,9 @@ const App = () => {
 
         {/* <Route path="/verify/account" element={<OTPVerification />}></Route> */}
         <Route path="/" element={<Home />}></Route>
+        <Route path="/faq" element={<Home />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/bm" element={<Signup />}></Route>
         <Route path="/login" element={<SignIn />}></Route>
         <Route path="/user/:id" element={<Mentor />}></Route>
         <Route path="/lists/mentors" element={<MentorList />}></Route>

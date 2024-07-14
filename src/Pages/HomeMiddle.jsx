@@ -13,44 +13,21 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
 import { FreeMode, Pagination } from "swiper/modules";
+import { useDispatch, useSelector } from "react-redux";
+import { getMentorList } from "../action/metorListAction";
 
 const HomeMiddle = () => {
+  const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const { user } = useSelector((state) => state.mentorList);
 
-  const mentors = [
-    {
-      name: "Parthav Verma",
-      rank: 8213,
-      exam: "JEE ADV",
-      college: "IIT MANDI",
-      branch: "IT",
-      images: "/images/mentor2.png",
-    },
-    {
-      name: "Dinesh Raj",
-      rank: 5003,
-      exam: "JEE ADV",
-      college: "IIT BHU",
-      branch: "CSE",
-      images: "/images/mentor1.png",
-    },
-    {
-      name: "Praveera Singh",
-      rank: 2003,
-      exam: "BITSAT",
-      college: "IIT Roorke",
-      branch: "CSE",
-      images: "/images/mentor1.png",
-    },
-    {
-      name: "Dinesh Raj",
-      rank: 5003,
-      exam: "JEE MAIN",
-      college: "NSUT",
-      branch: "CSE",
-      images: "/images/mentor2.png",
-    },
-  ];
+  React.useEffect(() => {
+    dispatch(getMentorList());
+  }, [dispatch]);
+  const unsortedMentor = Array.isArray(user?.users) ? user.users : [];
+  const mentors = [...unsortedMentor]
+    .sort((a, b) => b.ratings - a.ratings)
+    .slice(0, 4);
 
   const services = [
     {
@@ -122,21 +99,30 @@ const HomeMiddle = () => {
             modules={[FreeMode, Pagination]}
             className="mySwiper"
           >
-            {mentors.map((item, index) => (
+            {mentors?.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className="_mentor-card" key={index}>
                   <div className="_home-miidle-mentor-info">
-                    <h2>{item.name}</h2>
+                    <h2>{item?.name}</h2>
                     <p>
-                      AIR - {item.rank} ({item.exam})
+                      AIR - {item?.exam?.rank} 
+                      {item.exam?.name === "jeemains" && (
+                              <span> (JEE MAINS)</span>
+                            )}
+                            {item.exam?.name === "jeeadv" && (
+                              <span> (JEE ADV)</span>
+                            )}
+                            {item.exam?.name === "bitsat" && (
+                              <span> (BITSAT)</span>
+                            )}
                     </p>
                     <p>
-                      {item.college} {item.branch}
+                      {item?.collegeName} {item?.branch}
                     </p>
-                    <Link to="mentor/mentorId">See more...</Link>
+                    <Link to={`/mentors/${item?._id}`}>See more...</Link>
                   </div>
                   <div className="_home-miidle-mentor-img">
-                    <img src={item.images} alt={item.name} />
+                    <img src={item?.avatar?.public_URI} alt={item?.name} />
                   </div>
                 </div>
               </SwiperSlide>

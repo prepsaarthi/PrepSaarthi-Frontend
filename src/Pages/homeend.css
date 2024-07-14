@@ -32,7 +32,6 @@
 }
 ._faq-align-end:hover{
     scale:1.01;
-    background-color: #d1b268;
 }
 ._faq-align-start {
   align-self: flex-start;
@@ -78,8 +77,11 @@
 ._faq-answer {
   top: 6vmax !important;
 }
+.toggleHeightI {
+  height: 15.5vmax;
+}
 .toggleHeight {
-  height: 18vmax;
+  height: 11.5vmax;
 }
 ._more-question {
   margin-top: 3vmax;
@@ -148,7 +150,14 @@
     min-height: 10vmax;
   }
   .toggleHeight {
-    height: 35vmax;
+    height: 21vmax;
+  }
+  .toggleHeightI {
+    height: 32vmax;
+  }
+  ._policy-height{
+    
+    height: 14vmax !important;
   }
   ._more-doubts {
     font-size: 2vmax;

@@ -1,6 +1,7 @@
 import React from "react";
 import SendIcon from "@mui/icons-material/Send";
-import YoutubeIcon from "@mui/icons-material/Facebook";
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -21,7 +22,10 @@ const Footer = () => {
               </p>
               <div className="social">
                 <Link to="/d">
-                  <YoutubeIcon />
+                  <YouTubeIcon />
+                </Link>
+                <Link to="https://whatsapp.com/channel/0029Va5GsedDjiOTf1Xvew27">
+                  <WhatsAppIcon />
                 </Link>
                 <Link to="/d">
                   <XIcon />
@@ -39,7 +43,7 @@ const Footer = () => {
               <h3>Services</h3>
               <div className="links">
                 <Link to="#">Mentoring</Link>
-                <Link to="#">Courses</Link>
+                <Link to="#">Products</Link>
               </div>
             </div>
 
@@ -58,13 +62,14 @@ const Footer = () => {
               <div className="contact-details">
                 <PlaceIcon />
                 <p>
-                  RN-414 ,Vivekanand, Muradnagat <br />
-                  Ghaziabad, India
+                B606 Luxuria Estate,<br />
+                Aditya World City NH9 ,<br />
+                  Ghaziabad-201002, India
                 </p>
               </div>
               <div className="contact-details">
                 <PhoneIcon />
-                <p>+91 124567890</p>
+                <p>+91 9984773000</p>
               </div>
             </div>
           </div>

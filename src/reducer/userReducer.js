@@ -28,6 +28,7 @@ import {
   updateMentorFinalInfoAfter,
   updateMentorInfo,
   updateMentoringStatus,
+  updatePasswordMentor,
   updateRoleMentor,
   verifyOTP,
 } from "../action/userAction";
@@ -358,6 +359,45 @@ export const mentoringStatus = createReducer(
         return {
           ...state,
           user: {},
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
+export const updateMentorPassword = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(updatePasswordMentor.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(updatePasswordMentor.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          status:'success'
+        };
+      })
+      .addCase(updatePasswordMentor.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      })
+      .addCase(clearMessage.fulfilled, (state, action) => {
+        return {
+          ...state,
+          status: {},
         };
       })
       .addCase(clearError.fulfilled, (state, action) => {

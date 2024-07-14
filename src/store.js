@@ -16,6 +16,7 @@ import {
   sendOTPReducer,
   updateMentor,
   updateMentorFinalReducer,
+  updateMentorPassword,
   updateMentorRole,
   verifyOTPReducer,
 } from "./reducer/userReducer";
@@ -32,6 +33,7 @@ import {
   reviewReducer,
   studentSignup,
   updateStudent,
+  updateStudentPassword,
 } from "./reducer/studentReducer";
 import { newPayment, newSubscription } from "./reducer/paymnentReducer";
 const store = configureStore({
@@ -65,7 +67,9 @@ const store = configureStore({
     verifyUser:verifyOTPReducer,
     passwordReset:resetPasswordReducer,
     passwordChange:changePasswordReducer,
-    status:mentoringStatus
+    status:mentoringStatus,
+    mentorPassword:updateMentorPassword,
+    studentPassword:updateStudentPassword
   },
 });
 

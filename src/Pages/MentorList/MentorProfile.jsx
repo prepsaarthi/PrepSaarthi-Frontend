@@ -8,12 +8,12 @@ import { Tab as BaseTab, tabClasses } from "@mui/base/Tab";
 import { buttonClasses } from "@mui/base/Button";
 import "./mentorprofile.css";
 import CloseIcon from '@mui/icons-material/Close';
+import LoginIcon from '@mui/icons-material/Login';
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import LoginIcon from '@mui/icons-material/Login';
 import MentorIntro from "./MentorIntro";
 import Authenticity from "./Authenticity";
 import { useDispatch, useSelector } from "react-redux";
@@ -317,7 +317,7 @@ const MentorProfile = () => {
                               if (isAuthenticated) {
                                 setShowPage(true);
                                 setSubscription({
-                                  type: "weekly",
+                                  type: "daily",
                                   api: "xyz",
                                   price: user?.ppd,
                                 });
@@ -345,7 +345,7 @@ const MentorProfile = () => {
                               if (isAuthenticated) {
                                 setShowPage(true);
                                 setSubscription({
-                                  type: "monthly",
+                                  type: "weekly",
                                   api: "xyz",
                                   price: user?.ppm,
                                 });

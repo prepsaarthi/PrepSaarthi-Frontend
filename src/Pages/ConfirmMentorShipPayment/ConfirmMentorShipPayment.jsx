@@ -28,8 +28,8 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
   } = useSelector((state) => state.paymentReducer);
   const {
     loading: sloading,
-    subscriptionId,
-    error: subscriptionError,
+    // subscriptionId,
+    // error: subscriptionError,
   } = useSelector((state) => state.subscriptionReducer);
 
   const handlePayment = (totalPrice) => {
@@ -40,53 +40,53 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
     dispatch(paymentInitatorSub(totalPrice));
   };
 
-  useEffect(() => {
-    if (subscriptionError) {
-      toast.error(subscriptionError.message);
-      dispatch(clearError());
-    }
-    if (subscriptionId) {
-      const openPaymentGateway = () => {
-        var options = {
-          key: "rzp_test_G0c8c3HClLntUO",
-          amount: sub.price,
-          currency: "INR",
-          name: "PrepSaarthi",
-          description:
-            "Get access to india's top IITians mentorship with few clicks",
-          image: Logo,
-          subscription_id: subscriptionId,
-          callback_url: `${process.env.SERVER}/v1/paymentVerification/subscription?id=${item.id}&price=${sub.price}`,
-          prefill: {
-            name: stu.name,
-            email: stu.email,
-            contact: stu.mobileNumber,
-          },
-          notes: {
-            address: "Prepsaarthi at  Prepsaarthi.com",
-          },
-          theme: {
-            color: "#3399cc",
-          },
-        };
-        const razor = new window.Razorpay(options);
-        razor.open();
+  // useEffect(() => {
+  //   if (subscriptionError) {
+  //     toast.error(subscriptionError.message);
+  //     dispatch(clearError());
+  //   }
+  //   if (subscriptionId) {
+  //     const openPaymentGateway = () => {
+  //       var options = {
+  //         key: "rzp_test_G0c8c3HClLntUO",
+  //         amount: sub.price,
+  //         currency: "INR",
+  //         name: "PrepSaarthi",
+  //         description:
+  //           "Get access to india's top IITians mentorship with few clicks",
+  //         image: Logo,
+  //         subscription_id: subscriptionId,
+  //         callback_url: `${process.env.REACT_APP_API_URL}/v1/paymentVerification/subscription?id=${item.id}&price=${sub.price}`,
+  //         prefill: {
+  //           name: stu.name,
+  //           email: stu.email,
+  //           contact: stu.mobileNumber,
+  //         },
+  //         notes: {
+  //           address: "Prepsaarthi at  Prepsaarthi.com",
+  //         },
+  //         theme: {
+  //           color: "#3399cc",
+  //         },
+  //       };
+  //       const razor = new window.Razorpay(options);
+  //       razor.open();
 
-        dispatch(reset());
-      };
-      openPaymentGateway();
-    }
-  }, [
-    dispatch,
-    subscriptionError,
-    sloading,
-    subscriptionId,
-    stu?.name,
-    stu?.email,
-    item.id,
-    stu.mobileNumber,
-    sub.price,
-  ]);
+  //       dispatch(reset());
+  //     };
+  //     openPaymentGateway();
+  //   }
+  // }, [
+  //   dispatch,
+  //   subscriptionError,
+  //   sloading,
+  //   subscriptionId,
+  //   stu?.name,
+  //   stu?.email,
+  //   item.id,
+  //   stu.mobileNumber,
+  //   sub.price,
+  // ]);
   useEffect(() => {
     if (paymentError) {
       toast.error(paymentError.message);
@@ -101,7 +101,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         description: "Test Transaction",
         image: Logo,
         order_id: order.id,
-        callback_url: `${process.env.CLIENT_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}`,
+        callback_url: `${process.env.REACT_APP_API_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}`,
         prefill: {
           name: "Gaurav Kumar",
           email: "gaurav.kumar@example.com",
@@ -251,7 +251,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
               loading={sloading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
               variant="contained"
-              onClick={() => handlePaymentSub(sub.price)}
+              onClick={() => handlePayment(sub.price)}
             >
               Pay {sub.price}
             </LoadingButton>

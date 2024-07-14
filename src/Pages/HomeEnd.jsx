@@ -52,7 +52,7 @@ const HomeEnd = () => {
   ];
 
   const openWhatsapp = () => {
-    const phoneNumber = "+917007158127";
+    const phoneNumber = "+919984773000";
     const message = "Hello! I would like to chat with you.";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
@@ -73,7 +73,7 @@ const HomeEnd = () => {
     <>
       <div className="_home-end">
         <h2 className="_home-middle-heading" id="_faq-end">
-          FAQ
+          FAQs
         </h2>
         <div className="_home-end-faq">
           {faq.map((item, i) => {
@@ -83,7 +83,7 @@ const HomeEnd = () => {
                     key={i}
                     className={
                       answer && index === i
-                        ? "_faq-align-start toggleHeight"
+                        ? "_faq-align-start toggleHeightI"
                         : "_faq-align-start"
                     }
                     onClick={() => {
@@ -107,7 +107,7 @@ const HomeEnd = () => {
                     key={i}
                     className={
                       answer && index === i
-                        ? "_faq-align-end toggleHeight"
+                        ? (i === 3 ? "_faq-align-end toggleHeight _policy-height" : "_faq-align-end toggleHeight")
                         : "_faq-align-end"
                     }
                     onClick={() => {

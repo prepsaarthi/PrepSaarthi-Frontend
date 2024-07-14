@@ -4,7 +4,11 @@ import { Box, Button, Typography } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import CastleIcon from "@mui/icons-material/Castle";
+import CloseIcon from '@mui/icons-material/Close';
+import {Modal } from "@mui/material";
 import { Link } from "react-router-dom";
+import FlipBook from "./FlipBook";
+import Roles from "./Roles.jsx";
 const HomeTop = () => {
   const HomeTopSecond = [
     {
@@ -16,7 +20,7 @@ const HomeTop = () => {
     {
       icon: <CastleIcon />,
       heading: "Searching For College",
-      para: "Seize top college opportunities with expert guidance! Don't settle for less",
+      para: "Seize top college opportunities with expert guidance! Don't settle for less", 
       link: "somelink",
     },
     {
@@ -37,7 +41,39 @@ const HomeTop = () => {
   //     setSrc("/images/home.png")
   //   }
   // }, [window.innerWidth])
-
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
+    bgcolor: "background.paper",
+    borderRadius: "10px",
+    outline: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    p: 1,
+    background: "rgba( 255, 255, 255, 0.25 )",
+    boxShadow: " 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+    backdropFilter: "blur( 13px )",
+    border: "1px solid rgba( 255, 255, 255, 0.18 )",
+  };
+  const [open, setOpen] = React.useState(false);
+  const [openJoin, setOpenJoin] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleCloseJoin = () => {
+    setOpenJoin(false);
+  };
+  const handleOpenJoin = () => {
+    setOpenJoin(true);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <>
       <div className="_home-top-first">
@@ -47,7 +83,12 @@ const HomeTop = () => {
             <Typography
               component="p"
               variant="p"
-              sx={{ color: "var(--button2)" , fontSize:{xs:'3.5vmax', md:'2vmax'}, display:{xs:'block', md:'inline'},fontWeight:{xs:900}}}
+              sx={{
+                color: "var(--button2)",
+                fontSize: { xs: "3.5vmax", md: "2vmax" },
+                display: { xs: "block", md: "inline" },
+                fontWeight: { xs: 900 },
+              }}
             >
               "FREEDOM OF CHOICE"
             </Typography>{" "}
@@ -60,42 +101,77 @@ const HomeTop = () => {
             preparation to next level
           </p>
           <Box component={Link} to="/lists/mentors">
-          <Button
-            size="large"
-            sx={{
-              bgcolor: "#3A5AFF",
-              m: { xs: "2vmax", sm: 0 },
-              mr: { sm: "2vmax" },
-              width: { sm: "15vmax" },
-              height: { sm: "4vmax" },
-              fontWeight: 700,
-            }}
-            variant="contained"
-          >
-            Explore Your Mentor
-          </Button>
+            <Button
+              size="large"
+              sx={{
+                bgcolor: "#3A5AFF",
+                m: { xs: "2vmax", sm: 0 },
+                mr: { sm: "2vmax" },
+                mb:{sm:'1vmax', md:0},
+                width: { xs: "25vmax" ,sm:'16vmax', md:'15vmax', lg:'15vmax'},
+                height: { xs: "8vmax", sm:'5vmax',md:'4vmax', lg:'4vmax' },
+                fontWeight: 700,
+                fontSize:{xs:'1.8vmax', sm:'1.2vmax',md:'1vmax'}
+              }}
+              variant="contained"
+            >
+              Explore Your Mentor
+            </Button>
           </Box>
           <Button
             size="large"
             sx={{
               // display:'none',
               bgcolor: "#ffc43b",
-              width: { sm: "15vmax" },
-              height: { sm: "4vmax" },
+              m: { xs: "2vmax", sm: 0 },
+              mr: { sm: "2vmax" },
+              mb:{sm:'1vmax', md:0},
+              width: { xs: "25vmax" ,sm:'16vmax', md:'15vmax', lg:'15vmax'},
+              height: { xs: "8vmax", sm:'5vmax',md:'4vmax', lg:'4vmax' },
               fontWeight: 700,
+              fontSize:{xs:'1.8vmax',sm:'1.2vmax', md:'1vmax'},
               "&:hover": { bgcolor: "#ffce5d" },
             }}
             variant="contained"
+            onClick={handleOpen}
           >
             Products
           </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+            
+              <Box
+                sx={{
+                  width: { xs: "90%", md: "40%" },
+                  height: { xs: "80%", md: "60%" },
+                  bgcolor: "white",
+                  borderRadius: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                }}
+              >
+                <CloseIcon 
+                onClick={handleClose}
+                sx={{position:'absolute',
+                  top:'10px',
+                  right:'10px',
+                  cursor:'pointer'
+                }}/>
+             <FlipBook />
+              </Box>
+            </Box>
+          </Modal>
         </div>
         <div className="_home-top-right">
-          <img
-            className="_mob"
-            src="/images/boy.png"
-            alt="homepage"
-          />
+          <img className="_mob" src="/images/boy.png" alt="homepage" />
           {/* <img src="/images/path.jpg" alt="homepage" /> */}
         </div>
       </div>
@@ -110,26 +186,64 @@ const HomeTop = () => {
             </div>
           ))}
         </div>
-        <Box display={'flex'} alignSelf={"center"} component={Link} to="/signup">
-        <Button
-          size="large"
-          sx={{
-            width: {xs:"18vmax", sm: "12vmax" },
-            height: { xs:"6vmax", sm: "4vmax" },
-            mt: {xs:"1vmax", md:'4vmax'},
-            mb: "3vmax",
-            alignSelf: "center",
-            bgcolor: "#ffc43b",
-            fontWeight: 700,
-            fontSize: {xs:"2vmax", md:'1vmax'},
-            "&:hover": { bgcolor: "#ffce5d" },
-          }}
-          className="_home-top-button"
-          variant="contained"
-        >
-          Join Us
-        </Button>
-        </Box>
+        {/* <Box
+          display={"flex"}
+          alignSelf={"center"}
+          component={Link}
+          to="/signup"
+        > */}
+          <Button
+            size="large"
+            sx={{
+              width: { xs: "18vmax", sm: "12vmax" },
+              height: { xs: "6vmax", sm: "4vmax" },
+              mt: { xs: "1vmax", md: "4vmax" },
+              mb: "3vmax",
+              alignSelf: "center",
+              bgcolor: "#ffc43b",
+              fontWeight: 700,
+              fontSize: { xs: "2vmax",sm:'1.2vmax', md: "1vmax" },
+              "&:hover": { bgcolor: "#ffce5d" },
+            }}
+            className="_home-top-button"
+            variant="contained"
+            onClick={handleOpenJoin}
+          >
+            Join Us
+          </Button>
+          <Modal
+            open={openJoin}
+            onClose={handleCloseJoin}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+            
+              <Box
+                sx={{
+                  width: { xs: "90%", md: "40%" },
+                  height: { xs: "80%", md: "60%" },
+                  bgcolor: "white",
+                  borderRadius: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                }}
+              >
+                <CloseIcon 
+                onClick={handleCloseJoin}
+                sx={{position:'absolute',
+                  top:'10px',
+                  right:'10px',
+                  cursor:'pointer'
+                }}/>
+             <Roles />
+              </Box>
+            </Box>
+          </Modal>
+        {/* </Box> */}
       </div>
     </>
   );

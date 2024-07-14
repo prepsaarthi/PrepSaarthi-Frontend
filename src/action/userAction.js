@@ -92,6 +92,23 @@ export const updateMentoringStatus = createAsyncThunk(
     }
   }
 );
+//update password
+export const updatePasswordMentor = createAsyncThunk(
+  "admin/mentoring/update/password",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.put(
+        `/v1/self/update/password`,
+        payload,
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 // Update
 export const updateMentorInfo = createAsyncThunk(
   "mentor/update/updateInfo",

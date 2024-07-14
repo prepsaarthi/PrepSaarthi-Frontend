@@ -26,7 +26,7 @@ const PrivacyPolicy = () => {
             Privacy Policy
           </Typography>
           <Typography variant="body1" paragraph>
-            Welcome to [Your Company Name]'s Privacy Policy. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This policy outlines how we collect, use, disclose, and protect your information when you use our services.
+            Welcome to PrepSaarthi's Privacy Policy. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This policy outlines how we collect, use, disclose, and protect your information when you use our services.
           </Typography>
 
           <Box mt={4}>
@@ -137,7 +137,7 @@ const PrivacyPolicy = () => {
               If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
             </Typography>
             <Typography variant="body1" paragraph>
-              [Your Company Name]
+              PrepSaarthi
             </Typography>
             <Typography variant="body1" paragraph>
               [Your Contact Information]
