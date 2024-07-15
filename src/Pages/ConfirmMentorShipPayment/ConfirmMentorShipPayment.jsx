@@ -24,6 +24,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
   const {
     loading,
     order,
+    duration,
     error: paymentError,
   } = useSelector((state) => state.paymentReducer);
   const {
@@ -32,8 +33,8 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
     // error: subscriptionError,
   } = useSelector((state) => state.subscriptionReducer);
 
-  const handlePayment = (totalPrice) => {
-    dispatch(paymentInitator(totalPrice));
+  const handlePayment = (amount, duration) => {
+    dispatch(paymentInitator({amount, duration}));
   };
 
   const handlePaymentSub = (totalPrice) => {
@@ -101,7 +102,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         description: "Test Transaction",
         image: Logo,
         order_id: order.id,
-        callback_url: `${process.env.REACT_APP_API_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}`,
+        callback_url: `${process.env.REACT_APP_API_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}&duration=${duration}`,
         prefill: {
           name: "Gaurav Kumar",
           email: "gaurav.kumar@example.com",
@@ -237,12 +238,12 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         </Box>
         <Box sx={{ width: { xs: "38vmax", md: "28vmax" }, p: "1vmax" }}>
           <Typography textAlign="end">Total: {sub.price} </Typography>
-          {sub.type === "weekly" ? (
+          {sub.type === "daily" ? (
             <LoadingButton
               loading={loading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
               variant="contained"
-              onClick={() => handlePayment(sub.price)}
+              onClick={() => handlePayment(sub.price,'day')}
             >
               Pay {sub.price}
             </LoadingButton>
@@ -251,7 +252,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
               loading={sloading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
               variant="contained"
-              onClick={() => handlePayment(sub.price)}
+              onClick={() => handlePayment(sub.price,'week')}
             >
               Pay {sub.price}
             </LoadingButton>

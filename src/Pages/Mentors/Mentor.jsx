@@ -316,49 +316,32 @@ const Mentor = () => {
                       </>
                     ) : (
                       <>
-                        <Box
+                        {/* <Box
                           sx={{
                             position: "relative",
                             minHeight: "40vmax",
                             overflow: "hidden",
                           }}
                         >
-                          <Box
+                         */}
+                            <Box
+                            
                             sx={{
-                              boxShadow:
-                                "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-                              backdropFilter: "blur(4px)",
-                              WebkitBackdropFilter: "blur( 4px )",
+                              background: "rgba( 255, 255, 255, 0.25 )",
+                              boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                              backdropFilter: " blur( 13px )",
                               borderRadius: "10px",
                               border: "1px solid rgba( 255, 255, 255, 0.18 )",
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: "100%",
+                              height: { xs: "60vh", md: "96%" },
+                              width: "95%",
+                              margin: "10px auto",
                               display: "flex",
-                              alignItems: "center",
+                              textAlign: "center",
                               justifyContent: "center",
+                              alignItems: "center",
+                              flexDirection: "column",
+                              p: 2,
                             }}
-                          >
-                            <Box
-                              sx={{
-                                background: "rgba( 255, 255, 255, 0.25 )",
-                                boxShadow:
-                                  "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-                                backdropFilter: " blur( 13px )",
-                                borderRadius: "10px",
-                                border: "1px solid rgba( 255, 255, 255, 0.18 )",
-                                height: { xs: "60vh", md: "80vh" },
-                                width: "95vw",
-                                margin: "10px auto",
-                                display: "flex",
-                                textAlign: "center",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                flexDirection: "column",
-                                p: 2,
-                              }}
                             >
                               <LockIcon
                                 sx={{
@@ -374,12 +357,21 @@ const Mentor = () => {
                                   fontSize: { xs: "2vmax", md: "1.8vmax" },
                                 }}
                               >
-                                You can access your mentor's dashboard once your
-                                account is verified{" "}
+                                {user?.user?.updateRequest === "yes" ? (
+                                  <>
+                                    You can access your mentor's dashboard once
+                                    your changes are approved{" "}
+                                  </>
+                                ) : (
+                                  <>
+                                    You can access your mentor's dashboard once
+                                    your account is verified{" "}
+                                  </>
+                                )}
                               </Typography>
                             </Box>
-                          </Box>
-                        </Box>
+                          {/* </Box> */}
+                        
                       </>
                     )}
                   </>

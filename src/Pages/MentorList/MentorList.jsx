@@ -206,7 +206,7 @@ const MentorList = () => {
                               fontWeight: 500,
                             }}
                           >
-                            {item.collegeName}({item.branch})
+                            {(item.collegeName).toUpperCase()}({(item.branch).toUpperCase()})
                           </Typography>
                           <Typography
                             variant="subtitle1"

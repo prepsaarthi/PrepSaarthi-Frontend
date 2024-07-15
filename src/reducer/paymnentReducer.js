@@ -19,6 +19,7 @@ export const newPayment = createReducer(initialState, (builder) => {
       return {
         order: action.payload.order,
         success: action.payload.success,
+        duration:action.payload.duration,
         loading: false,
       };
     })
@@ -32,6 +33,7 @@ export const newPayment = createReducer(initialState, (builder) => {
       return {
         order: null,
         success: false,
+        duration:null
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {

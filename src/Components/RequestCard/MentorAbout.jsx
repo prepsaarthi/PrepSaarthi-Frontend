@@ -145,23 +145,30 @@ box-shadow: 0px 4px 30px ${
         ></Box>
       </Box>
       <Box sx={{ mt: "60px" , display:'flex', justifyContent:'center' ,alignItems:'center', flexDirection:'column'}}>
+        <Box>
       <Button
           variant="outlined"
           sx={{ width: { xs: "18vmax", md: "12vmax" }, mb:1 }}
         >
           &#8377;
-          {Intl.NumberFormat("en-IN").format(user?.ppd)}/week
+          {Intl.NumberFormat("en-IN").format(user?.ppd)}/day
         </Button>
+        {(user?.isUpd === 'yes'&& user?.ppdO !== user?.ppd) && <Box component='span'  sx={{fontSize:'1.5vmax', ml:'1vmax'}}>Old Price &#8377;{Intl.NumberFormat("en-IN").format(user?.ppdO)}/D</Box>} 
+        </Box>
+        <Box>
         <Button
           variant="contained"
           sx={{
             width: { xs: "18vmax", md: "12vmax" },
             mb:1
           }}
-        >
+          >
           &#8377;
-          {Intl.NumberFormat("en-IN").format(user?.ppm)}/month
+          {Intl.NumberFormat("en-IN").format(user?.ppm)}/week
         </Button>
+        {console.log(user)}
+        {(user?.isUpd === 'yes'&& user?.ppmO !== user?.ppm) && <Box  component='span' sx={{fontSize:'1.5vmax', ml:'1vmax'}}>Old Price &#8377;{Intl.NumberFormat("en-IN").format(user?.ppmO)}/W</Box>} 
+          </Box>
         <p><strong>{user?.name}</strong></p>
         <Box sx={{mt:1, mb:1}}>
           <span style={{marginRight:'10px'}}>

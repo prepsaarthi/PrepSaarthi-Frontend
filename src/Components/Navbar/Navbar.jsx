@@ -33,10 +33,31 @@ import {
   logoutUser as stuLogout,
 } from "../../action/studentAction";
 import toast from "react-hot-toast";
-
+// import './navbar'
 const drawerWidth = 240;
-
+let navbarRef = null;
+let previosPos = 0;
+const readScroll = () => {
+  if(navbarRef){
+  if (window.scrollY > 270 && window.scrollY > previosPos) {
+    navbarRef.style.top = "-100px";
+  }
+  if(window.scrollY < previosPos){
+    navbarRef.style.top = "0px";
+  }
+  previosPos = window.scrollY;
+}
+}
+window.addEventListener('scroll', readScroll);
 function ResponsiveAppBar(props) {
+  const navbarRefInternal = React.useRef(null);
+
+  React.useEffect(() => {
+    navbarRef = navbarRefInternal.current;
+    return () => {
+      navbarRef = null;
+    };
+  }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { message, user, isAuthenticated, error } = useSelector(
@@ -321,9 +342,9 @@ function ResponsiveAppBar(props) {
     window !== undefined ? () => window().document.body : undefined;
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="sticky"  ref={navbarRefInternal} sx={{transition:'top 0.5s ease-in-out'}}className="voooppp">
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
+          <Toolbar disableGutters sx={{height:70}}>
             <Typography
               variant="h6"
               noWrap

@@ -33,10 +33,10 @@ const MentorProfile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { error, loading, user } = useSelector((state) => state.mentorDeatil);
-  const { user: mentor, isAuthenticated: menAuth } = useSelector(
+  const {loading:menLoading, user: mentor, isAuthenticated: menAuth } = useSelector(
     (state) => state.mentor
   );
-  const { user: stuUser, isAuthenticated } = useSelector(
+  const { loading : stuLoading ,user: stuUser, isAuthenticated } = useSelector(
     (state) => state.student
   );
   const {
@@ -44,7 +44,6 @@ const MentorProfile = () => {
     loading: cLoading,
     connection,
   } = useSelector((state) => state.connectionCount);
-  console.log(mentor?.user?.signedUpFor);
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getSuccessMentorConnection(id));
@@ -172,10 +171,10 @@ const MentorProfile = () => {
     navigate('/lists/mentors')
   };
   useEffect(() => {
-    if (!isAuthenticated && !menAuth) {
+    if (!isAuthenticated && !menAuth && (!menLoading && !stuLoading)) {
       setOpen(true);
     }
-  }, [open , isAuthenticated, menAuth]);
+  }, [open , isAuthenticated, menAuth, menLoading, stuLoading]);
 
   const navigate = useNavigate();
   return (
@@ -332,7 +331,7 @@ const MentorProfile = () => {
                             }}
                           >
                             &#8377;
-                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/week
+                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/day
                           </Button>
                           <Button
                             variant="contained"
@@ -360,7 +359,7 @@ const MentorProfile = () => {
                             }}
                           >
                             &#8377;
-                            {Intl.NumberFormat("en-IN").format(user?.ppm)}/month
+                            {Intl.NumberFormat("en-IN").format(user?.ppm)}/week
                           </Button>
                         </Box>
                       ) : (isAuthenticated || menAuth) && (

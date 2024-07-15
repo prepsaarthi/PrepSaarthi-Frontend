@@ -4,10 +4,10 @@ const axiosInstance = axios.create({baseURL:process.env.REACT_APP_API_URL, withC
 
 export const paymentInitator = createAsyncThunk(
     "product/checkout/payment",
-    async (amount, { rejectWithValue }) => {
+    async ({amount, duration}, { rejectWithValue }) => {
       try {
 
-        const { data } = await axiosInstance.post(`/v1/checkout`, {amount});
+        const { data } = await axiosInstance.post(`/v1/checkout`, {amount, duration});
   
         return data;
       } catch (err) {

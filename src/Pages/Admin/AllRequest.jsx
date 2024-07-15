@@ -18,6 +18,23 @@ export const Pendingreq = ({ requests }) => {
     </Box>
   );
 };
+export const UpdationReq = ({ requests }) => {
+  return (
+    <Box minHeight={"70vh"} display={"flex"} justifyContent={"center"}>
+      {requests?.length === 0 ? (
+        <h1>No Pending Requests</h1>
+      ) : (
+        <>
+          <Grid container spacing={2} justifyContent="center">
+            {requests?.map((item, i) => {
+              return <RequestCard item={item} i={i + "pr"} />;
+            })}
+          </Grid>
+        </>
+      )}
+    </Box>
+  );
+};
 
 export const ApprovedReq = ({ requests }) => {
   return (

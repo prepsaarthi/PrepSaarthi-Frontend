@@ -12,6 +12,9 @@ import { useSelector, useDispatch } from "react-redux";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import imageCompression from "browser-image-compression";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   clearError,
@@ -71,14 +74,46 @@ const EditPersonalInfo = () => {
     dispatch(updateMentorInfo(serializedData));
   };
 
+  const [prgress, setProgress] = React.useState(0);
+  const [success, setSuccess] = React.useState(false);
+  const [uploading, setuploading] = React.useState(false);
+  React.useEffect(() => {
+    if(prgress === 100)
+      {setSuccess(true)
+      setTimeout(() => {
+        
+    setProgress(0)
+      }, 800);
+      setTimeout(() => {
+        setSuccess(false)
+      }, 1200);}
+  }, [prgress ])
   const handleChange = async (event) => {
     if (event.target.name === "avatar") {
-      const files = event.target.files;
-      if (files.length === 1) {
-        const base64 = await convertBase64(files[0]);
-        setAvatar(base64);
-        setAvatarPreview(base64);
-        return;
+      setuploading(true);
+      const imageFile = event.target.files[0];
+      const options = {
+        maxSizeMB: 1.5,
+        maxWidthOrHeight: 1920,
+        onProgress: (progress) => {
+          setProgress((prevProgress) => {
+            if (progress !== prevProgress) {
+              return progress;
+            }
+            return prevProgress;
+          });
+        },
+        useWebWorker: true,
+      };
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        const base64img = await convertBase64(compressedFile);
+        setuploading(false)
+        setAvatar(base64img);
+            setAvatarPreview(base64img);
+      } catch (error) {
+        setuploading(false)
+        toast.error(error.message)
       }
     }
   };
@@ -199,29 +234,76 @@ const EditPersonalInfo = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Box display="flex" alignItems="center">
-                  <Box
-                    component="img"
-                    src={avatarPrview}
-                    width="30px"
-                    height="30px"
-                    sx={{
-                      aspectRatio: "1/1",
-                      objectFit: "cover",
-                      borderRadius: "50%",
-                    }}
-                    mr="10px"
-                  ></Box>
-                  <Button variant="contained" component="label">
-                    Upload Your Photo
-                    <input
-                      type="file"
-                      hidden
-                      name="avatar"
-                      onChange={handleChange}
-                    />
-                  </Button>
-                </Box>
+              <Box display="flex" alignItems="center">
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "50px",
+                        height: "50px",
+                      }}
+                    >
+                      <CircularProgress
+                        variant="determinate"
+                        value={prgress}
+                        sx={prgress === 0 ? {
+                          position: "absolute",
+                          top: "5.18px",
+                          left: "5px",
+                          display:"none"
+                        }:{
+                          position: "absolute",
+                          top: "5.18px",
+                          left: "5px",
+                        }}
+                      />
+                      <div class="success-animation" style={success? {display:'block'} : {display:'none'}}>
+                        <svg
+                          class="checkmark"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 52 52"
+                        >
+                          <circle
+                            class="checkmark__circle"
+                            cx="26"
+                            cy="26"
+                            r="25"
+                            fill="none"
+                          />
+                          <path
+                            class="checkmark__check"
+                            fill="none"
+                            d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                          />
+                        </svg>
+                      </div>
+                      <Box
+                        component="img"
+                        src={avatarPrview}
+                        width="30px"
+                        height="30px"
+                        sx={{
+                          aspectRatio: "1/1",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%,-50%)",
+                          borderRadius: "50%",
+                        }}
+                        mr="10px"
+                      ></Box>
+                    </Box>
+
+                    <Button variant="contained" component="label">
+                      Upload Your Photo
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        name="avatar"
+                        onChange={handleChange}
+                      />
+                    </Button>
+                  </Box>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="p">
@@ -237,6 +319,7 @@ const EditPersonalInfo = () => {
               fullWidth
               variant="contained"
               loading={updateLoading}
+              disabled={uploading}
               sx={{
                 mt: 3,
                 mb: 2,
