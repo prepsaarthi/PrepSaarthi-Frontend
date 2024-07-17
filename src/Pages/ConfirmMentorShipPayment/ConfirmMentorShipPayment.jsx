@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   paymentInitator,
-  paymentInitatorSub,
+  // paymentInitatorSub,
   reset,
 } from "../../action/paymentAction";
 import MetaData from "../../utils/Metadata";
@@ -37,9 +37,9 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
     dispatch(paymentInitator({amount, duration}));
   };
 
-  const handlePaymentSub = (totalPrice) => {
-    dispatch(paymentInitatorSub(totalPrice));
-  };
+  // const handlePaymentSub = (totalPrice) => {
+  //   dispatch(paymentInitatorSub(totalPrice));
+  // };
 
   // useEffect(() => {
   //   if (subscriptionError) {
@@ -120,7 +120,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
 
       dispatch(reset());
     }
-  }, [dispatch, loading, paymentError, order, item.id, sub.price]);
+  }, [dispatch, loading, paymentError, order, item.id, sub.price, duration]);
   return (
     <>
         <MetaData title="Confirm Your Mentorship" />

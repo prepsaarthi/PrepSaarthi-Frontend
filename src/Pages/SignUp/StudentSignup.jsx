@@ -286,6 +286,7 @@ export default function StudentSignUp() {
                 fullWidth
                 variant="contained"
                 loading={loading}
+                disabled={uploading}
                 sx={{
                   mt: 3,
                   mb: 2,

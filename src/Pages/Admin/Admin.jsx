@@ -13,14 +13,14 @@ import Dashboard from "./Dashboard";
 import Requests from "./Requests";
 // import Connection from "./Connection";
 // import { Chart as ChartJS } from "chart.js/auto";
-import { Line } from "react-chartjs-2";
+// import { Line } from "react-chartjs-2";
 import { Divider } from "@mui/material";
 import Students from "../Students/Students";
 import MentorAll from "../MentorAll/MentorAll.jsx";
 import AllAdmin from "../AllAdmin/AllAdmin.jsx";
 import Allconnction from "./Allconnction.jsx";
 import MetaData from "../../utils/Metadata.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllConnections, getAllMentors, getAllStudents } from "../../action/userAction.js";
 
 export default function AdminDashboard() {
@@ -50,68 +50,7 @@ export default function AdminDashboard() {
     sessionStorage.setItem("menu", text);
   };
 
-  const dataset = [
-    {
-      label: "Jan",
-      student: 23,
-      mentor: 14,
-    },
-    {
-      label: "Feb",
-      student: 33,
-      mentor: 17,
-    },
-    {
-      label: "March",
-      student: 13,
-      mentor: 4,
-    },
-    {
-      label: "April",
-      student: 3,
-      mentor: 0,
-    },
-    {
-      label: "May",
-      student: 2,
-      mentor: 1,
-    },
-    {
-      label: "June",
-      student: 3,
-      mentor: 0,
-    },
-    {
-      label: "July",
-      student: 0,
-      mentor: 0,
-    },
-    {
-      label: "Aug",
-      student: 0,
-      mentor: 14,
-    },
-    {
-      label: "Sept",
-      student: 0,
-      mentor: 1,
-    },
-    {
-      label: "Oct",
-      student: 3,
-      mentor: 1,
-    },
-    {
-      label: "Nov",
-      student: 3,
-      mentor: 12,
-    },
-    {
-      label: "Dec",
-      student: 33,
-      mentor: 4,
-    },
-  ];
+
   // const dataset2 = [
   //   {
   //     label: "Jan1",

@@ -3,11 +3,9 @@ import Tab from "@mui/material/Tab";
 import { Box, Tabs } from "@mui/material";
 
 import Connection from "./Connection";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllConnections } from "../../action/userAction";
+import { useSelector } from "react-redux";
 import MetaData from "../../utils/Metadata";
 const Allconnction = () => {
-  const dispatch = useDispatch();
   const [newConnection, setNewConnection] = useState([]);
   const [activeConnection, setActiveConnection] = useState([]);
   const [resolvedConnection, setResolvedConnection] = useState([]);

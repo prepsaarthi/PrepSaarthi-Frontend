@@ -1,7 +1,5 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React, { useEffect } from "react";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, clearMessage, updatePasswordMentor } from "../../action/userAction";
 import { updatePasswordStudent,clearError as stuErrorClear, clearMessage as stuClearMessage } from "../../action/studentAction";

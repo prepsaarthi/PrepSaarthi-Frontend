@@ -266,7 +266,7 @@ const EditProfileStudent = () => {
                       </div>
                       <Box
                         component="img"
-                        src={avatar}
+                        src={avatar || avatarUpdate}
                         width="30px"
                         height="30px"
                         sx={{

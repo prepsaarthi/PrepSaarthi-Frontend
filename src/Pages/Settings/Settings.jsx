@@ -3,16 +3,12 @@ import React from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
 
 const Settings = () => {
-  const navigate = useNavigate();
-  const { user, isAuthenticated } = useSelector((state) => state.mentor);
-  const { user: stuUser, isAuthenticated: stuAuth } = useSelector(
-    (state) => state.student
-  );
+  const { user } = useSelector((state) => state.mentor);
   const style = {
     position: "absolute",
     top: "50%",

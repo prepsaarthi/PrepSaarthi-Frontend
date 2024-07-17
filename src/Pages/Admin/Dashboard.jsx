@@ -15,10 +15,6 @@ import FaceIcon from "@mui/icons-material/Face";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import MetaData from "../../utils/Metadata";
 import { useSelector } from "react-redux";
-const earning = 2000;
-const students = 103;
-const mentors = 90;
-const connections = 50;
 const Dashboard = () => {
   const { users } = useSelector((state) => state.allStudents);
   const { users:mentors } = useSelector((state) => state.allMentors);
