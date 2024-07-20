@@ -238,7 +238,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         </Box>
         <Box sx={{ width: { xs: "38vmax", md: "28vmax" }, p: "1vmax" }}>
           <Typography textAlign="end">Total: {sub.price} </Typography>
-          {sub.type === "month" ? (
+          {sub.type === "weekly" ? (
             <LoadingButton
               loading={loading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
@@ -249,7 +249,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
             </LoadingButton>
           ) : (
             <LoadingButton
-              loading={sloading}
+              loading={loading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
               variant="contained"
               onClick={() => handlePayment(sub.price,'week')}

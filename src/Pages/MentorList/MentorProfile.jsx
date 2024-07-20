@@ -7,8 +7,8 @@ import { TabPanel as BaseTabPanel } from "@mui/base/TabPanel";
 import { Tab as BaseTab, tabClasses } from "@mui/base/Tab";
 import { buttonClasses } from "@mui/base/Button";
 import "./mentorprofile.css";
-import CloseIcon from '@mui/icons-material/Close';
-import LoginIcon from '@mui/icons-material/Login';
+import CloseIcon from "@mui/icons-material/Close";
+import LoginIcon from "@mui/icons-material/Login";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -33,12 +33,16 @@ const MentorProfile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { error, loading, user } = useSelector((state) => state.mentorDeatil);
-  const {loading:menLoading, user: mentor, isAuthenticated: menAuth } = useSelector(
-    (state) => state.mentor
-  );
-  const { loading : stuLoading ,user: stuUser, isAuthenticated } = useSelector(
-    (state) => state.student
-  );
+  const {
+    loading: menLoading,
+    user: mentor,
+    isAuthenticated: menAuth,
+  } = useSelector((state) => state.mentor);
+  const {
+    loading: stuLoading,
+    user: stuUser,
+    isAuthenticated,
+  } = useSelector((state) => state.student);
   const {
     error: cError,
     loading: cLoading,
@@ -157,9 +161,9 @@ const MentorProfile = () => {
     bgcolor: "background.paper",
     borderRadius: "10px",
     outline: "none",
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     p: 1,
     background: "rgba( 255, 255, 255, 0.25 )",
     boxShadow: " 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
@@ -167,56 +171,79 @@ const MentorProfile = () => {
     border: "1px solid rgba( 255, 255, 255, 0.18 )",
   };
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {setOpen(false)
-    navigate('/lists/mentors')
+  const handleClose = () => {
+    setOpen(false);
+    navigate("/lists/mentors");
   };
   useEffect(() => {
-    if (!isAuthenticated && !menAuth && (!menLoading && !stuLoading)) {
+    if (!isAuthenticated && !menAuth && !menLoading && !stuLoading) {
       setOpen(true);
     }
-  }, [open , isAuthenticated, menAuth, menLoading, stuLoading]);
+  }, [open, isAuthenticated, menAuth, menLoading, stuLoading]);
 
   const navigate = useNavigate();
   return (
     <>
-      <MetaData title={!isAuthenticated && !menAuth ? 'Please Login' : `About ${user?.name}`} />
+      <MetaData
+        title={
+          !isAuthenticated && !menAuth ? "Please Login" : `About ${user?.name}`
+        }
+      />
       {loading ? (
         <Loader />
       ) : (
         <>
+        { (loading === false && !isAuthenticated && !menAuth) && (
           <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Box sx={{
-                width:{xs:'90%', md:'40%'},
-                height:{xs:'80%', md:'60%'},
-                bgcolor:'white',
-                borderRadius:'10px',
-                display:'flex',
-                flexDirection:'column',
-                alignItems:'center',
-                justifyContent:'center',
-                position:'relative'
-              }}>
-                <Link to="/lists/mentors">
-                <CloseIcon sx={{position:'absolute',
-                  top:'10px',
-                  right:'10px'
-                }}/>
-                </Link>
-                  <Typography component='h2' variant="p" sx={{color:'grey', mb:'2vmax', textAlign:'center '}}>
-                    Please login to view mentor's details
-                  </Typography>
-                  <Link to="/login">
-                  <Button variant="contained" startIcon={<LoginIcon  sx={{fontSize:'2vmax'}}/>} sx={{width:{xs:'24vmax', md:'14vmax'}, height:{xs:'8vmax', md:'5vmax'}, fontSize:{xs:'2.1vmax', md:'1.1vmax'}}}>Login</Button>
-                  </Link>
-              </Box>
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Box
+              sx={{
+                width: { xs: "90%", md: "40%" },
+                height: { xs: "80%", md: "60%" },
+                bgcolor: "white",
+                borderRadius: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              <Link to="/lists/mentors">
+                <CloseIcon
+                  sx={{ position: "absolute", top: "10px", right: "10px" }}
+                />
+              </Link>
+              <Typography
+                component="h2"
+                variant="p"
+                sx={{ color: "grey", mb: "2vmax", textAlign: "center " }}
+              >
+                Please login to view mentor's details
+              </Typography>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  startIcon={<LoginIcon sx={{ fontSize: "2vmax" }} />}
+                  sx={{
+                    width: { xs: "24vmax", md: "14vmax" },
+                    height: { xs: "8vmax", md: "5vmax" },
+                    fontSize: { xs: "2.1vmax", md: "1.1vmax" },
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
             </Box>
-          </Modal>
+          </Box>
+        </Modal>
+        )}
+          
           {showPage ? (
             <ConfirmMentorShipPayment
               item={user}
@@ -280,7 +307,11 @@ const MentorProfile = () => {
                   >
                     <Box
                       component="img"
-                      src={isAuthenticated || menAuth ? user?.avatar?.public_URI : '/images/profile.png'}
+                      src={
+                        isAuthenticated || menAuth
+                          ? user?.avatar?.public_URI
+                          : "/images/profile.png"
+                      }
                       sx={{
                         width: 130,
                         aspectRatio: "1/1",
@@ -307,36 +338,9 @@ const MentorProfile = () => {
                       <Typography component="h1" variant="p">
                         {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
-                      { (isAuthenticated || menAuth) && !stuUser?.user?.activeAssignedMentors ? (
+                      {(isAuthenticated || menAuth) &&
+                      !stuUser?.user?.activeAssignedMentors ? (
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
-                             <Button
-                            variant="contained"
-                            sx={{
-                              width: { xs: "18vmax", md: "12vmax" },
-                              mr: "1vmax",
-                              mt: 0,
-                            }}
-                            onClick={() => {
-                              if (isAuthenticated) {
-                                setShowPage(true);
-                                setSubscription({
-                                  type: "weekly",
-                                  api: "xyz",
-                                  price: user?.ppm,
-                                });
-                              } else if (
-                                mentor?.user?.signedUpFor === "mentor"
-                              ) {
-                                toast.error("Mentors Can't Buy Mentorship");
-                              } else {
-                                toast(" Login To Buy Your Mentorship");
-                                navigate("/login");
-                              }
-                            }}
-                          >
-                            &#8377;
-                            {Intl.NumberFormat("en-IN").format(user?.ppm)}/week
-                          </Button>
                           <Button
                             variant="outlined"
                             sx={{ width: { xs: "18vmax", md: "12vmax" } }}
@@ -359,115 +363,149 @@ const MentorProfile = () => {
                             }}
                           >
                             &#8377;
-                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/month
+                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/week
                           </Button>
-                       
+                          <Button
+                            variant="contained"
+                            sx={{
+                              width: { xs: "18vmax", md: "12vmax" },
+                              ml: "1vmax",
+                              mt: 0,
+                            }}
+                            onClick={() => {
+                              if (isAuthenticated) {
+                                setShowPage(true);
+                                setSubscription({
+                                  type: "weekly",
+                                  api: "xyz",
+                                  price: user?.ppm,
+                                });
+                              } else if (
+                                mentor?.user?.signedUpFor === "mentor"
+                              ) {
+                                toast.error("Mentors Can't Buy Mentorship");
+                              } else {
+                                toast(" Login To Buy Your Mentorship");
+                                navigate("/login");
+                              }
+                            }}
+                          >
+                            &#8377;
+                            {Intl.NumberFormat("en-IN").format(user?.ppm)}/month
+                          </Button>
                         </Box>
-                      ) : (isAuthenticated || menAuth) && (
-                        <Typography
-                          variant="p"
-                          textAlign={"center"}
-                          color={"green"}
-                        >
-                          You already have an active mentorship{" "}
-                        </Typography>
+                      ) : (
+                        (isAuthenticated || menAuth) && (
+                          <Typography
+                            variant="p"
+                            textAlign={"center"}
+                            color={"green"}
+                          >
+                            You already have an active mentorship{" "}
+                          </Typography>
+                        )
                       )}
                     </Box>
-                   {(isAuthenticated || menAuth) ? (
-                    <>
-                     <Box
-                      width="100%"
-                      sx={{ p: { xs: "1vmax", md: "0 25vmax" } }}
-                    >
-                      <Box
-                        display="flex"
-                        sx={{
-                          justifyContent: { xs: "center", md: "flex-start" },
-                        }}
-                      >
-                        <Typography
-                          textAlign={"center"}
-                          component="span"
-                          variant="p"
-                          mr="1vmax"
+                    {isAuthenticated || menAuth ? (
+                      <>
+                        <Box
+                          width="100%"
+                          sx={{ p: { xs: "1vmax", md: "0 25vmax" } }}
                         >
-                          <strong>
-                            {cLoading === false && connection?.count}{" "}
-                          </strong>
-                          Mentee
-                        </Typography>
-                        <Typography
-                          textAlign={"center"}
-                          component="span"
-                          variant="p"
-                          mr="1vmax"
-                        >
-                          <strong>{user?.ratings} </strong>
-                          Ratings
-                        </Typography>
-                        <Typography
-                          textAlign={"center"}
-                          component="span"
-                          variant="p"
-                          mr="1vmax"
-                        >
-                          <strong>{user?.yearOfStudy} </strong>
-                          Present Year
-                        </Typography>
-                      </Box>
-                      <Box mt={"2vmax"}>
-                        <Typography
-                          component="p"
-                          variant="p"
+                          <Box
+                            display="flex"
+                            sx={{
+                              justifyContent: {
+                                xs: "center",
+                                md: "flex-start",
+                              },
+                            }}
+                          >
+                            <Typography
+                              textAlign={"center"}
+                              component="span"
+                              variant="p"
+                              mr="1vmax"
+                            >
+                              <strong>
+                                {cLoading === false && connection?.count}{" "}
+                              </strong>
+                              Mentee
+                            </Typography>
+                            <Typography
+                              textAlign={"center"}
+                              component="span"
+                              variant="p"
+                              mr="1vmax"
+                            >
+                              <strong>{user?.ratings} </strong>
+                              Ratings
+                            </Typography>
+                            <Typography
+                              textAlign={"center"}
+                              component="span"
+                              variant="p"
+                              mr="1vmax"
+                            >
+                              <strong>{user?.yearOfStudy} </strong>
+                              Present Year
+                            </Typography>
+                          </Box>
+                          <Box mt={"2vmax"}>
+                            <Typography
+                              component="p"
+                              variant="p"
+                              sx={{
+                                lineHeight: 1.8,
+                                letterSpacing: 0.5,
+                                fontSize: { xs: "2vmax", md: "1.5vmax" },
+                                fontWeight: 300,
+                              }}
+                            >
+                              {user?.about}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
                           sx={{
-                            lineHeight: 1.8,
-                            letterSpacing: 0.5,
-                            fontSize: { xs: "2vmax", md: "1.5vmax" },
-                            fontWeight: 300,
+                            maxWidth: { xs: "100vw" },
+                            p: { xs: "1vmax", md: "2vmax 10vmax" },
+                            mt: { xs: "3vmax", md: "5vmax" },
                           }}
                         >
-                          {user?.about}
+                          <Tabs defaultValue={0}>
+                            <TabsList
+                              sx={{ minWidth: "10px", width: { xs: "100%" } }}
+                            >
+                              <Tab value={0}>Mentor Video</Tab>
+                              <Tab value={1}>Authenticity</Tab>
+                              <Tab value={2}>Ratings</Tab>
+                            </TabsList>
+                            <TabPanel value={0}>
+                              <MentorIntro />
+                            </TabPanel>
+                            <TabPanel value={1}>
+                              <Authenticity
+                                mentorName={user?.name}
+                                idcard={user?.idCard}
+                              />
+                            </TabPanel>
+                            <TabPanel value={2}>
+                              <RatingMentor
+                                mentorId={user?.id}
+                                student={stuUser?.user}
+                              />
+                            </TabPanel>
+                          </Tabs>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Typography component="h2">
+                          Please Login To View Mentor Details
                         </Typography>
-                      </Box>
-                    </Box>
-                    <Box
-                      sx={{
-                        maxWidth: { xs: "100vw" },
-                        p: { xs: "1vmax", md: "2vmax 10vmax" },
-                        mt: { xs: "3vmax", md: "5vmax" },
-                      }}
-                    >
-                      <Tabs defaultValue={0}>
-                        <TabsList
-                          sx={{ minWidth: "10px", width: { xs: "100%" } }}
-                        >
-                          <Tab value={0}>Mentor Video</Tab>
-                          <Tab value={1}>Authenticity</Tab>
-                          <Tab value={2}>Ratings</Tab>
-                        </TabsList>
-                        <TabPanel value={0}>
-                          <MentorIntro />
-                        </TabPanel>
-                        <TabPanel value={1}>
-                          <Authenticity
-                            mentorName={user?.name}
-                            idcard={user?.idCard}
-                          />
-                        </TabPanel>
-                        <TabPanel value={2}>
-                          <RatingMentor
-                            mentorId={user?.id}
-                            student={stuUser?.user}
-                          />
-                        </TabPanel>
-                      </Tabs>
-                    </Box>
-                    </>
-                   ):(
-                    <>
-                    <Typography component='h2'>Please Login To View Mentor Details</Typography>
-                    </>
-                   )}
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Box>
