@@ -5,173 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { getMentorRequest } from "../../action/metorListAction";
 import Loader from "../../Components/Loader/Loader";
 import MetaData from "../../utils/Metadata";
-const requests = [
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor1.png",
-    mentorshipStatus: "rejected",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor2.png",
-    mentorshipStatus: "approved",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor1.png",
-    mentorshipStatus: "pending",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor2.png",
-    mentorshipStatus: "rejected",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor2.png",
-    mentorshipStatus: "approved",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor1.png",
-    mentorshipStatus: "pending",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor2.png",
-    mentorshipStatus: "rejected",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor1.png",
-    mentorshipStatus: "approved",
-  },
-  {
-    name: "Dinesh Raj",
-    college: "IIT BHU",
-    exam: {
-      name: "JEE ADV",
-      rank: 5003,
-    },
-    branch: "CSE",
-    rating: 0,
-    mentee: 0,
-    gradYr: 3,
-    about: "",
-    reviews: [],
-    img: "/images/mentor1.png",
-    mentorshipStatus: "pending",
-  },
-];
+
 
 const Requests = () => {
   const dispatch = useDispatch();
   const { loading, user } = useSelector((state) => state.requestList);
-  // eslint-disable-next-line
-  let approved = 0;
-  // eslint-disable-next-line
-  let pending = 0;
-  // eslint-disable-next-line
-  let rejected = 0;
-  requests.forEach((item) => {
-    if (item.mentorshipStatus === "approved") {
-      approved++;
-    }
-    if (item.mentorshipStatus === "pending") {
-      pending++;
-    }
-    if (item.mentorshipStatus === "rejected") {
-      rejected++; 
-    }
-  });
+
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -245,10 +84,10 @@ const Requests = () => {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <Pendingreq requests={user?.usersUpdation} />
+            <Pendingreq requests={user?.usersPending} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <UpdationReq requests={user?.usersPending} />
+            <UpdationReq requests={user?.usersUpdation} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
             <ApprovedReq requests={user?.userApproved} />
