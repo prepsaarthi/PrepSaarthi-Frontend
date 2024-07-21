@@ -247,7 +247,6 @@ export default function AdminDashboard() {
     }
   }, [visits?.visits]);
 
-  console.log(sums);
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List sx={{ display: "flex", flexDirection: "column" }}>

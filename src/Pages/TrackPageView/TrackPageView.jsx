@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 function TrackPageView() {
   const ref = new URLSearchParams(useLocation().search).get("ref");
 
-  console.log(ref);
   useEffect(() => {
     const sendPageViewCount = async () => {
       try {
