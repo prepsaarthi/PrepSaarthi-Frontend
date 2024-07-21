@@ -238,12 +238,12 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         </Box>
         <Box sx={{ width: { xs: "38vmax", md: "28vmax" }, p: "1vmax" }}>
           <Typography textAlign="end">Total: {sub.price} </Typography>
-          {sub.type === "daily" ? (
+          {sub.type === "month" ? (
             <LoadingButton
               loading={loading}
               sx={{ width: { xs: "36vmax", md: "26vmax" }, p: "1vmax" }}
               variant="contained"
-              onClick={() => handlePayment(sub.price,'day')}
+              onClick={() => handlePayment(sub.price,'month')}
             >
               Pay {sub.price}
             </LoadingButton>

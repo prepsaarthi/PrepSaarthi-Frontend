@@ -86,7 +86,6 @@ export default function MentorSignUp() {
         maxSizeMB: 1.5,
         maxWidthOrHeight: 1920,
         onProgress: (progress) => {
-          console.log(`Compression progress: ${progress}%`);
           setProgress((prevProgress) => {
             if (progress !== prevProgress) {
               return progress;

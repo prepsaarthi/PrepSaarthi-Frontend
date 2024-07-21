@@ -168,3 +168,11 @@
     font-size: 2vmax !important;
   }
 }
+@media (max-width: 490px) {
+  .toggleHeight {
+    height: 27vmax;
+  }
+  .toggleHeightI {
+    height: 41vmax;
+  }
+}

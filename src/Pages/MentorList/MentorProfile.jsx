@@ -309,35 +309,11 @@ const MentorProfile = () => {
                       </Typography>
                       { (isAuthenticated || menAuth) && !stuUser?.user?.activeAssignedMentors ? (
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
-                          <Button
-                            variant="outlined"
-                            sx={{ width: { xs: "18vmax", md: "12vmax" } }}
-                            onClick={() => {
-                              if (isAuthenticated) {
-                                setShowPage(true);
-                                setSubscription({
-                                  type: "daily",
-                                  api: "xyz",
-                                  price: user?.ppd,
-                                });
-                              } else if (
-                                mentor?.user?.signedUpFor === "mentor"
-                              ) {
-                                toast.error("Mentors Can't Buy Mentorship");
-                              } else {
-                                toast(" Login To Buy Your Mentorship");
-                                navigate("/login");
-                              }
-                            }}
-                          >
-                            &#8377;
-                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/day
-                          </Button>
-                          <Button
+                             <Button
                             variant="contained"
                             sx={{
                               width: { xs: "18vmax", md: "12vmax" },
-                              ml: "1vmax",
+                              mr: "1vmax",
                               mt: 0,
                             }}
                             onClick={() => {
@@ -361,6 +337,31 @@ const MentorProfile = () => {
                             &#8377;
                             {Intl.NumberFormat("en-IN").format(user?.ppm)}/week
                           </Button>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: { xs: "18vmax", md: "12vmax" } }}
+                            onClick={() => {
+                              if (isAuthenticated) {
+                                setShowPage(true);
+                                setSubscription({
+                                  type: "daily",
+                                  api: "xyz",
+                                  price: user?.ppd,
+                                });
+                              } else if (
+                                mentor?.user?.signedUpFor === "mentor"
+                              ) {
+                                toast.error("Mentors Can't Buy Mentorship");
+                              } else {
+                                toast(" Login To Buy Your Mentorship");
+                                navigate("/login");
+                              }
+                            }}
+                          >
+                            &#8377;
+                            {Intl.NumberFormat("en-IN").format(user?.ppd)}/month
+                          </Button>
+                       
                         </Box>
                       ) : (isAuthenticated || menAuth) && (
                         <Typography

@@ -86,7 +86,6 @@ export default function StudentSignUp() {
         maxSizeMB: 1.5,
         maxWidthOrHeight: 1920,
         onProgress: (progress) => {
-          console.log(`Compression progress: ${progress}%`);
           setProgress((prevProgress) => {
             if (progress !== prevProgress) {
               return progress;
@@ -99,7 +98,6 @@ export default function StudentSignUp() {
       try {
         const compressedFile = await imageCompression(imageFile, options);
         const base64img = await convertBase64(compressedFile);
-        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`, base64img); 
         setuploading(false)
         setAvatar(base64img);
             setAvatarPreview(base64img);

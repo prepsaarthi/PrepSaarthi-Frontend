@@ -7,6 +7,7 @@ import {
   assignConnectionReducer,
   changePasswordReducer,
   deleteUserReducer,
+  getVisitReducer,
   mentorDetailsReducer,
   mentorSignup,
   mentoringStatus,
@@ -69,7 +70,8 @@ const store = configureStore({
     passwordChange:changePasswordReducer,
     status:mentoringStatus,
     mentorPassword:updateMentorPassword,
-    studentPassword:updateStudentPassword
+    studentPassword:updateStudentPassword,
+    visitReducer:getVisitReducer
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

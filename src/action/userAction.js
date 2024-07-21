@@ -401,6 +401,23 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+// update mentoring status 
+export const getVisitsData = createAsyncThunk(
+  "all/visiting/data",
+  async ({startDate,endDate}, { rejectWithValue }) => {
+    console.log({startDate, endDate})
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.get(
+        `/v1/api/get/date?startDate=${startDate}&endDate=${endDate}`,
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 export const clearError = createAsyncThunk("user/clearError", async () => {
   return null;
 });

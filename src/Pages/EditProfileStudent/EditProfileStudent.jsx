@@ -65,7 +65,6 @@ const EditProfileStudent = () => {
       studentInformation.forEach((value, key) => {
         serializedData[key] = value;
       });
-      console.log(serializedData)
       dispatch(updateStudentFinalInfo(serializedData));
     };
    

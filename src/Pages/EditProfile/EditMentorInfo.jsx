@@ -127,7 +127,6 @@ const EditMentorInfo = () => {
   const handleChange = async (event) => {
     if (event.target.name === "idcard") {
       setuploading(true);
-      console.log('rr')
       const imageFile = event.target.files[0];
       const options = {
         maxSizeMB: 1.5,

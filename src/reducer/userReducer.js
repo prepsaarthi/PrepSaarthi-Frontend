@@ -12,6 +12,7 @@ import {
   getAllMentors,
   getAllStudents,
   getUserDetails,
+  getVisitsData,
   loadUser,
   loginUser,
   logoutUser,
@@ -943,6 +944,35 @@ export const resetPasswordReducer = createReducer(initalState, (builder) => {
       return {
         ...state,
         message: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const getVisitReducer = createReducer(initalState, (builder) => {
+  builder
+    .addCase(getVisitsData.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getVisitsData.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        visits: action.payload,
+      };
+    })
+    .addCase(getVisitsData.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {

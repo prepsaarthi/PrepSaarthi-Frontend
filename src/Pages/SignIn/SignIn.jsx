@@ -47,7 +47,6 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    console.log("LOGG")
     if (error) {
       toast.error(error.message);
       dispatch(clearError());

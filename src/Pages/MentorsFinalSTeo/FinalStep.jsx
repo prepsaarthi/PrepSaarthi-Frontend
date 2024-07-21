@@ -441,6 +441,7 @@ const FinalStep = () => {
                         required
                         fullWidth
                         id="pricem"
+                        value={mentorInfo.pricem <= 99999}
                         label="Charges Per Week"
                         name="pricem"
                         onChange={handleChange}
@@ -451,7 +452,8 @@ const FinalStep = () => {
                         required
                         fullWidth
                         id="priced"
-                        label="Charges Per Day"
+                        label="Charges Per Month"
+                        value={mentorInfo.priced <= 99999}
                         name="priced"
                         onChange={handleChange}
                       />
@@ -477,7 +479,7 @@ const FinalStep = () => {
                           position: "absolute",
                           top: "5.18px",
                           left: "5px",
-                        }}
+                        }} 
                       />
                       <div class="success-animation" style={success? {display:'block'} : {display:'none'}}>
                         <svg

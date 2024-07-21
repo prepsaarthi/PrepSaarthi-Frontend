@@ -18,7 +18,6 @@ const MentorAbout = ({ id }) => {
   const { connection } = useSelector((state) => state.connectionCount);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(id)
     dispatch(getUserDetails(id));
     dispatch(getSuccessMentorConnection(id));
   }, [dispatch, id]);
@@ -166,7 +165,6 @@ box-shadow: 0px 4px 30px ${
           &#8377;
           {Intl.NumberFormat("en-IN").format(user?.ppm)}/week
         </Button>
-        {console.log(user)}
         {(user?.isUpd === 'yes'&& user?.ppmO !== user?.ppm) && <Box  component='span' sx={{fontSize:'1.5vmax', ml:'1vmax'}}>Old Price &#8377;{Intl.NumberFormat("en-IN").format(user?.ppmO)}/W</Box>} 
           </Box>
         <p><strong>{user?.name}</strong></p>
