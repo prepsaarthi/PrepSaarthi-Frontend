@@ -441,7 +441,6 @@ const FinalStep = () => {
                         required
                         fullWidth
                         id="pricem"
-                        value={mentorInfo.pricem <= 99999}
                         label="Charges Per Week"
                         name="pricem"
                         onChange={handleChange}
@@ -453,7 +452,6 @@ const FinalStep = () => {
                         fullWidth
                         id="priced"
                         label="Charges Per Month"
-                        value={mentorInfo.priced <= 99999}
                         name="priced"
                         onChange={handleChange}
                       />
