@@ -338,7 +338,7 @@ const MentorProfile = () => {
                       <Typography component="h1" variant="p">
                         {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
-                      <Typography component="p" variant="p" sx={{fontSize:{xs:'1.8vmax', md:'2vmax'},margin:'12px auto', fontWeight:600, fontStyle:'italic'}}>
+                      <Typography component="p" variant="p" sx={{fontSize:{xs:'1.8vmax', md:'2vmax'},margin:'12px auto', fontWeight:700, fontStyle:'italic', display:{xs:'block', md:'none'}}}>
                       &#x275D; {(isAuthenticated || menAuth) && (user?.desc)?.slice(0,35)} &#x275E;
                       </Typography>
                       {(isAuthenticated || menAuth) &&
@@ -455,6 +455,9 @@ const MentorProfile = () => {
                             </Typography>
                           </Box>
                           <Box mt={"2vmax"}>
+                          <Typography component="p" variant="p" sx={{fontSize:{ md:'1.2vmax'},margin:'12px auto', fontWeight:800, fontStyle:'italic', display:{xs:'none', md:'block'}}}>
+                      &#x275D; {(isAuthenticated || menAuth) && (user?.desc)?.slice(0,35)} &#x275E;
+                      </Typography>
                             <Typography
                               component="p"
                               variant="p"

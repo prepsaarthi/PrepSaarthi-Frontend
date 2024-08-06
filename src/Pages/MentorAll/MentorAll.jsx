@@ -193,10 +193,10 @@ const MentorAll = () => {
                         }}
                       >
                         Mentoring Status:-
-                        {item.mentoringStatus ? (
+                        {item.mentoringStatus === 'active'? (
                           <span style={{ color: "green" }}>Active</span>
                         ) : (
-                          <span style={{ color: "Yellow" }}>InActive</span>
+                          <span style={{ color: "red" }}>InActive</span>
                         )}
                       </Typography>
                     </CardContent>
@@ -348,10 +348,10 @@ const MentorAll = () => {
                         }}
                       >
                         Mentoring Status:-
-                        {item.mentoringStatus ? (
+                        {item.mentoringStatus === 'active'? (
                           <span style={{ color: "green" }}>Active</span>
                         ) : (
-                          <span style={{ color: "Yellow" }}>InActive</span>
+                          <span style={{ color: "red" }}>InActive</span>
                         )}
                       </Typography>
                     </CardContent>
