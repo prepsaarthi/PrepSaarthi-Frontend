@@ -67,7 +67,7 @@ const MentorList = () => {
   };
   return (
     <>
-        <MetaData title="All Mentors" />
+      <MetaData title="All Mentors" />
 
       {loading ? (
         <Loader />
@@ -143,117 +143,151 @@ const MentorList = () => {
                 New Mentors
               </Button>
             </Box>
-            <Box minHeight={'100vh'} sx={{display:'flex'}}>
-            <Grid container maxWidth={"90vw"} m="0 auto">
-              {loading === false ? (user?.length === 0 ? (<>
-              <Box sx={{height:'100%',width:'100vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <Typography component={'span'} fontWeight={600}  fontSize="2vmax" margin='0 auto' variant="p">No Mentors added Yet</Typography>
-              </Box>
-              </> ): (<>
-              { user?.map((item, i) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    lg={4}
-                    key={i}
-                    width={"20vw"}
-                    p="1vmax"
-                  >
-                    <Card
-                      sx={{
-                        display: "flex",
-                        width: { xs: "100%", md: "95%" },
-                        borderRadius: "1vmax",
-                        boxShadow: "-1px 1px 14px -5px rgba(0,0,0,0.4)",
-                        alignItems: "center",
-                        margin: "0 auto",
-                      }}
-                      component={Link}
-                      to={`/mentors/${item._id}`}
-                    >
-                      <CardMedia
-                        component="img"
+            <Box minHeight={"100vh"} sx={{ display: "flex" }}>
+              <Grid container maxWidth={"90vw"} m="0 auto">
+                {loading === false ? (
+                  user?.length === 0 ? (
+                    <>
+                      <Box
                         sx={{
-                          width: { xs: 100, sm: 120, md: 150 },
-                          height: { xs: 100, sm: 120, md: 150 },
-                          p: "1vmax",
-                          aspectRatio: "1/1",
-                          objectFit: "cover",
-                          borderRadius: "50%",
+                          height: "100%",
+                          width: "100vw",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                        image={item.avatar.public_URI}
-                        alt={item.name}
-                      />
-                      <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <CardContent>
-                          <Typography
-                            component="p"
-                            variant="p"
-                            sx={{
-                              fontSize: { xs: "2.2vmax", md: "1.2vmax" },
-                              fontWeight: 600,
-                            }}
-                          >
-                            {item.name}
-                          </Typography>
-                          <Typography
-                            variant="p"
-                            color="text.secondary"
-                            component="p"
-                            sx={{
-                              fontSize: { xs: "1.8vmax", md: "1vmax" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            {(item.collegeName).toUpperCase()}({(item.branch).toUpperCase()})
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            component="div"
-                            sx={{
-                              fontSize: { xs: "1.8vmax", md: "1vmax" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item.exam?.name === "jeemains" && (
-                              <span>JEE MAINS({item.exam?.rank})</span>
-                            )}
-                            {item.exam?.name === "jeeadv" && (
-                              <span>JEE ADV({item.exam?.rank})</span>
-                            )}
-                            {item.exam?.name === "bitsat" && (
-                              <span>BITSAT({item.exam?.rank})</span>
-                            )}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            component="div"
-                            sx={{
-                              fontSize: { xs: "1.8vmax", md: "1vmax" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            Current Year : {item.yearOfStudy}
-                          </Typography>
-                          <Rating
-                            value={item?.ratings}
-                            size={window.innerWidth < 600 ? "small" : "medium"}
-                            readOnly
-                            precision={0.5}
-                          />
-                        </CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            pl: 1,
-                            pb: 1,
-                          }}
+                      >
+                        <Typography
+                          component={"span"}
+                          fontWeight={600}
+                          fontSize="2vmax"
+                          margin="0 auto"
+                          variant="p"
                         >
-                          {/* <IconButton aria-label="previous">
+                          No Mentors added Yet
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      {user?.map((item, i) => (
+                        <Grid
+                          item
+                          xs={12}
+                          sm={6}
+                          lg={4}
+                          key={i}
+                          width={"20vw"}
+                          p="1vmax"
+                        >
+                          <Card
+                            sx={{
+                              display: "flex",
+                              width: { xs: "100%", md: "95%" },
+                              borderRadius: "1vmax",
+                              boxShadow: "-1px 1px 14px -5px rgba(0,0,0,0.4)",
+                              alignItems: "center",
+                              margin: "0 auto",
+                            }}
+                            component={Link}
+                            to={`/mentors/${item._id}`}
+                          >
+                            <CardMedia
+                              component="img"
+                              sx={{
+                                width: { xs: 100, sm: 120, md: 150 },
+                                height: { xs: 100, sm: 120, md: 150 },
+                                p: "1vmax",
+                                aspectRatio: "1/1",
+                                objectFit: "cover",
+                                borderRadius: "50%",
+                              }}
+                              image={item.avatar.public_URI}
+                              alt={item.name}
+                            />
+                            <Box
+                              sx={{ display: "flex", flexDirection: "column" }}
+                            >
+                              <CardContent>
+                                <Typography
+                                  component="p"
+                                  variant="p"
+                                  sx={{
+                                    fontSize: { xs: "2.2vmax", md: "1.2vmax" },
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  {item.name}
+                                </Typography>
+                                <Typography
+                                  variant="p"
+                                  color="text.secondary"
+                                  component="p"
+                                  sx={{
+                                    fontSize: { xs: "1.8vmax", md: "1vmax" },
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {item.collegeName
+                                    .toUpperCase()
+                                    .replace(
+                                      "INDIAN INSTITUTE OF TECHNOLOGY",
+                                      "IIT"
+                                    )
+                                    .replace(
+                                      "NATIONAL INSTITUTE OF TECHNOLOGY",
+                                      "NIT"
+                                    )}
+                                  ({item.branch.toUpperCase()})
+                                </Typography>
+                                <Typography
+                                  variant="subtitle1"
+                                  color="text.secondary"
+                                  component="div"
+                                  sx={{
+                                    fontSize: { xs: "1.8vmax", md: "1vmax" },
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {item.exam?.name === "jeemains" && (
+                                    <span>JEE MAINS({item.exam?.rank})</span>
+                                  )}
+                                  {item.exam?.name === "jeeadv" && (
+                                    <span>JEE ADV({item.exam?.rank})</span>
+                                  )}
+                                  {item.exam?.name === "bitsat" && (
+                                    <span>BITSAT({item.exam?.rank})</span>
+                                  )}
+                                </Typography>
+                                <Typography
+                                  variant="subtitle1"
+                                  color="text.secondary"
+                                  component="div"
+                                  sx={{
+                                    fontSize: { xs: "1.8vmax", md: "1vmax" },
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  Current Year : {item.yearOfStudy}
+                                </Typography>
+                                <Rating
+                                  value={item?.ratings}
+                                  size={
+                                    window.innerWidth < 600 ? "small" : "medium"
+                                  }
+                                  readOnly
+                                  precision={0.5}
+                                />
+                              </CardContent>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  pl: 1,
+                                  pb: 1,
+                                }}
+                              >
+                                {/* <IconButton aria-label="previous">
                  {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
                </IconButton>
                <IconButton aria-label="play/pause">
@@ -262,14 +296,17 @@ const MentorList = () => {
                <IconButton aria-label="next">
                  {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
                </IconButton> */}
-                        </Box>
-                      </Box>
-                    </Card>
-                  </Grid>
-                ))}
-              </>)):(<Loader />)
-                }
-            </Grid>
+                              </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </>
+                  )
+                ) : (
+                  <Loader />
+                )}
+              </Grid>
             </Box>
           </>
         )

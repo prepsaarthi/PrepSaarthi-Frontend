@@ -380,10 +380,11 @@ const EditMentorInfo = () => {
                       required
                       fullWidth
                       id="disc-you"
-                      value={desc}
-                      label="Quote"
+                      value={desc.slice(0,35)}
+                      label={`Quote (${35 - desc.slice(0,35).length})`}
+                      error={desc.length >= 35}
                       name="descp"
-                      inputProps={{ maxLength: 40 }} 
+                      inputProps={{ maxLength: 35 }} 
                       onChange={(e) => setDesc(e.target.value)}
                     />
                   </Grid>
@@ -392,9 +393,11 @@ const EditMentorInfo = () => {
                       required
                       fullWidth
                       id="about-you"
-                      label="About You"
+                      label={`About You (${400-about.length})`}
+                      error={about.length >= 400}
                       name="about"
-                      value={about}
+                      value={about.slice(0,400)}
+                      inputProps={{maxLength:400}}
                       onChange={(e) => setAbout(e.target.value)}
                     />
                   </Grid>

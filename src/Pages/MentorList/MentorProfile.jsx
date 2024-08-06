@@ -468,7 +468,7 @@ const MentorProfile = () => {
                                 fontWeight: 300,
                               }}
                             >
-                              {user?.about}
+                              {(user?.about).slice(0,400)}
                             </Typography>
                           </Box>
                         </Box>
