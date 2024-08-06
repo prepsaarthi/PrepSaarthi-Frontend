@@ -228,7 +228,7 @@ const MentorList = () => {
                                     fontWeight: 500,
                                   }}
                                 >
-                                  {item.collegeName
+                                  <span>{item.collegeName
                                     .toUpperCase()
                                     .replace(
                                       "INDIAN INSTITUTE OF TECHNOLOGY",
@@ -237,8 +237,9 @@ const MentorList = () => {
                                     .replace(
                                       "NATIONAL INSTITUTE OF TECHNOLOGY",
                                       "NIT"
-                                    )}
-                                  ({item.branch.toUpperCase()})
+                                    )}</span>
+                                     
+                                  <span>({item.branch.toUpperCase()})</span>
                                 </Typography>
                                 <Typography
                                   variant="subtitle1"
