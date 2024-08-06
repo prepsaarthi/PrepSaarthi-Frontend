@@ -156,7 +156,7 @@ box-shadow: 0px 4px 30px ${
       <Box sx={{ position: "relative", height: { xs: "35vh", md: "45vh" } }}>
         <Box
           component="img"
-          src="https://i.ibb.co/FzMZGND/348231807-249642317657529-6749770682651908866-n.jpg"
+          src={user?.coverImg?.public_URI}
           sx={{
             width: "100%",
             height: "100%",

@@ -380,8 +380,8 @@ const EditMentorInfo = () => {
                       required
                       fullWidth
                       id="disc-you"
-                      value={desc.slice(0,35)}
-                      label={`Quote (${35 - desc.slice(0,35).length})`}
+                      value={desc?.slice(0,35)}
+                      label={`Quote (${35 - desc?.slice(0,35).length})`}
                       error={desc.length >= 35}
                       name="descp"
                       inputProps={{ maxLength: 35 }} 
@@ -396,7 +396,7 @@ const EditMentorInfo = () => {
                       label={`About You (${400-about.length})`}
                       error={about.length >= 400}
                       name="about"
-                      value={about.slice(0,400)}
+                      value={about?.slice(0,400)}
                       inputProps={{maxLength:400}}
                       onChange={(e) => setAbout(e.target.value)}
                     />

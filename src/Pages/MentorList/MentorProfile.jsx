@@ -253,9 +253,10 @@ const MentorProfile = () => {
           ) : (
             <Box>
               <Box height="45vh" maxWidth="100vw">
+                {console.log}
                 <Box
                   component="img"
-                  src="https://i.ibb.co/FzMZGND/348231807-249642317657529-6749770682651908866-n.jpg"
+                  src={user?.coverImg?.public_URI}
                   sx={{
                     width: "100%",
                     height: "100%",
@@ -468,7 +469,7 @@ const MentorProfile = () => {
                                 fontWeight: 300,
                               }}
                             >
-                              {(user?.about).slice(0,400)}
+                              {(user?.about)?.slice(0,400)}
                             </Typography>
                           </Box>
                         </Box>
