@@ -1,16 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
   allAdminReducer,
+  allConnectionReducerHead,
   allConnectionReducerMentor,
+  allMentorHead,
   allMentorReducer,
   allStudentsReducer,
   assignConnectionReducer,
+  changeCoverReducer,
   changePasswordReducer,
   deleteUserReducer,
   getVisitReducer,
+  grantStatusHeadMentor,
   mentorDetailsReducer,
   mentorSignup,
   mentoringStatus,
+  popUpReducer,
   reSendOTPReducer,
   resetPasswordReducer,
   resoveConnectionReducer,
@@ -29,6 +34,7 @@ import {
 } from "./reducer/mentorListReducer";
 import {
   allStuMentorshipReducer,
+  changeCoverReducerStu,
   deleteReviewReducer,
   newReviewReducer,
   reviewReducer,
@@ -53,6 +59,7 @@ const store = configureStore({
     allAdmin: allAdminReducer,
     deleteUser: deleteUserReducer,
     connections: allConnectionReducer,
+    connectionsHead: allConnectionReducerHead,
     connectionAssign: assignConnectionReducer,
     connectionResolve: resoveConnectionReducer,
     connectionCount: allSuccessConnectionReducer,
@@ -71,7 +78,12 @@ const store = configureStore({
     status:mentoringStatus,
     mentorPassword:updateMentorPassword,
     studentPassword:updateStudentPassword,
-    visitReducer:getVisitReducer
+    visitReducer:getVisitReducer,
+    headMentor:allMentorHead,
+    grantStatus:grantStatusHeadMentor,
+    changeCoverImage:changeCoverReducer,
+    changeCoverImageStu:changeCoverReducerStu,
+    popUp:popUpReducer
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

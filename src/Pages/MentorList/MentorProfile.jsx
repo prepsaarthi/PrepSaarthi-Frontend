@@ -328,7 +328,7 @@ const MentorProfile = () => {
                       sx={{
                         width: "100%",
                         mt: "60px",
-                        p: { xs: "1vmax 10vmax", md: "5vmax 25vmax" },
+                        p: { xs: "1vmax 2vmax", md: "5vmax 25vmax" },
                         display: "flex",
                         flexDirection: { xs: "column", md: "row" },
                         justifyContent: "space-between",
@@ -338,8 +338,11 @@ const MentorProfile = () => {
                       <Typography component="h1" variant="p">
                         {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
+                      <Typography component="p" variant="p" sx={{fontSize:{xs:'1.8vmax', md:'2vmax'},margin:'12px auto', fontWeight:600, fontStyle:'italic'}}>
+                      &#x275D; {(isAuthenticated || menAuth) && (user?.desc)?.slice(0,35)} &#x275E;
+                      </Typography>
                       {(isAuthenticated || menAuth) &&
-                      !stuUser?.user?.activeAssignedMentors ? (
+                      !stuUser?.user?.mentorAssigned ? (
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
                           <Button
                             variant="outlined"

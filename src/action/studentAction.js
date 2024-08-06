@@ -130,7 +130,23 @@ export const logoutUser = createAsyncThunk(
       }
     }
   );
-
+// update Cover image
+  export const updateCoverImageStu = createAsyncThunk(
+    "stu/update/cover/img",
+    async (userData, { rejectWithValue }) => {
+      try {
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        const { data } = await axiosInstance.put(
+          `/v1/stu/update/cover`,
+          userData,
+          config
+        );
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.message);
+      }
+    }
+  );
   export const getAllReviews = createAsyncThunk(
     "student/reviews/all",
     async (id, { rejectWithValue }) => {

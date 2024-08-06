@@ -2,7 +2,9 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import { serializeError } from "serialize-error";
 import {
+  allHeadConnection,
   allMentorConnection,
+  allMentors,
   assignConnection,
   changePassword,
   clearError,
@@ -16,6 +18,7 @@ import {
   loadUser,
   loginUser,
   logoutUser,
+  popUpState,
   resendOTP,
   reset,
   resetPassword,
@@ -25,12 +28,14 @@ import {
   stuVerifyOTP,
   sturesendOTP,
   stusendOTP,
+  updateCoverImage,
   updateMentorFinalInfo,
   updateMentorFinalInfoAfter,
   updateMentorInfo,
   updateMentoringStatus,
   updatePasswordMentor,
   updateRoleMentor,
+  updateStatusHeadMentor,
   verifyOTP,
 } from "../action/userAction";
 
@@ -446,6 +451,42 @@ export const updateMentor = createReducer(initalState, (builder) => {
       };
     });
 });
+export const changeCoverReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(updateCoverImage.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(updateCoverImage.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+      };
+    })
+    .addCase(updateCoverImage.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: false,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
 
 export const updateMentorRole = createReducer(initalState, (builder) => {
   builder
@@ -474,6 +515,36 @@ export const updateMentorRole = createReducer(initalState, (builder) => {
       return {
         ...state,
         status: {},
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const popUpReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(popUpState.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(popUpState.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        status: action.payload.success,
+      };
+    })
+    .addCase(popUpState.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.message,
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {
@@ -616,6 +687,43 @@ export const deleteUserReducer = createReducer(initalState, (builder) => {
       };
     });
 });
+// grant status admin
+export const grantStatusHeadMentor = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(updateStatusHeadMentor.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(updateStatusHeadMentor.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        sucess: action.payload.success,
+      };
+    })
+    .addCase(updateStatusHeadMentor.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        sucess: false,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
 
 //change approval
 export const assignConnectionReducer = createReducer(initalState, (builder) => {
@@ -683,6 +791,72 @@ export const allConnectionReducerMentor = createReducer(
         return {
           ...state,
           success: false,
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
+export const allConnectionReducerHead = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(allHeadConnection.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(allHeadConnection.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          connection: action.payload.connection,
+        };
+      })
+      .addCase(allHeadConnection.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
+export const allMentorHead = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(allMentors.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(allMentors.fulfilled, (state, action) => {
+        return {
+          ...state,
+          mentors:action.payload.allMentors,
+          loading: false,
+        };
+      })
+      .addCase(allMentors.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
         };
       })
       .addCase(clearError.fulfilled, (state, action) => {

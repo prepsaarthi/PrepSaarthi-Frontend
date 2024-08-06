@@ -15,6 +15,7 @@ import {
   deleteReviews,
   updateStudentFinalInfo,
   updatePasswordStudent,
+  updateCoverImageStu,
 } from "../action/studentAction";
 
 const initalState = {};
@@ -385,6 +386,46 @@ export const reviewReducer = createReducer(initalState, (builder) => {
       };
     });
 });
+
+
+export const changeCoverReducerStu = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(updateCoverImageStu.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(updateCoverImageStu.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+      };
+    })
+    .addCase(updateCoverImageStu.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: false,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+
+
 export const deleteReviewReducer = createReducer(initalState, (builder) => {
   builder
 

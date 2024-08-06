@@ -381,8 +381,9 @@ const EditMentorInfo = () => {
                       fullWidth
                       id="disc-you"
                       value={desc}
-                      label="Your Description"
+                      label="Quote"
                       name="descp"
+                      inputProps={{ maxLength: 40 }} 
                       onChange={(e) => setDesc(e.target.value)}
                     />
                   </Grid>
@@ -403,7 +404,7 @@ const EditMentorInfo = () => {
                       required
                       fullWidth
                       id="pricem"
-                      label="Charges Per Week"
+                      label="Charges Per Month"
                       name="pricem"
                       value={ppm}
                       onChange={(e) => setppm(e.target.value)}
@@ -433,7 +434,7 @@ const EditMentorInfo = () => {
                       required
                       fullWidth
                       id="priced"
-                      label="Charges Per Day"
+                      label="Charges Per Week"
                       name="priced"
                       value={ppd}
                       onChange={(e) => setppd(e.target.value)}

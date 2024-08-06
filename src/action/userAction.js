@@ -75,7 +75,7 @@ export const updateMentorFinalInfoAfter = createAsyncThunk(
     }
   }
 );
-// update mentoring status 
+// update mentoring status
 export const updateMentoringStatus = createAsyncThunk(
   "admin/mentoring/update",
   async (status, { rejectWithValue }) => {
@@ -83,7 +83,7 @@ export const updateMentoringStatus = createAsyncThunk(
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axiosInstance.put(
         `/v1/mentor/update/status`,
-        {status},
+        { status },
         config
       );
       return data;
@@ -291,11 +291,87 @@ export const allMentorConnection = createAsyncThunk(
     }
   }
 );
+export const allHeadConnection = createAsyncThunk(
+  "head/connection/specific",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.post(
+        `/v1/head/all/connection`,
+        { id },
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const allMentors = createAsyncThunk(
+  "head/mentor/all",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/v1/mentor/head/allmentors`);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+//update status to head mentors (Admin)
+export const updateStatusHeadMentor = createAsyncThunk(
+  "admin/update/head/status",
+  async ({id, status}, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.put(
+        `/v1/admin/update/status`,
+        {id,status},
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateCoverImage = createAsyncThunk(
+  "user/update/cover/img",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      const { data } = await axiosInstance.put(
+        `/v1/user/update/cover`,
+        userData,
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const sendOTP = createAsyncThunk(
   "mentor/send/OTP",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(`/v1/users/send/otp`);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const popUpState = createAsyncThunk(
+  "update/popup/state",
+  async (popUp, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.put(`/v1/mentor/update/popup`,{popUp}, config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -386,12 +462,17 @@ export const resetPassword = createAsyncThunk(
 );
 export const changePassword = createAsyncThunk(
   "user/change/password",
-  async ({ otp, password, confirmPassword,userId }, { rejectWithValue }) => {
+  async ({ otp, password, confirmPassword, userId }, { rejectWithValue }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axiosInstance.put(
         `/v1/password/reset`,
-        { otp: otp, password: password, confirmPassword: confirmPassword, userId },
+        {
+          otp: otp,
+          password: password,
+          confirmPassword: confirmPassword,
+          userId,
+        },
         config
       );
       return data;
@@ -401,11 +482,10 @@ export const changePassword = createAsyncThunk(
   }
 );
 
-// update mentoring status 
+// update mentoring status
 export const getVisitsData = createAsyncThunk(
   "all/visiting/data",
-  async ({startDate,endDate}, { rejectWithValue }) => {
-    console.log({startDate, endDate})
+  async ({ startDate, endDate }, { rejectWithValue }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axiosInstance.get(

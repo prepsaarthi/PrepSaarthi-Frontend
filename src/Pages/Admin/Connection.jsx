@@ -37,6 +37,9 @@ const Connection = ({ connection }) => {
   const { success, loading, error } = useSelector(
     (state) => state.connectionAssign
   );
+  const { user } = useSelector(
+    (state) => state.mentor
+  );
   const {
     success: rsuccess,
     loading: rloading,
@@ -83,7 +86,40 @@ const Connection = ({ connection }) => {
   return (
     <>
       {connection?.length === 0 ? (
-        <h3>No Connection To show</h3>
+          <Box
+          sx={{
+            background: "rgba( 255, 255, 255, 0.25 )",
+            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+            backdropFilter: " blur( 13px )",
+            borderRadius: "10px",
+            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+            height: { xs: "60vh", md: "75vh" },
+            width: "95%",
+            margin: "10px auto",
+            display: "flex",
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            p: 2,
+          }}
+        >
+         
+          <Typography
+            component="h2"
+            variant="p"
+            color={"grey"}
+            sx={{
+              fontSize: { xs: "2vmax", md: "1.8vmax" },
+            }}
+          >
+            
+              <>
+                No Connection Available{" "}
+              </>
+            
+          </Typography>
+        </Box>
       ) : (
         <>
           {connection?.map((item, i) => (
@@ -152,7 +188,8 @@ const Connection = ({ connection }) => {
                         item?.isActive === false && <>Expired</>}{" "}
                     </Typography>
                     {item?.isConnected === false && item?.isActive === true && (
-                      <Box display={"flex"}>
+                       user?.user?.role === 'admin' && (
+                        <Box display={"flex"}>
                         <Button
                           sx={{
                             width: { xs: "10vmax", md: "8vmax" },
@@ -184,6 +221,8 @@ const Connection = ({ connection }) => {
                           Enable
                         </LoadingButton>
                       </Box>
+                       )
+                    
                     )}
                     {item?.isConnected === true && item?.isActive === true && (
                       <Box display={"flex"}>

@@ -18,12 +18,15 @@ import Loader from "../../Components/Loader/Loader";
 import {
   clearError,
   deleteUser,
+  getAllMentors,
   reset,
+  updateStatusHeadMentor,
 } from "../../action/userAction";
 import MetaData from "../../utils/Metadata";
 const MentorAll = () => {
   const dispatch = useDispatch();
   const { users, error, loading } = useSelector((state) => state.allMentors);
+  const { sucess:success, error:statusError, loading:statusLoading ,actionApplied} = useSelector((state) => state.grantStatus);
   const {
     isDeleted,
     error: deleteError,
@@ -69,7 +72,12 @@ const MentorAll = () => {
       toast.error(deleteError.message);
       dispatch(clearError());
     }
-  }, [dispatch, error, deleteError]);
+    if (statusError) {
+      toast.error(statusError?.message);
+      dispatch(clearError());
+    }
+  }, [dispatch, error, deleteError,statusError]);
+
 
   useEffect(() => {
     if (isDeleted) {
@@ -77,8 +85,17 @@ const MentorAll = () => {
       dispatch(reset());
     }
   }, [isDeleted, message, dispatch]);
+  useEffect(() => {
+    if (success) {
+      if(actionApplied){
+      toast.success("User has been granted a position of Head Mentor");
+    }else{
+      toast.success("User has been removed from the position of Head Mentor")      
+      }
+      dispatch(reset());
+    }
+  }, [success, dispatch]);
   // useEffect(() => {
-  //   dispatch(getAllMentors());
   // }, [dispatch]);
   return (
     <>
@@ -222,6 +239,37 @@ const MentorAll = () => {
                         }}
                       >
                         Remove
+                      </LoadingButton>
+                      <LoadingButton
+                        sx={item?.isHeadMentor ? {
+                          width: { xs: "13vmax", lg: "11vmax" },
+                          fontSize: {
+                            xs: "1.2vmax",
+                            lg: "0.8vmax",
+                          },
+                          bgcolor:'red'
+                        }: {
+                          width: { xs: "13vmax", lg: "11vmax" },
+                          fontSize: {
+                            xs: "1.2vmax",
+                            lg: "0.8vmax",
+                          },
+                          bgcolor:'green'
+                        }}
+                        size="medium"
+                        variant="contained"
+                        
+                        name={`${i}`}
+                        loading={
+                          parseInt(loaderButton) === parseInt(i) && statusLoading
+                        }
+                        onClick={(e) => {
+                          dispatch(updateStatusHeadMentor({id:item._id,status:!Boolean(item?.isHeadMentor)}));
+                          setLoad(e.target.name);
+                        }}
+                      >
+                        {item?.isHeadMentor === true ? <>Deny Head</> : <>Grant Head</>}
+                        
                       </LoadingButton>
                     </CardActions>
                   </Box>

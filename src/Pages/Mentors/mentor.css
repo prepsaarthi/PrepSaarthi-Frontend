@@ -247,3 +247,38 @@ a {
       }
   
 }
+/* ProgressBorder.css */
+.progress-box {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.inner-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background-color: #ddd;
+}
+
+.progress-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid transparent;
+  border-radius: 15px;
+  box-sizing: border-box;
+  transform: rotate(90deg);
+  transform-origin: center;
+  background-image: conic-gradient(
+    #3f51b5 var(--progress),
+    transparent var(--progress)
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), white calc(100% - 3px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 4px), white calc(100% - 3px));
+}

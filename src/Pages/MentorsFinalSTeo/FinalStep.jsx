@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@emotion/react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import {
   Avatar,
   Box,
@@ -106,18 +106,18 @@ const FinalStep = () => {
   const [prgress, setProgress] = React.useState(0);
   const [success, setSuccess] = React.useState(false);
   const [uploading, setuploading] = React.useState(false);
-  
+
   React.useEffect(() => {
-    if(prgress === 100)
-      {setSuccess(true)
+    if (prgress === 100) {
+      setSuccess(true);
       setTimeout(() => {
-        
-    setProgress(0)
+        setProgress(0);
       }, 800);
       setTimeout(() => {
-        setSuccess(false)
-      }, 1200);}
-  }, [prgress ])
+        setSuccess(false);
+      }, 1200);
+    }
+  }, [prgress]);
 
   const handleChange = async (event) => {
     if (event.target.name === "exam" && event.target.value !== "") {
@@ -148,12 +148,12 @@ const FinalStep = () => {
       try {
         const compressedFile = await imageCompression(imageFile, options);
         const base64img = await convertBase64(compressedFile);
-        setuploading(false)
+        setuploading(false);
         setCard(base64img);
-            setCardPreview(base64img);
+        setCardPreview(base64img);
       } catch (error) {
-        setuploading(false)
-        toast.error(error.message)
+        setuploading(false);
+        toast.error(error.message);
       }
     } else {
       setMentorInfo({ ...mentorInfo, [event.target.name]: event.target.value });
@@ -169,7 +169,7 @@ const FinalStep = () => {
       toast.success("Your application is submitted successfully");
       navigate(`/mentors/${user?.user?._id}`);
       dispatch(clearMessage());
-      dispatch(loadUser())
+      dispatch(loadUser());
     }
   }, [
     error,
@@ -188,63 +188,76 @@ const FinalStep = () => {
           <Loader />
         ) : user?.user?.isStepLastCompleted && user?.user?.role === "user" ? (
           <Box
-          sx={{
-            background: "rgba( 255, 255, 255, 0.25 )",
-            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-            backdropFilter: " blur( 13px )",
-            borderRadius: "10px",
-            border: "1px solid rgba( 255, 255, 255, 0.18 )",
-            height: { xs: "60vh", md: "80vh" },
-            width: "95%",
-            margin: "10px auto",
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            p: 2,
-          }}
-        >
-         < HourglassBottomIcon sx={{fontSize:{xs:'3.8vmax', md:'2.8vmax'}, color:'#ffff72'}}/>
-          <Typography
-            component="h2"
-            variant="p"
-            color={"grey"}
-            sx={{ fontSize: { xs: "2.5vmax", md: "1.8vmax" } }}
+            sx={{
+              background: "rgba( 255, 255, 255, 0.25 )",
+              boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+              backdropFilter: " blur( 13px )",
+              borderRadius: "10px",
+              border: "1px solid rgba( 255, 255, 255, 0.18 )",
+              height: { xs: "60vh", md: "80vh" },
+              width: "95%",
+              margin: "10px auto",
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              p: 2,
+            }}
           >
-            {user?.user?.updateRequest === 'yes' ? <>  Your application's changes are under review</> : <>  Your application is under process</>}
-          
-          </Typography>
-        </Box>
+            <HourglassBottomIcon
+              sx={{
+                fontSize: { xs: "3.8vmax", md: "2.8vmax" },
+                color: "#ffff72",
+              }}
+            />
+            <Typography
+              component="h2"
+              variant="p"
+              color={"grey"}
+              sx={{ fontSize: { xs: "2.5vmax", md: "1.8vmax" } }}
+            >
+              {user?.user?.updateRequest === "yes" ? (
+                <> Your application's changes are under review</>
+              ) : (
+                <> Your application is under process</>
+              )}
+            </Typography>
+          </Box>
         ) : user?.user.isStepLastCompleted && user?.user.role === "mentor" ? (
           <Box
-          sx={{
-            background: "rgba( 255, 255, 255, 0.25 )",
-            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-            backdropFilter: " blur( 13px )",
-            borderRadius: "10px",
-            border: "1px solid rgba( 255, 255, 255, 0.18 )",
-            height: { xs: "60vh", md: "80vh" },
-            width: "95%",
-            margin: "10px auto",
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            p: 2,
-          }}
-        >
-          <CheckCircleIcon sx={{fontSize:{xs:'3.8vmax', md:'2.8vmax'}, color:'lightgreen'}}/> 
-          <Typography
-            component="h2"
-            variant="p"
-            color={"grey"}
-            sx={{ fontSize: { xs: "2vmax", md: "1.8vmax" } }}
+            sx={{
+              background: "rgba( 255, 255, 255, 0.25 )",
+              boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+              backdropFilter: " blur( 13px )",
+              borderRadius: "10px",
+              border: "1px solid rgba( 255, 255, 255, 0.18 )",
+              height: { xs: "60vh", md: "80vh" },
+              width: "95%",
+              margin: "10px auto",
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              p: 2,
+            }}
           >
-            You are already a mentor
-          </Typography>
-        </Box>
+            <CheckCircleIcon
+              sx={{
+                fontSize: { xs: "3.8vmax", md: "2.8vmax" },
+                color: "lightgreen",
+              }}
+            />
+            <Typography
+              component="h2"
+              variant="p"
+              color={"grey"}
+              sx={{ fontSize: { xs: "2vmax", md: "1.8vmax" } }}
+            >
+              You are already a mentor
+            </Typography>
+          </Box>
         ) : (
           !user?.user.isStepLastCompleted &&
           user?.user.role === "user" &&
@@ -263,7 +276,7 @@ const FinalStep = () => {
                 <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                   <LockOutlinedIcon />
                 </Avatar>
-                <Typography textAlign='center' component="h1" variant="h5">
+                <Typography textAlign="center" component="h1" variant="h5">
                   Last step for becoming a mentor
                 </Typography>
                 <Typography
@@ -282,7 +295,7 @@ const FinalStep = () => {
                   component="form"
                   action="/somewhere_else"
                   onSubmit={handleSubmit}
-                  sx={{ mt:3}}
+                  sx={{ mt: 3 }}
                 >
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -420,8 +433,9 @@ const FinalStep = () => {
                         required
                         fullWidth
                         id="disc-you"
-                        label="Your Description"
+                        label="Quote"
                         name="descp"
+                        inputProps={{ maxLength: 40 }}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -440,9 +454,9 @@ const FinalStep = () => {
                       <TextField
                         required
                         fullWidth
-                        id="pricem"
-                        label="Charges Per Week"
-                        name="pricem"
+                        label="Charges Per Week in ₹"
+                        id="priced"
+                        name="priced"
                         onChange={handleChange}
                       />
                     </Grid>
@@ -450,83 +464,94 @@ const FinalStep = () => {
                       <TextField
                         required
                         fullWidth
-                        id="priced"
-                        label="Charges Per Month"
-                        name="priced"
+                        label="Charges Per Month in ₹"
+                        id="pricem"
+                        name="pricem"
                         onChange={handleChange}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                    <Box display="flex" alignItems="center">
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "50px",
-                        height: "50px",
-                      }}
-                    >
-                      <CircularProgress
-                        variant="determinate"
-                        value={prgress}
-                        sx={prgress === 0 ? {
-                          position: "absolute",
-                          top: "5.18px",
-                          left: "5px",
-                          display:"none"
-                        }:{
-                          position: "absolute",
-                          top: "5.18px",
-                          left: "5px",
-                        }} 
-                      />
-                      <div class="success-animation" style={success? {display:'block'} : {display:'none'}}>
-                        <svg
-                          class="checkmark"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 52 52"
+                      <Box display="flex" alignItems="center">
+                        <Box
+                          sx={{
+                            position: "relative",
+                            width: "50px",
+                            height: "50px",
+                          }}
                         >
-                          <circle
-                            class="checkmark__circle"
-                            cx="26"
-                            cy="26"
-                            r="25"
-                            fill="none"
+                          <CircularProgress
+                            variant="determinate"
+                            value={prgress}
+                            sx={
+                              prgress === 0
+                                ? {
+                                    position: "absolute",
+                                    top: "5.18px",
+                                    left: "5px",
+                                    display: "none",
+                                  }
+                                : {
+                                    position: "absolute",
+                                    top: "5.18px",
+                                    left: "5px",
+                                  }
+                            }
                           />
-                          <path
-                            class="checkmark__check"
-                            fill="none"
-                            d="M14.1 27.2l7.1 7.2 16.7-16.8"
-                          />
-                        </svg>
-                      </div>
-                      <Box
-                        component="img"
-                        src={card || cardPreviwew}
-                        width="30px"
-                        height="30px"
-                        sx={{
-                          aspectRatio: "1/1",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%,-50%)",
-                          borderRadius: "50%",
-                        }}
-                        mr="10px"
-                      ></Box>
-                    </Box>
+                          <div
+                            class="success-animation"
+                            style={
+                              success
+                                ? { display: "block" }
+                                : { display: "none" }
+                            }
+                          >
+                            <svg
+                              class="checkmark"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 52 52"
+                            >
+                              <circle
+                                class="checkmark__circle"
+                                cx="26"
+                                cy="26"
+                                r="25"
+                                fill="none"
+                              />
+                              <path
+                                class="checkmark__check"
+                                fill="none"
+                                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                              />
+                            </svg>
+                          </div>
+                          <Box
+                            component="img"
+                            src={card || cardPreviwew}
+                            width="30px"
+                            height="30px"
+                            sx={{
+                              aspectRatio: "1/1",
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              transform: "translate(-50%,-50%)",
+                              borderRadius: "50%",
+                            }}
+                            mr="10px"
+                          ></Box>
+                        </Box>
 
-                    <Button variant="contained" component="label">
-                      Upload Your ID Card
-                      <input
-                        type="file"
-                        hidden
-                        accept="image/*"
-                        name="idcard"
-                        onChange={handleChange}
-                      />
-                    </Button>
-                  </Box>
+                        <Button variant="contained" component="label">
+                          Upload Your ID Card
+                          <input
+                            type="file"
+                            hidden
+                            accept="image/*"
+                            name="idcard"
+                            onChange={handleChange}
+                          />
+                        </Button>
+                      </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Typography variant="p">

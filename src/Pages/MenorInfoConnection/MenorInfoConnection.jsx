@@ -26,10 +26,7 @@ const convertToIST = (time) => {
   return istTimestampString;
 };
 const MenorInfoConnection = ({ active }) => {
-  const dispatch = useDispatch();
-  const { success, loading, error } = useSelector(
-    (state) => state.getAllConnectionMenPast
-  );
+
   const RoundedImg = styled("img")(({ theme }) => ({
     width: 60,
     aspectRatio: "1/1",
@@ -41,36 +38,19 @@ const MenorInfoConnection = ({ active }) => {
     },
   }));
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-      dispatch(clearError());
-      return;
-    }
-  }, [error, dispatch]);
-
-  useEffect(() => {
-    dispatch(allMentorConnection());
-  }, [dispatch]);
-
   // const [loader,setLoading] = useState(-1);
   return (
     <>
         <MetaData title="Mentor Info Connection" />
-
-      {loading ? (
-        <Loader />
-      ) : (
         <>
-          {success?.connection?.length === 0 ? (
+          {active?.length === 0 ? (
             <Box sx={{height:'100%',minWidth:'65vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
             <Typography fontSize={"2vmax"} fontWeight={600}>No Connection To show:(</Typography>
             </Box>
           ) : (
             <>
               <Box sx={{ overflowY: "scroll", height: "42vmax",minWidth:'65vw' }}>
-                {success?.connection?.map((item, i) => {
-                  if (item.isActive === active) {
+                {active?.map((item, i) => {
                     return (
                       <Card
                         key={i}
@@ -154,14 +134,14 @@ const MenorInfoConnection = ({ active }) => {
                         </CardActionArea>
                       </Card>
                     );
-                  }
+                  
                   return false;
                 })}
               </Box>
             </>
           )}
         </>
-      )}
+      
     </>
   );
 };

@@ -13,6 +13,7 @@ import FinalStep from "./Pages/MentorsFinalSTeo/FinalStep.jsx";
 import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
+import MentorDashboard from "./Pages/MentorDashboard/MentorDashboard.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword.jsx";
 import TrackPageView from "./Pages/TrackPageView/TrackPageView.jsx";
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="/password/change" element={<PasswordUpdate />}></Route>
         <Route path="/role/mentor/final" element={<FinalStep />} />
         <Route path="/update/profile/mentor" element={<EditProfile />} />
+        <Route path="/mentor/controlls/dash" element={<MentorDashboard />} />
         <Route path="/settings" element={<Settings />} />
         </Route>
 

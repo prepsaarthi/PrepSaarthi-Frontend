@@ -9,6 +9,7 @@ import { Modal as BaseModal } from "@mui/base/Modal";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearError,
   deleteReviews,
   getAllReviews,
   newReview,
@@ -18,7 +19,7 @@ import toast from "react-hot-toast";
 const RatingMentor = ({ mentorId, student }) => {
   const dispatch = useDispatch();
   const { reviews, loading } = useSelector((state) => state.allReview);
-  const { loading: rloading, success } = useSelector(
+  const { loading: rloading, success,error } = useSelector(
     (state) => state.newReviews
   );
   const { loading: dloading, isDeleted } = useSelector(
@@ -56,6 +57,12 @@ const RatingMentor = ({ mentorId, student }) => {
   useEffect(() => {
     dispatch(getAllReviews(mentorId));
   }, [dispatch, mentorId]);
+  useEffect(() => {
+    if(error){
+      toast.error(error.message)
+      dispatch(clearError())
+    }
+  })
   useEffect(() => {
     if (loading === false) {
       const signedUserReview = reviews?.reviews?.filter((item) => {
@@ -168,16 +175,21 @@ const RatingMentor = ({ mentorId, student }) => {
         <>
           <div className="_rating-container">
             {reviews?.reviews?.map((item, i) => (
-              <div className="testimonial-box" key={i}>
+              <Box className="testimonial-box" key={i} sx={{margin:'1vmax', border:'0.5px solid grey', borderRadius:'10px', padding:'1vmax', pl:'1.5vmax'}}>
                 <div className="box-top">
-                  <div className="profile">
-                    <div className="profile-img">
+                  <Box className="profile" sx={{mb:'1vmax'}}>
+                    <Box className="profile-img" sx={{width:{xs:'6vmax',md:"4vmax"},height:{xs:'6vmax',md:"4vmax"},mb:'1vmax', borderRadius:'50%',border:'1px solid grey',overflow:'hidden' , aspectRatio:'1/1', "& img": {
+                      width:'100%',
+                      height:'100%',
+                      objectFit:'contain',
+                      objectPosition:'center'
+                    }}}>
                       <img src={item?.user?.avatar?.public_URI} alt="user" />
-                    </div>
+                    </Box>
                     <div className="name-user">
                       <strong>{item?.name}</strong>
                     </div>
-                  </div>
+                  </Box>
                   <div className="reviews">
                     <Rating name="read-only" value={item.rating} readOnly />
                   </div>
@@ -185,7 +197,7 @@ const RatingMentor = ({ mentorId, student }) => {
                 <div className="client-comment">
                   <p>{item.comment}</p>
                 </div>
-              </div>
+              </Box>
             ))}
           </div>
         </>
