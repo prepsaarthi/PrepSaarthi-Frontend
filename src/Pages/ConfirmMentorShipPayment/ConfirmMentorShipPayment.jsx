@@ -88,6 +88,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
   //   stu.mobileNumber,
   //   sub.price,
   // ]);
+  
   useEffect(() => {
     if (paymentError) {
       toast.error(paymentError.message);
@@ -95,7 +96,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
     }
     if (loading === false) {
       var options = {
-        key: "rzp_test_G0c8c3HClLntUO",
+        key: process.env.RAZORPAY_ID,
         amount: sub.price,
         currency: "INR",
         name: "PrepSaarthi",
