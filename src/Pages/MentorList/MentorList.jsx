@@ -227,8 +227,8 @@ const MentorList = () => {
                                   sx={{
                                     fontSize: { xs: "2vmax", md: "1vmax" },
                                     fontWeight: 500,
-                                    mt:'1.3vmax',
-                                    mb:'2vmax'
+                                    mt:'0.6vmax',
+                                    mb:'1.2vmax'
                                   }}
                                 >
                                   <span>{`${item.collegeName
