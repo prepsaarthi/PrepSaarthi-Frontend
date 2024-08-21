@@ -10,9 +10,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import "./footer.css";
 import { Link } from "react-router-dom";
 const Footer = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  },[]);
+
 
   return (
     <>

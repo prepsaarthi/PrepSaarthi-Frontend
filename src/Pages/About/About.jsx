@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Grid, Avatar, Link } from "@mui/material";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 const AboutPage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      },[]);
   return (
     <Box
       sx={{

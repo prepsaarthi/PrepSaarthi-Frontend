@@ -184,6 +184,7 @@ const MentorList = () => {
                             sx={{
                               display: "flex",
                               width: { xs: "100%", md: "95%" },
+                              height:{xs:'20vmax', md:'15vmax', lg:'10vmax'},
                               borderRadius: "1vmax",
                               boxShadow: "-1px 1px 14px -5px rgba(0,0,0,0.4)",
                               alignItems: "center",
@@ -224,9 +225,10 @@ const MentorList = () => {
                                   color="text.secondary"
                                   component="p"
                                   sx={{
-                                    fontSize: { xs: "1.8vmax", md: "1vmax" },
+                                    fontSize: { xs: "2vmax", md: "1.2vmax" },
                                     fontWeight: 500,
-                                    mt:'1vmax'
+                                    mt:'1.3vmax',
+                                    mb:'2vmax'
                                   }}
                                 >
                                   <span>{`${item.collegeName
@@ -276,7 +278,7 @@ const MentorList = () => {
                                 <Rating
                                   value={item?.ratings}
                                   size={
-                                    window.innerWidth < 600 ? "small" : "medium"
+                                    window.innerWidth < 600 ? "medium" : "large"
                                   }
                                   readOnly
                                   precision={0.5}

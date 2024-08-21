@@ -15,6 +15,7 @@ import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
 import About from "./Pages/About/About.jsx";
 import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess.jsx";
+import NotFound from "./Pages/NotFound/NotFound.jsx";
 
 import MentorDashboard from "./Pages/MentorDashboard/MentorDashboard.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
@@ -99,6 +100,7 @@ const App = () => {
         <Route path="/mentors/:id" element={<MentorProfile />}></Route>
         <Route path="/privacy" element={<PrivacyPolicy />}></Route>
         <Route path="/about" element={<About />}></Route>
+        <Route path="/notfound" element={<NotFound />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
         <Route path="/forgot/password" element={<ForgotPassword />}></Route>
       </Routes>

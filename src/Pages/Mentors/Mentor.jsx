@@ -10,6 +10,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import MenorInfo from "../MentorInfo/MenorInfo";
 import MenorInfoConnection from "../MenorInfoConnection/MenorInfoConnection";
 import { useDispatch, useSelector } from "react-redux";
@@ -659,43 +660,81 @@ const Mentor = () => {
                     </p>
                     {user?.user?.isStepLastCompleted &&
                       user?.user?.role === "mentor" && (
-                        <FormControl sx={{ p: 2 }}>
-                          <FormLabel
-                            id="demo-radio-buttons-group-label"
-                            disabled={statusLoading}
-                          >
-                            Your Status
-                          </FormLabel>
-                          <hr />
-                          <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue={
-                              user?.user?.mentoringStatus === "active"
-                                ? "active"
-                                : "inactive"
-                            }
-                            name="radio-buttons-group"
-                          >
-                            <FormControlLabel
-                              value="active"
-                              control={<Radio />}
-                              label="Active"
-                              onClick={() =>
-                                dispatch(updateMentoringStatus("active"))
+                        <>
+                          <FormControl sx={{ p: 2 }}>
+                            <FormLabel
+                              id="demo-radio-buttons-group-label"
+                              disabled={statusLoading}
+                            >
+                              Your Status
+                            </FormLabel>
+                            <hr />
+                            <RadioGroup
+                              aria-labelledby="demo-radio-buttons-group-label"
+                              defaultValue={
+                                user?.user?.mentoringStatus === "active"
+                                  ? "active"
+                                  : "inactive"
                               }
-                            />
-                            <FormControlLabel
-                              value="inactive"
-                              control={<Radio />}
-                              label="Inactive"
-                              onClick={() =>
-                                dispatch(updateMentoringStatus("inactive"))
-                              }
-                            />
-                          </RadioGroup>
-                        </FormControl>
+                              name="radio-buttons-group"
+                            >
+                              <FormControlLabel
+                                value="active"
+                                control={<Radio />}
+                                label="Active"
+                                onClick={() =>
+                                  dispatch(updateMentoringStatus("active"))
+                                }
+                              />
+                              <FormControlLabel
+                                value="inactive"
+                                control={<Radio />}
+                                label="Inactive"
+                                onClick={() =>
+                                  dispatch(updateMentoringStatus("inactive"))
+                                }
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                          <div>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                backgroundColor: "var(--button1)",
+                                color: "#fff",
+                                "&:hover": { backgroundColor: "var(--button1Hover)" },
+                                mb:'2vmax'
+                              }}
+                              startIcon={<AttachEmailIcon />}
+                              href="/files/Message To Mentors.pdf" // Replace with the correct path to your PDF file
+                              download
+                            >
+                              Message To Mentors
+                            </Button>
+                          </div>
+                        </>
                       )}
                   </div>
+
+                  {stuLoading === false &&
+                          stuUser?.user?.role === "student" && (
+                            <div>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                backgroundColor: "var(--button1)",
+                                color: "#fff",
+                                "&:hover": { backgroundColor: "var(--button1Hover)" },
+                                mb:'2vmax'
+                              }}
+                              startIcon={<AttachEmailIcon />}
+                              href="/files/Message To Students.pdf" // Replace with the correct path to your PDF file
+                              download
+                            >
+                              Message To Students
+                            </Button>
+                          </div>
+                          )}
                   {user?.user?.isHeadMentor && user?.user?.isHeadMentor && (
                     <>
                       <div>
