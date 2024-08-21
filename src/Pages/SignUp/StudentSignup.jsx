@@ -221,7 +221,6 @@ export default function StudentSignUp() {
                     id="phoneno"
                     label="Mobile Number"
                     name="phoneNo"
-                    type="number"
                     autoComplete="number"
                   />
                 </Grid>
