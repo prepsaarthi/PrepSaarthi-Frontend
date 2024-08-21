@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import MetaData from "../../utils/Metadata";
 import CircularProgress from "@mui/material/CircularProgress";
 import imageCompression from "browser-image-compression";
-import { resendOTP, reset, sendOTP, stusendOTP } from "../../action/userAction";
+import { reset, stusendOTP,clearError as otpClearError, sturesendOTP, otpReset } from "../../action/userAction";
 const defaultTheme = createTheme();
 
 const convertBase64 = (file) => {
@@ -37,21 +37,21 @@ const convertBase64 = (file) => {
 
 export default function StudentSignUp() {
   const dispatch = useDispatch();
-  const { loading, error, user, isAuthenticated } = useSelector(
-    (state) => state.student
-  );
   const {
     error: otpError,
     loading: otpLoading,
     success: otpSuccess,
     sent
-  } = useSelector((state) => state.newOTPsend);
+  } = useSelector((state) => state.newStuOTPsend);
+
   const {
     loading: reLoading,
     success: reSuccess,
-    message: reMessage,
     error: reError,
-  } = useSelector((state) => state.resendOtherOTP);
+  } = useSelector((state) => state.resendOtherOTPStu);
+  const { loading, error, user, isAuthenticated } = useSelector(
+    (state) => state.student
+  );
   const navigate = useNavigate();
   const [studentInfo, setstudentInfo] = React.useState({});
   const [avatarPrview, setAvatarPreview] = React.useState(
@@ -66,6 +66,8 @@ export default function StudentSignUp() {
     studentInformation.set("email", studentInfo.email);
     studentInformation.set("mobileNumber", studentInfo.phoneNo);
     studentInformation.set("password", studentInfo.password);
+    studentInformation.set("emailOTP", studentInfo.emailOTP);
+    studentInformation.set("numberOTP", studentInfo.numberOTP);
     studentInformation.set("avatar", avatar);
 
     const serializedData = {};
@@ -90,16 +92,7 @@ export default function StudentSignUp() {
         setSuccess(false)
       }, 1200);}
   }, [prgress ])
-  React.useEffect(() => {
-    if(otpSuccess){
-      toast.success("OTP has been sent to your submitted email and mobile number")
-      dispatch(reset())
-    }
-    if(otpError){
-      toast.error(otpError.message)
-      dispatch(clearError())
-    }
-  }, [dispatch, otpError, otpSuccess])
+
   const handleChange = async (event) => {
     if (event.target.name === "avatar") {
       setuploading(true);
@@ -135,11 +128,33 @@ export default function StudentSignUp() {
     }
   };
   React.useEffect(() => {
+    if(otpSuccess){
+      toast.success("OTP has been sent to your submitted email and mobile number")
+      dispatch(reset())
+    }
+    if(otpError){
+      toast.error(otpError.message)
+      dispatch(otpClearError())
+    }
+  }, [dispatch, otpError, otpSuccess])
+  React.useEffect(() => {
+    if(reSuccess){
+      toast.success("OTP has been resent")
+      dispatch(reset())
+    }
+    if(reError){
+      toast.error(reError.message)
+      dispatch(otpClearError())
+    }
+  }, [dispatch, reSuccess, reError])
+  React.useEffect(() => {
     if (error) {
       toast.error(error.message);
+      dispatch(otpReset())
       dispatch(clearError());
     }
     if (!loading && isAuthenticated) {
+      dispatch(otpReset())
       toast.success("Signed up successfully");
       navigate(`/verify/account`);
     }
@@ -189,6 +204,7 @@ export default function StudentSignUp() {
                   <TextField
                     required
                     fullWidth
+                    disabled={sent}
                     onChange={handleChange}
                     id="email"
                     label="Email Address"
@@ -200,10 +216,12 @@ export default function StudentSignUp() {
                   <TextField
                     required
                     onChange={handleChange}
+                    disabled={sent}
                     fullWidth
                     id="phoneno"
                     label="Mobile Number"
                     name="phoneNo"
+                    type="number"
                     autoComplete="number"
                   />
                 </Grid>
@@ -290,13 +308,12 @@ export default function StudentSignUp() {
                       />
                     </Button>
                   </Box>
-                </Grid>
-                <Grid item xs={12}>
+                  <Grid item xs={12}>
                   <LoadingButton
                     loading={otpLoading}
                     onClick={() => {
                       dispatch(
-                        sendOTP({
+                        stusendOTP({
                           email: studentInfo.email,
                           mobileNumber: studentInfo.phoneNo,
                         })
@@ -338,10 +355,13 @@ export default function StudentSignUp() {
                     autoComplete="numberOTP"
                     onChange={handleChange}
                   />
-                  <LoadingButton onClick={() => {
-                    dispatch(resendOTP({email: studentInfo.email,
+                  <LoadingButton 
+                  loading={reLoading}
+                  onClick={() => {
+                    dispatch(sturesendOTP({email: studentInfo.email,
                       mobileNumber: studentInfo.phoneNo}))
                   }}>Resend OTP</LoadingButton>
+                </Grid>
                 </Grid>
                 <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
                   <Typography variant="p">
@@ -350,7 +370,7 @@ export default function StudentSignUp() {
                       Privacy & Policy
                     </Link>
                   </Typography>
-              <LoadingButton
+                  <LoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -368,7 +388,9 @@ export default function StudentSignUp() {
                 Sign Up
               </LoadingButton>
                 </Grid>
+               
               </Grid>
+              
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/login" variant="body2">

@@ -1,5 +1,14 @@
-import { Box, Button, Typography, Modal } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Typography,
+  Modal,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  List,
+} from "@mui/material";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { styled } from "@mui/system";
 import { Tabs } from "@mui/base/Tabs";
 import { TabsList as BaseTabsList } from "@mui/base/TabsList";
@@ -9,7 +18,12 @@ import { buttonClasses } from "@mui/base/Button";
 import "./mentorprofile.css";
 import CloseIcon from "@mui/icons-material/Close";
 import LoginIcon from "@mui/icons-material/Login";
-
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import ImageIcon from "@mui/icons-material/Image";
+import ListItem from "@mui/material/ListItem";
+import SchoolIcon from "@mui/icons-material/School";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
@@ -171,6 +185,7 @@ const MentorProfile = () => {
     border: "1px solid rgba( 255, 255, 255, 0.18 )",
   };
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
     navigate("/lists/mentors");
@@ -180,6 +195,32 @@ const MentorProfile = () => {
       setOpen(true);
     }
   }, [open, isAuthenticated, menAuth, menLoading, stuLoading]);
+  const childRef = useRef(null);
+  const [parentHeight, setParentHeight] = useState("1");
+
+  useLayoutEffect(() => {
+    const updateParentHeight = () => {
+      if (childRef?.current) {
+        setTimeout(() => {
+          const childHeight = childRef?.current?.offsetHeight;
+          setParentHeight(`${childHeight}px`);
+        }, 1500);
+        console.log("DHBDHB");
+        console.log(childRef?.current?.offsetHeight);
+      }
+    };
+
+    // Update the height after the component is fully rendered
+    updateParentHeight();
+
+    // Update height on window resize
+    // window.addEventListener('load', updateParentHeight);
+
+    // // Clean up event listener on component unmount
+    // return () => {
+    //   window.removeEventListener('load', updateParentHeight);
+    // };
+  }, []);
 
   const navigate = useNavigate();
   return (
@@ -193,57 +234,57 @@ const MentorProfile = () => {
         <Loader />
       ) : (
         <>
-        { (loading === false && !isAuthenticated && !menAuth) && (
-          <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Box
-              sx={{
-                width: { xs: "90%", md: "40%" },
-                height: { xs: "80%", md: "60%" },
-                bgcolor: "white",
-                borderRadius: "10px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
+          {loading === false && !isAuthenticated && !menAuth && (
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
             >
-              <Link to="/lists/mentors">
-                <CloseIcon
-                  sx={{ position: "absolute", top: "10px", right: "10px" }}
-                />
-              </Link>
-              <Typography
-                component="h2"
-                variant="p"
-                sx={{ color: "grey", mb: "2vmax", textAlign: "center " }}
-              >
-                Please login to view mentor's details
-              </Typography>
-              <Link to="/login">
-                <Button
-                  variant="contained"
-                  startIcon={<LoginIcon sx={{ fontSize: "2vmax" }} />}
+              <Box sx={style}>
+                <Box
                   sx={{
-                    width: { xs: "24vmax", md: "14vmax" },
-                    height: { xs: "8vmax", md: "5vmax" },
-                    fontSize: { xs: "2.1vmax", md: "1.1vmax" },
+                    width: { xs: "90%", md: "40%" },
+                    height: { xs: "80%", md: "60%" },
+                    bgcolor: "white",
+                    borderRadius: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
                   }}
                 >
-                  Login
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-        </Modal>
-        )}
-          
+                  <Link to="/lists/mentors">
+                    <CloseIcon
+                      sx={{ position: "absolute", top: "10px", right: "10px" }}
+                    />
+                  </Link>
+                  <Typography
+                    component="h2"
+                    variant="p"
+                    sx={{ color: "grey", mb: "2vmax", textAlign: "center " }}
+                  >
+                    Please login to view mentor's details
+                  </Typography>
+                  <Link to="/login">
+                    <Button
+                      variant="contained"
+                      startIcon={<LoginIcon sx={{ fontSize: "2vmax" }} />}
+                      sx={{
+                        width: { xs: "24vmax", md: "14vmax" },
+                        height: { xs: "8vmax", md: "5vmax" },
+                        fontSize: { xs: "2.1vmax", md: "1.1vmax" },
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                </Box>
+              </Box>
+            </Modal>
+          )}
+
           {showPage ? (
             <ConfirmMentorShipPayment
               item={user}
@@ -266,11 +307,12 @@ const MentorProfile = () => {
                 ></Box>
               </Box>
               <Box
-                sx={{ minHeight: { xs: "143vh", md: "178vh", lg: "188vh" } }}
+                sx={{ minHeight: parentHeight }}
                 position="relative"
                 maxWidth="100vw"
               >
                 <Box
+                  ref={childRef}
                   position="absolute"
                   width="98%"
                   sx={{
@@ -339,8 +381,21 @@ const MentorProfile = () => {
                       <Typography component="h1" variant="p">
                         {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
-                      <Typography component="p" variant="p" sx={{fontSize:{xs:'1.8vmax', md:'2vmax'},margin:'12px auto', fontWeight:700, fontStyle:'italic', display:{xs:'block', md:'none'}}}>
-                      &#x275D; {(isAuthenticated || menAuth) && user?.desc?.slice(0,35)} &#x275E;
+                      <Typography
+                        component="p"
+                        variant="p"
+                        sx={{
+                          fontSize: { xs: "1.8vmax", md: "2vmax" },
+                          margin: "12px auto",
+                          fontWeight: 700,
+                          fontStyle: "italic",
+                          display: { xs: "block", md: "none" },
+                        }}
+                      >
+                        &#x275D;{" "}
+                        {(isAuthenticated || menAuth) &&
+                          user?.desc?.slice(0, 35)}{" "}
+                        &#x275E;
                       </Typography>
                       {(isAuthenticated || menAuth) &&
                       !stuUser?.user?.mentorAssigned ? (
@@ -456,9 +511,22 @@ const MentorProfile = () => {
                             </Typography>
                           </Box>
                           <Box mt={"2vmax"}>
-                          <Typography component="p" variant="p" sx={{fontSize:{ md:'1.2vmax'},margin:'12px auto', fontWeight:800, fontStyle:'italic', display:{xs:'none', md:'block'}}}>
-                      &#x275D; {(isAuthenticated || menAuth) && user?.desc?.slice(0,35)} &#x275E;
-                      </Typography>
+                            <Typography
+                              component="p"
+                              variant="p"
+                              sx={{
+                                fontSize: { md: "1.2vmax" },
+                                margin: "12px auto",
+                                fontWeight: 800,
+                                fontStyle: "italic",
+                                display: { xs: "none", md: "block" },
+                              }}
+                            >
+                              &#x275D;{" "}
+                              {(isAuthenticated || menAuth) &&
+                                user?.desc?.slice(0, 35)}{" "}
+                              &#x275E;
+                            </Typography>
                             <Typography
                               component="p"
                               variant="p"
@@ -469,10 +537,52 @@ const MentorProfile = () => {
                                 fontWeight: 300,
                               }}
                             >
-                              {user?.about?.slice(0,400)}
+                              {user?.about?.slice(0, 400)}
                             </Typography>
                           </Box>
+                          <Box
+                            sx={{
+                              mt: { xs: "3vmax", md: "2vmax" },
+                              fontSize: { xs: "2.5vmax", md: "1.5vmax" },
+                              fontWeight: "700",
+                            }}
+                          >
+                            Academic Background
+                            <ListItem>
+                              <ListItemAvatar>
+                                <Avatar sx={{ bgcolor: "#5c5c5c" }}>
+                                  <SchoolIcon />
+                                </Avatar>
+                              </ListItemAvatar>
+                              {(isAuthenticated || menAuth) && (
+                                <ListItemText
+                                  primary="College"
+                                  secondary={`${user?.college}(${user?.branch})`}
+                                />
+                              )}
+                            </ListItem>
+                            <ListItem>
+                              <ListItemAvatar>
+                                <Avatar sx={{ bgcolor: "#5c5c5c" }}>
+                                  <MilitaryTechIcon />
+                                </Avatar>
+                              </ListItemAvatar>
+                              {(isAuthenticated || menAuth) && (
+                                <ListItemText
+                                  primary="Rank"
+                                  secondary={`${
+                                    user?.exam?.name === "jeemains"
+                                      ? "JEE MAINS"
+                                      : user?.exam?.name === "jeeadv"
+                                      ? "JEE ADVANCE"
+                                      : "BITSAT"
+                                  }(${user?.exam?.rank})`}
+                                />
+                              )}
+                            </ListItem>
+                          </Box>
                         </Box>
+
                         <Box
                           sx={{
                             maxWidth: { xs: "100vw" },

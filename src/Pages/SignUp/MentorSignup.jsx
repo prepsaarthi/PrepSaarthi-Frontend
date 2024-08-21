@@ -54,13 +54,19 @@ export default function MentorSignUp() {
   const {
     loading: reLoading,
     success: reSuccess,
-    message: reMessage,
     error: reError,
   } = useSelector((state) => state.resendOtherOTP);
 
   React.useEffect(() => {
-    
-  })
+    if(reSuccess){
+      toast.success("OTP has been resent")
+      dispatch(reset())
+    }
+    if(reError){
+      toast.error(reError.message)
+      dispatch(clearError())
+    }
+  }, [dispatch, reSuccess, reError])
   const handleSubmit = (event) => {
     event.preventDefault();
     const mentorInformation = new FormData();
@@ -227,6 +233,7 @@ export default function MentorSignUp() {
                     id="email"
                     label="Email Address"
                     name="email"
+                    disabled={sent}
                     type="email"
                     autoComplete="email"
                     onChange={handleChange}
@@ -249,6 +256,7 @@ export default function MentorSignUp() {
                     required
                     fullWidth
                     id="phoneNo"
+                    disabled={sent}
                     label="Mobile Number"
                     name="phoneNo"
                     autoComplete="number"
@@ -394,7 +402,9 @@ export default function MentorSignUp() {
                     autoComplete="numberOTP"
                     onChange={handleChange}
                   />
-                  <LoadingButton onClick={() => {
+                  <LoadingButton 
+                  loading={reLoading}
+                  onClick={() => {
                     dispatch(resendOTP({email: mentorInfo.email,
                       mobileNumber: mentorInfo.phoneNo}))
                   }}>Resend OTP</LoadingButton>

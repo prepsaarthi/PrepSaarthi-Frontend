@@ -176,7 +176,7 @@ const PrivacyPolicy = () => {
               Ghaziabad-201002, India
             </Typography>
             <Typography variant="body1" paragraph>
-              [Your Email Address]
+            team@prepsaarthi.com
             </Typography>
             <Typography variant="body1" paragraph>
             +91 9336254473

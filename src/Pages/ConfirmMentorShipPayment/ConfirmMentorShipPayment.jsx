@@ -100,17 +100,17 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
         amount: sub.price,
         currency: "INR",
         name: "PrepSaarthi",
-        description: "Test Transaction",
+        description: `Subscrption for ${item.name}'s mentorship`,
         image: Logo,
         order_id: order.id,
         callback_url: `${process.env.REACT_APP_API_URL}/v1/paymentVerification?id=${item.id}&price=${sub.price}&duration=${duration}`,
         prefill: {
-          name: "Gaurav Kumar",
-          email: "gaurav.kumar@example.com",
-          contact: "9000090000",
+           name: stu.name,
+            email: stu.email,
+            contact: stu.mobileNumber,
         },
         notes: {
-          address: "Razorpay Corporate Office",
+          address: "Razorpay Corporate OfficeB606 Luxuria Estate, Aditya World City NH9 , Ghaziabad-201002, India",
         },
         theme: {
           color: "#3399cc",
@@ -121,7 +121,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
 
       dispatch(reset());
     }
-  }, [dispatch, loading, paymentError, order, item.id, sub.price, duration]);
+  }, [dispatch, loading, paymentError, order, item.id, sub.price, duration, item.name, stu.email,stu.mobileNumber,stu.name]);
   return (
     <>
         <MetaData title="Confirm Your Mentorship" />

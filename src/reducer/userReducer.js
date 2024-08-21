@@ -930,28 +930,28 @@ export const sendOTPReducer = createReducer(initalState, (builder) => {
         error: action.payload,
       };
     })
-    .addCase(stusendOTP.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    })
-    .addCase(stusendOTP.fulfilled, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        success: action.payload.status,
-        message: action.payload.message,
-        sent:true
-      };
-    })
-    .addCase(stusendOTP.rejected, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
+    // .addCase(stusendOTP.pending, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //   };
+    // })
+    // .addCase(stusendOTP.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     success: action.payload.status,
+    //     message: action.payload.message,
+    //     sent:true
+    //   };
+    // })
+    // .addCase(stusendOTP.rejected, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: action.payload,
+    //   };
+    // })
     .addCase(reset.fulfilled, (state, action) => {
       return {
         ...state,
@@ -976,22 +976,67 @@ export const sendOTPReducer = createReducer(initalState, (builder) => {
 export const stuSendOTPReducer = createReducer(initalState, (builder) => {
   builder
 
-    .addCase(sendOTP.pending, (state, action) => {
+  .addCase(stusendOTP.pending, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  })
+  .addCase(stusendOTP.fulfilled, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      success: action.payload.status,
+      message: action.payload.message,
+      sent:true
+    };
+  })
+  .addCase(stusendOTP.rejected, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      error: action.payload,
+    };
+  })
+  .addCase(reset.fulfilled, (state, action) => {
+    return {
+      ...state,
+      success: null,
+      message: null,
+    };
+  })
+  .addCase(otpReset.fulfilled, (state, action) => {
+    return {
+      ...state,
+      sent:false
+    };
+  })
+
+  .addCase(clearError.fulfilled, (state, action) => {
+    return {
+      ...state,
+      error: null,
+    };
+  });
+});
+export const reSendOTPReducerStu = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(sturesendOTP.pending, (state, action) => {
       return {
         ...state,
         loading: true,
       };
     })
-    .addCase(sendOTP.fulfilled, (state, action) => {
+    .addCase(sturesendOTP.fulfilled, (state, action) => {
       return {
         ...state,
         loading: false,
         success: action.payload.status,
         message: action.payload.message,
-        sent:true
       };
     })
-    .addCase(sendOTP.rejected, (state, action) => {
+    .addCase(sturesendOTP.rejected, (state, action) => {
       return {
         ...state,
         loading: false,
@@ -1005,13 +1050,6 @@ export const stuSendOTPReducer = createReducer(initalState, (builder) => {
         message: null,
       };
     })
-    .addCase(otpReset.fulfilled, (state, action) => {
-      return {
-        ...state,
-        sent:false
-      };
-    })
-
     .addCase(clearError.fulfilled, (state, action) => {
       return {
         ...state,
@@ -1040,30 +1078,30 @@ export const reSendOTPReducer = createReducer(initalState, (builder) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action.payload,
       };
     })
-    .addCase(sturesendOTP.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    })
-    .addCase(sturesendOTP.fulfilled, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        success: action.payload.status,
-        message: action.payload.message,
-      };
-    })
-    .addCase(sturesendOTP.rejected, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-      };
-    })
+    // .addCase(sturesendOTP.pending, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //   };
+    // })
+    // .addCase(sturesendOTP.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     success: action.payload.status,
+    //     message: action.payload.message,
+    //   };
+    // })
+    // .addCase(sturesendOTP.rejected, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: action.payload.error,
+    //   };
+    // })
     .addCase(reset.fulfilled, (state, action) => {
       return {
         ...state,

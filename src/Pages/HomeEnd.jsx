@@ -52,8 +52,8 @@ const HomeEnd = () => {
   ];
 
   const openWhatsapp = () => {
-    const phoneNumber = "+919984773000";
-    const message = "Hello! I would like to chat with you.";
+    const phoneNumber = "+91 9336254473";
+    const message = "Hello! I want to resolve some doubts";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;

@@ -13,6 +13,7 @@ import FinalStep from "./Pages/MentorsFinalSTeo/FinalStep.jsx";
 import MentorList from "./Pages/MentorList/MentorList.jsx";
 import MentorProfile from "./Pages/MentorList/MentorProfile.jsx";
 import EditProfile from "./Pages/EditProfile/EditProfile.jsx";
+import About from "./Pages/About/About.jsx";
 import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess.jsx";
 
 import MentorDashboard from "./Pages/MentorDashboard/MentorDashboard.jsx";
@@ -97,6 +98,7 @@ const App = () => {
         <Route path="/lists/mentors" element={<MentorList />}></Route>
         <Route path="/mentors/:id" element={<MentorProfile />}></Route>
         <Route path="/privacy" element={<PrivacyPolicy />}></Route>
+        <Route path="/about" element={<About />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
         <Route path="/forgot/password" element={<ForgotPassword />}></Route>
       </Routes>

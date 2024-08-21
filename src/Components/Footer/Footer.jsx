@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -10,6 +10,10 @@ import PlaceIcon from "@mui/icons-material/Place";
 import "./footer.css";
 import { Link } from "react-router-dom";
 const Footer = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
+
   return (
     <>
       <footer>
@@ -50,7 +54,7 @@ const Footer = () => {
             <div className="col" id="useful-links">
               <h3>Links</h3>
               <div className="links">
-                <Link to="#">About</Link>
+                <Link to="/about">About</Link>
                 <Link to="#">Jobs</Link>
                 <Link to="/privacy">Our Policy</Link>
                 <Link to="#">Help</Link>

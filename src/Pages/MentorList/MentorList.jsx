@@ -37,7 +37,7 @@ const MentorList = () => {
   }, [dispatch, error]);
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  },[]);
 
   useEffect(() => {
     if (loading === false) {
@@ -226,6 +226,7 @@ const MentorList = () => {
                                   sx={{
                                     fontSize: { xs: "1.8vmax", md: "1vmax" },
                                     fontWeight: 500,
+                                    mt:'1vmax'
                                   }}
                                 >
                                   <span>{`${item.collegeName
@@ -239,9 +240,10 @@ const MentorList = () => {
                                       "NIT"
                                     )} `}</span>
                                      
-                                  <span>({item.branch.toUpperCase()})</span>
+                                  {/* <span>({item.branch.toUpperCase()})</span> */}
+                                  <span>(B.Tech)</span>
                                 </Typography>
-                                <Typography
+                                {/* <Typography
                                   variant="subtitle1"
                                   color="text.secondary"
                                   component="div"
@@ -259,8 +261,8 @@ const MentorList = () => {
                                   {item.exam?.name === "bitsat" && (
                                     <span>BITSAT({item.exam?.rank})</span>
                                   )}
-                                </Typography>
-                                <Typography
+                                </Typography> */}
+                                {/* <Typography
                                   variant="subtitle1"
                                   color="text.secondary"
                                   component="div"
@@ -270,7 +272,7 @@ const MentorList = () => {
                                   }}
                                 >
                                   Current Year : {item.yearOfStudy}
-                                </Typography>
+                                </Typography> */}
                                 <Rating
                                   value={item?.ratings}
                                   size={
