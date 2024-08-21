@@ -100,9 +100,9 @@ const App = () => {
         <Route path="/mentors/:id" element={<MentorProfile />}></Route>
         <Route path="/privacy" element={<PrivacyPolicy />}></Route>
         <Route path="/about" element={<About />}></Route>
-        <Route path="/notfound" element={<NotFound />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
         <Route path="/forgot/password" element={<ForgotPassword />}></Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
       <TrackPageView />
