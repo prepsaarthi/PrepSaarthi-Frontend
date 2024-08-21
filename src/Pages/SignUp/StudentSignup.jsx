@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import MetaData from "../../utils/Metadata";
 import CircularProgress from "@mui/material/CircularProgress";
 import imageCompression from "browser-image-compression";
+import { resendOTP, reset, sendOTP, stusendOTP } from "../../action/userAction";
 const defaultTheme = createTheme();
 
 const convertBase64 = (file) => {
@@ -39,6 +40,18 @@ export default function StudentSignUp() {
   const { loading, error, user, isAuthenticated } = useSelector(
     (state) => state.student
   );
+  const {
+    error: otpError,
+    loading: otpLoading,
+    success: otpSuccess,
+    sent
+  } = useSelector((state) => state.newOTPsend);
+  const {
+    loading: reLoading,
+    success: reSuccess,
+    message: reMessage,
+    error: reError,
+  } = useSelector((state) => state.resendOtherOTP);
   const navigate = useNavigate();
   const [studentInfo, setstudentInfo] = React.useState({});
   const [avatarPrview, setAvatarPreview] = React.useState(
@@ -77,7 +90,16 @@ export default function StudentSignUp() {
         setSuccess(false)
       }, 1200);}
   }, [prgress ])
-
+  React.useEffect(() => {
+    if(otpSuccess){
+      toast.success("OTP has been sent to your submitted email and mobile number")
+      dispatch(reset())
+    }
+    if(otpError){
+      toast.error(otpError.message)
+      dispatch(clearError())
+    }
+  }, [dispatch, otpError, otpSuccess])
   const handleChange = async (event) => {
     if (event.target.name === "avatar") {
       setuploading(true);
@@ -182,7 +204,6 @@ export default function StudentSignUp() {
                     id="phoneno"
                     label="Mobile Number"
                     name="phoneNo"
-                    type="number"
                     autoComplete="number"
                   />
                 </Grid>
@@ -271,14 +292,64 @@ export default function StudentSignUp() {
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
+                  <LoadingButton
+                    loading={otpLoading}
+                    onClick={() => {
+                      dispatch(
+                        sendOTP({
+                          email: studentInfo.email,
+                          mobileNumber: studentInfo.phoneNo,
+                        })
+                      );
+                    }}
+                    fullWidth
+                    sx={!sent ? {
+                      display:'block',
+                      mt: 3,
+                      mb: 2,
+                      color:'white',
+                      p: "0.8vmax 0",
+                      fontSize: { xs: "2.3vmax", md: "2vmax", lg: "1.1vmax" },
+                      bgcolor: "var(--button1)",
+                      "&:hover": { backgroundColor: "var(--button1Hover)" },
+                    } : {display:"none"}}
+                  >
+                    Verify your Email and Number
+                  </LoadingButton>
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="emailOTP"
+                    label="Email Verification Code"
+                    name="emailOTP"
+                    autoComplete="emailOTP"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="numberOTP"
+                    label="Mobile Number Verification Code"
+                    name="numberOTP"
+                    autoComplete="numberOTP"
+                    onChange={handleChange}
+                  />
+                  <LoadingButton onClick={() => {
+                    dispatch(resendOTP({email: studentInfo.email,
+                      mobileNumber: studentInfo.phoneNo}))
+                  }}>Resend OTP</LoadingButton>
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
                   <Typography variant="p">
                     By signing up you are agreeing to our{" "}
                     <Link style={{ textDecoration: "underline" }} to="/privacy">
                       Privacy & Policy
                     </Link>
                   </Typography>
-                </Grid>
-              </Grid>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -296,6 +367,8 @@ export default function StudentSignUp() {
               >
                 Sign Up
               </LoadingButton>
+                </Grid>
+              </Grid>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/login" variant="body2">

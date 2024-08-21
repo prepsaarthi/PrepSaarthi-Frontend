@@ -142,6 +142,7 @@ const RatingMentor = ({ mentorId, student }) => {
                     type="submit"
                     variant="outlined"
                     sx={{ width: "3vmax", mr: "1vmax" }}
+                    disabled={rating === 0}
                   >
                     <SendIcon />
                   </LoadingButton>

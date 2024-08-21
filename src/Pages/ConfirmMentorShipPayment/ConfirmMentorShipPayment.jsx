@@ -139,7 +139,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
           <Typography sx={{ fontWeight: 600, fontSize: "2vmax" }}>
             Thanks for choosing us !
           </Typography>
-          <Typography>Your mentorship plan is for a {sub.type}</Typography>
+          <Typography>Your mentorship plan is for a {sub.type === 'daily' ? 'week' : 'month'}</Typography>
         </Box>
         <Box>
           <Grid

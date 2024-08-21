@@ -357,14 +357,15 @@ export const updateCoverImage = createAsyncThunk(
 
 export const sendOTP = createAsyncThunk(
   "mentor/send/OTP",
-  async (_, { rejectWithValue }) => {
+  async ({email, mobileNumber}, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(`/v1/users/send/otp`);
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.post(`/v1/users/send/otp`, {email,mobileNumber},config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  } 
 );
 export const popUpState = createAsyncThunk(
   "update/popup/state",
@@ -380,9 +381,10 @@ export const popUpState = createAsyncThunk(
 );
 export const stusendOTP = createAsyncThunk(
   "student/send/OTP",
-  async (_, { rejectWithValue }) => {
+  async ({email, mobileNumber}, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(`/v1/student/send/otp`);
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.post(`/v1/student/send/otp`,{email,mobileNumber},config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -391,9 +393,10 @@ export const stusendOTP = createAsyncThunk(
 );
 export const resendOTP = createAsyncThunk(
   "mentor/resend/OTP",
-  async (id, { rejectWithValue }) => {
+  async ({email, mobileNumber}, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(`/v1/users/resend/otp`);
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.post(`/v1/users/resend/otp`, {email, mobileNumber}, config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -402,9 +405,10 @@ export const resendOTP = createAsyncThunk(
 );
 export const sturesendOTP = createAsyncThunk(
   "student/resend/OTP",
-  async (id, { rejectWithValue }) => {
+  async ({email, mobileNumber}, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(`/v1/student/resend/otp`);
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.post(`/v1/student/resend/otp`,{email, mobileNumber}, config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -505,5 +509,8 @@ export const clearMessage = createAsyncThunk("user/clearMssg", async () => {
   return null;
 });
 export const reset = createAsyncThunk("user/reset", async () => {
+  return null;
+});
+export const otpReset = createAsyncThunk("user/reset/for/otp", async () => {
   return null;
 });

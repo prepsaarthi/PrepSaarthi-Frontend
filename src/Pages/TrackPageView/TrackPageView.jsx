@@ -21,6 +21,7 @@ function TrackPageView() {
     const sendVisitCount = async () => {
       if (!sessionStorage.getItem("visited")) {
         try {
+        
           await fetch(`${process.env.REACT_APP_API_URL}/v1/api/update-counts`, {
             method: "POST",
             headers: {

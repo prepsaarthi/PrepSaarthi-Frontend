@@ -340,7 +340,7 @@ const MentorProfile = () => {
                         {(isAuthenticated || menAuth) && user?.name}
                       </Typography>
                       <Typography component="p" variant="p" sx={{fontSize:{xs:'1.8vmax', md:'2vmax'},margin:'12px auto', fontWeight:700, fontStyle:'italic', display:{xs:'block', md:'none'}}}>
-                      &#x275D; {(isAuthenticated || menAuth) && (user?.desc)?.slice(0,35)} &#x275E;
+                      &#x275D; {(isAuthenticated || menAuth) && user?.desc?.slice(0,35)} &#x275E;
                       </Typography>
                       {(isAuthenticated || menAuth) &&
                       !stuUser?.user?.mentorAssigned ? (
@@ -457,7 +457,7 @@ const MentorProfile = () => {
                           </Box>
                           <Box mt={"2vmax"}>
                           <Typography component="p" variant="p" sx={{fontSize:{ md:'1.2vmax'},margin:'12px auto', fontWeight:800, fontStyle:'italic', display:{xs:'none', md:'block'}}}>
-                      &#x275D; {(isAuthenticated || menAuth) && (user?.desc)?.slice(0,35)} &#x275E;
+                      &#x275D; {(isAuthenticated || menAuth) && user?.desc?.slice(0,35)} &#x275E;
                       </Typography>
                             <Typography
                               component="p"
@@ -469,7 +469,7 @@ const MentorProfile = () => {
                                 fontWeight: 300,
                               }}
                             >
-                              {(user?.about)?.slice(0,400)}
+                              {user?.about?.slice(0,400)}
                             </Typography>
                           </Box>
                         </Box>

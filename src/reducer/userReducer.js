@@ -18,6 +18,7 @@ import {
   loadUser,
   loginUser,
   logoutUser,
+  otpReset,
   popUpState,
   resendOTP,
   reset,
@@ -919,6 +920,7 @@ export const sendOTPReducer = createReducer(initalState, (builder) => {
         loading: false,
         success: action.payload.status,
         message: action.payload.message,
+        sent:true
       };
     })
     .addCase(sendOTP.rejected, (state, action) => {
@@ -940,6 +942,7 @@ export const sendOTPReducer = createReducer(initalState, (builder) => {
         loading: false,
         success: action.payload.status,
         message: action.payload.message,
+        sent:true
       };
     })
     .addCase(stusendOTP.rejected, (state, action) => {
@@ -954,6 +957,58 @@ export const sendOTPReducer = createReducer(initalState, (builder) => {
         ...state,
         success: null,
         message: null,
+      };
+    })
+    .addCase(otpReset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        sent:false
+      };
+    })
+
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const stuSendOTPReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(sendOTP.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(sendOTP.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.status,
+        message: action.payload.message,
+        sent:true
+      };
+    })
+    .addCase(sendOTP.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        message: null,
+      };
+    })
+    .addCase(otpReset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        sent:false
       };
     })
 

@@ -13,12 +13,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { clearError, signUpMentor } from "../../action/userAction";
+import { clearError, otpReset, resendOTP, reset, sendOTP, signUpMentor } from "../../action/userAction";
 import toast from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
 import MetaData from "../../utils/Metadata";
 import imageCompression from "browser-image-compression";
-import './success.css'
+import "./success.css";
 const defaultTheme = createTheme();
 
 const convertBase64 = (file) => {
@@ -45,6 +45,22 @@ export default function MentorSignUp() {
   const [avatar, setAvatar] = React.useState("");
   const dispatch = useDispatch();
   const { error, loading, user } = useSelector((state) => state.mentor);
+  const {
+    error: otpError,
+    loading: otpLoading,
+    success: otpSuccess,
+    sent
+  } = useSelector((state) => state.newOTPsend);
+  const {
+    loading: reLoading,
+    success: reSuccess,
+    message: reMessage,
+    error: reError,
+  } = useSelector((state) => state.resendOtherOTP);
+
+  React.useEffect(() => {
+    
+  })
   const handleSubmit = (event) => {
     event.preventDefault();
     const mentorInformation = new FormData();
@@ -54,6 +70,8 @@ export default function MentorSignUp() {
     mentorInformation.set("mobileNumber", mentorInfo.phoneNo);
     mentorInformation.set("password", mentorInfo.password);
     mentorInformation.set("collegeName", mentorInfo.college);
+    mentorInformation.set("emailOTP", mentorInfo.emailOTP);
+    mentorInformation.set("numberOTP", mentorInfo.numberOTP);
     mentorInformation.set("avatar", avatar);
 
     const serializedData = {};
@@ -68,16 +86,29 @@ export default function MentorSignUp() {
   const [uploading, setuploading] = React.useState(false);
   
   React.useEffect(() => {
-    if(prgress === 100)
-      {setSuccess(true)
+    dispatch(reset())
+  }, [dispatch])
+  React.useEffect(() => {
+    if(otpSuccess){
+      toast.success("OTP has been sent to your submitted email and mobile number")
+      dispatch(reset())
+    }
+    if(otpError){
+      toast.error(otpError.message)
+      dispatch(clearError())
+    }
+  }, [dispatch, otpError, otpSuccess])
+  React.useEffect(() => {
+    if (prgress === 100) {
+      setSuccess(true);
       setTimeout(() => {
-        
-    setProgress(0)
+        setProgress(0);
       }, 800);
       setTimeout(() => {
-        setSuccess(false)
-      }, 1200);}
-  }, [prgress ])
+        setSuccess(false);
+      }, 1200);
+    }
+  }, [prgress]);
   const handleChange = async (event) => {
     if (event.target.name === "avatar") {
       setuploading(true);
@@ -98,12 +129,12 @@ export default function MentorSignUp() {
       try {
         const compressedFile = await imageCompression(imageFile, options);
         const base64img = await convertBase64(compressedFile);
-        setuploading(false)
+        setuploading(false);
         setAvatar(base64img);
-            setAvatarPreview(base64img);
+        setAvatarPreview(base64img);
       } catch (error) {
-        setuploading(false)
-        toast.error(error.message)
+        setuploading(false);
+        toast.error(error.message);
       }
       // if (fileSizeMB > 3) {
       //   // Compression options
@@ -146,9 +177,11 @@ export default function MentorSignUp() {
   React.useEffect(() => {
     if (error) {
       toast.error(error.message);
+      dispatch(otpReset())
       dispatch(clearError());
     }
     if (user) {
+      dispatch(otpReset())
       navigate("/verify/account");
     }
   }, [dispatch, error, navigate, user]);
@@ -218,7 +251,6 @@ export default function MentorSignUp() {
                     id="phoneNo"
                     label="Mobile Number"
                     name="phoneNo"
-                    type="number"
                     autoComplete="number"
                     onChange={handleChange}
                   />
@@ -246,18 +278,27 @@ export default function MentorSignUp() {
                       <CircularProgress
                         variant="determinate"
                         value={prgress}
-                        sx={prgress === 0 ? {
-                          position: "absolute",
-                          top: "5.18px",
-                          left: "5px",
-                          display:"none"
-                        }:{
-                          position: "absolute",
-                          top: "5.18px",
-                          left: "5px",
-                        }}
+                        sx={
+                          prgress === 0
+                            ? {
+                                position: "absolute",
+                                top: "5.18px",
+                                left: "5px",
+                                display: "none",
+                              }
+                            : {
+                                position: "absolute",
+                                top: "5.18px",
+                                left: "5px",
+                              }
+                        }
                       />
-                      <div class="success-animation" style={success? {display:'block'} : {display:'none'}}>
+                      <div
+                        class="success-animation"
+                        style={
+                          success ? { display: "block" } : { display: "none" }
+                        }
+                      >
                         <svg
                           class="checkmark"
                           xmlns="http://www.w3.org/2000/svg"
@@ -307,14 +348,64 @@ export default function MentorSignUp() {
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
+                  <LoadingButton
+                    loading={otpLoading}
+                    onClick={() => {
+                      dispatch(
+                        sendOTP({
+                          email: mentorInfo.email,
+                          mobileNumber: mentorInfo.phoneNo,
+                        })
+                      );
+                    }}
+                    fullWidth
+                    sx={!sent ? {
+                      display:'block',
+                      mt: 3,
+                      mb: 2,
+                      color:'white',
+                      p: "0.8vmax 0",
+                      fontSize: { xs: "2.3vmax", md: "2vmax", lg: "1.1vmax" },
+                      bgcolor: "var(--button1)",
+                      "&:hover": { backgroundColor: "var(--button1Hover)" },
+                    } : {display:"none"}}
+                  >
+                    Verify your Email and Number
+                  </LoadingButton>
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="emailOTP"
+                    label="Email Verification Code"
+                    name="emailOTP"
+                    autoComplete="emailOTP"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="numberOTP"
+                    label="Mobile Number Verification Code"
+                    name="numberOTP"
+                    autoComplete="numberOTP"
+                    onChange={handleChange}
+                  />
+                  <LoadingButton onClick={() => {
+                    dispatch(resendOTP({email: mentorInfo.email,
+                      mobileNumber: mentorInfo.phoneNo}))
+                  }}>Resend OTP</LoadingButton>
+                </Grid>
+                <Grid item xs={12} sx={sent ? {display:'block'} : {display:'none'}}>
                   <Typography variant="p">
                     By signing up you are agreeing to our{" "}
                     <Link style={{ textDecoration: "underline" }} to="/privacy">
                       Privacy & Policy
                     </Link>
                   </Typography>
-                </Grid>
-              </Grid>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -332,6 +423,9 @@ export default function MentorSignUp() {
               >
                 Sign Up
               </LoadingButton>
+                </Grid>
+
+              </Grid>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/login" variant="body2" component={ReactLink}>
