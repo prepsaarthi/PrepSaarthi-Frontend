@@ -225,7 +225,7 @@ const MentorList = () => {
                                   color="text.secondary"
                                   component="p"
                                   sx={{
-                                    fontSize: { xs: "2vmax", md: "1.2vmax" },
+                                    fontSize: { xs: "2vmax", md: "1vmax" },
                                     fontWeight: 500,
                                     mt:'1.3vmax',
                                     mb:'2vmax'
@@ -236,6 +236,10 @@ const MentorList = () => {
                                     .replace(
                                       "INDIAN INSTITUTE OF TECHNOLOGY",
                                       "IIT"
+                                    )
+                                    .replace(
+                                      "DELHI TECHNOLOGICAL UNIVERSITY",
+                                      "DTU"
                                     )
                                     .replace(
                                       "NATIONAL INSTITUTE OF TECHNOLOGY",
