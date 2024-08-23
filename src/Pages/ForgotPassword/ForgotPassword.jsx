@@ -7,6 +7,7 @@ import {
   changePassword,
   clearError,
   clearMessage,
+  isTKid,
   loadUser,
   reset,
   resetPassword,
@@ -15,14 +16,26 @@ import {
   loadUser as stuLoad
 } from "../../action/studentAction";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
-
-
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
+  const {tkid} = useParams()
+  const {loading:idLoading, success:idSuccess, error:idError} = useSelector(state => state.tkid)
+  useEffect(() => {
+    if(tkid){
+    dispatch(isTKid(tkid))
+    }
+    if(idSuccess === false && !isAuthenticated && !stuAuth){
+      navigate('/notfound')
+    }
+    if(idError){
+      dispatch(clearError())
+    }
+  },[dispatch,tkid, idError, idSuccess,navigate])
+  const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isButton, setButton] = useState(false)
@@ -40,7 +53,6 @@ const ForgotPassword = () => {
     success: rsuccess,
     error: rError,
   } = useSelector((state) => state.passwordChange);
-  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -53,6 +65,7 @@ const ForgotPassword = () => {
   useEffect(() => {
     if (loading === false && success & message !==null) {
       toast.success(message);
+      navigate('/login')
       dispatch(clearMessage())
     }
     if (error) {
@@ -84,15 +97,18 @@ const ForgotPassword = () => {
 
 
 useEffect(() => {
-    if(!otp || !password || !confirmPassword )  {
+    if(!password || !confirmPassword )  {
         setButton(false)
     }else{
         setButton(true)
     }
-}, [otp,password,confirmPassword])
+}, [password,confirmPassword])
   return (
+    
     <>
-      {success ? (
+    {idLoading ? <Loader /> : (
+      <>
+      {idSuccess ? <>
         <Box
           sx={{
             maxWidth: "100vw",
@@ -111,16 +127,6 @@ useEffect(() => {
               p: "2vmax",
             }}
           >
-            <TextField
-            sx={{mb:'1vmax'}}
-              variant="outlined"
-              label="Enter the OTP"
-              type="text"
-              onChange={(e) => {
-                setOtp(e.target.value);
-              }}
-              value={otp}
-            />
             <TextField
             sx={{mb:'1vmax'}}
               variant="outlined"
@@ -144,7 +150,7 @@ useEffect(() => {
               disabled={!isButton}
               onClick={() => {
                 dispatch(
-                  changePassword({ otp, password, confirmPassword, userId })
+                  changePassword({ password, confirmPassword,tkid })
                 );
               }}
             >
@@ -152,44 +158,48 @@ useEffect(() => {
             </LoadingButton>
           </Box>
         </Box>
-      ) : (
+      </> : <>
+      {!tkid && (
+        <Box
+        sx={{
+          maxWidth: "100vw",
+          minHeight: "90vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Box
           sx={{
-            maxWidth: "100vw",
-            minHeight: "90vh",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: "column",
+            border: "0.2px solid grey",
+            borderRadius: "10px",
+            p: "2vmax",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              border: "0.2px solid grey",
-              borderRadius: "10px",
-              p: "2vmax",
+          <TextField
+            variant="outlined"
+            label="Enter your registered email"
+            type="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <LoadingButton
+            loading={loading}
+            onClick={() => {
+              dispatch(resetPassword(email));
             }}
           >
-            <TextField
-              variant="outlined"
-              label="Enter your registered email"
-              type="email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <LoadingButton
-              loading={loading}
-              onClick={() => {
-                dispatch(resetPassword(email));
-              }}
-            >
-              Send OTP
-            </LoadingButton>
-          </Box>
+            Send OTP
+          </LoadingButton>
         </Box>
+      </Box>
       )}
+      </>}
+      </>
+    )}
     </>
   );
 };

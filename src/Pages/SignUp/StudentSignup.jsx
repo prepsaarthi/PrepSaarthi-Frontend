@@ -225,7 +225,7 @@ export default function StudentSignUp() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <TextField 
                     required
                     fullWidth
                     onChange={handleChange}
@@ -233,7 +233,7 @@ export default function StudentSignUp() {
                     label="Password"
                     type="password"
                     id="password"
-                    autoComplete="new-password"
+                    autoComplete="new-password" 
                   />
                 </Grid>
                 <Grid item xs={12}>

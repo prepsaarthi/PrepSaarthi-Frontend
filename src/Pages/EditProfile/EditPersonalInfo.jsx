@@ -45,9 +45,7 @@ const convertBase64 = (file) => {
 const EditPersonalInfo = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [college, setCollege] = useState("");
+  // const [college, setCollege] = useState("");
   const [avatarPrview, setAvatarPreview] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
   const dispatch = useDispatch();
@@ -62,9 +60,7 @@ const EditPersonalInfo = () => {
     const mentorInformation = new FormData();
 
     mentorInformation.set("name", name);
-    mentorInformation.set("email", email);
-    mentorInformation.set("mobileNumber", mobileNumber);
-    mentorInformation.set("collegeName", college);
+    // mentorInformation.set("collegeName", college);
     mentorInformation.set("avatar", avatar);
 
     const serializedData = {};
@@ -121,9 +117,7 @@ const EditPersonalInfo = () => {
   useEffect(() => {
     if (loading === false) {
       setName(user?.user?.name);
-      setEmail(user?.user?.email);
-      setCollege(user?.user?.collegeName);
-      setMobileNumber(user?.user?.mobileNumber);
+      // setCollege(user?.user?.collegeName);
       setAvatarPreview(user?.user?.avatar?.public_URI);
     }
   }, [
@@ -192,22 +186,9 @@ const EditPersonalInfo = () => {
                   label="Your Name"
                   onChange={(e) => setName(e.target.value)}
                 />
+              <Typography variant="p" component={'span'} sx={{fontSize:{xs:"1vmax", md:"0.5vmax"}, color:'red', fontStyle:'italic'}}>Features to update your college, mobile number, and email will be available soon.</Typography>
               </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  value={email}
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -218,21 +199,9 @@ const EditPersonalInfo = () => {
                   autoComplete="college"
                   onChange={(e) => setCollege(e.target.value)}
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  value={mobileNumber}
-                  id="phoneNo"
-                  label="Mobile Number"
-                  name="phoneNo"
-                  type="number"
-                  autoComplete="number"
-                  onChange={(e) => setMobileNumber(e.target.value)}
-                />
-              </Grid>
+             
               <Grid item xs={12}>
               <Box display="flex" alignItems="center">
                     <Box

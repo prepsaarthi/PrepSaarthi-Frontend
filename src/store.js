@@ -22,6 +22,7 @@ import {
   resoveConnectionReducer,
   sendOTPReducer,
   stuSendOTPReducer,
+  tkidReducer,
   updateMentor,
   updateMentorFinalReducer,
   updateMentorPassword,
@@ -87,7 +88,8 @@ const store = configureStore({
     grantStatus:grantStatusHeadMentor,
     changeCoverImage:changeCoverReducer,
     changeCoverImageStu:changeCoverReducerStu,
-    popUp:popUpReducer
+    popUp:popUpReducer,
+    tkid:tkidReducer
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

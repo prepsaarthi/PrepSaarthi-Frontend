@@ -415,6 +415,18 @@ export const sturesendOTP = createAsyncThunk(
     }
   }
 );
+export const isTKid = createAsyncThunk(
+  "user/tkid",
+  async (tkid, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type" : "application/json"}}
+      const { data } = await axiosInstance.post(`/v1/tkid/isexists`,{tkid}, config);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 export const verifyOTP = createAsyncThunk(
   "mentor/verify/OTP",
   async (otp, { rejectWithValue }) => {
@@ -466,16 +478,14 @@ export const resetPassword = createAsyncThunk(
 );
 export const changePassword = createAsyncThunk(
   "user/change/password",
-  async ({ otp, password, confirmPassword, userId }, { rejectWithValue }) => {
+  async ({ password, confirmPassword, tkid }, { rejectWithValue }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axiosInstance.put(
-        `/v1/password/reset`,
+        `/v1/password/reset/${tkid}`,
         {
-          otp: otp,
-          password: password,
-          confirmPassword: confirmPassword,
-          userId,
+          password,
+          confirmPassword,
         },
         config
       );

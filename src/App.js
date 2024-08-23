@@ -101,8 +101,9 @@ const App = () => {
         <Route path="/privacy" element={<PrivacyPolicy />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
-        <Route path="/forgot/password" element={<ForgotPassword />}></Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path="/forgot/password/:tkid" element={<ForgotPassword />}></Route>
+        <Route exact path="/forgot/password/" element={<ForgotPassword />}></Route>
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
       <Footer />
       <TrackPageView />

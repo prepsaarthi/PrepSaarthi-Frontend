@@ -15,6 +15,7 @@ import {
   getAllStudents,
   getUserDetails,
   getVisitsData,
+  isTKid,
   loadUser,
   loginUser,
   logoutUser,
@@ -1048,6 +1049,42 @@ export const reSendOTPReducerStu = createReducer(initalState, (builder) => {
         ...state,
         success: null,
         message: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const tkidReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(isTKid.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(isTKid.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+      };
+    })
+    .addCase(isTKid.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
       };
     })
     .addCase(clearError.fulfilled, (state, action) => {
