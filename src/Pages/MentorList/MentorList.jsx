@@ -256,10 +256,13 @@ const MentorList = () => {
                                 {item?.totalActiveMentee >= 3 && (
                                   <Box
                                     sx={{
-                                      width: { xs: "6vmax" },
-                                      height: { xs: "2vmax" },
-                                      border: "1px solid #aaa62d",
-                                      color: "#aaa62d",
+                                      width: { xs: "12vmax", md:'6vmax' },
+                                      height: { xs: "4vmax", md:"2vmax" },
+                                      fontSize:{xs:'2vmax',md:"1vmax"},
+                                    
+                                      color: "white",
+                                      fontWeight:600,
+                                      bgcolor:"var(--theme2)",
                                       borderRadius: "5px",
                                       display: "flex",
                                       alignItems: "center",
