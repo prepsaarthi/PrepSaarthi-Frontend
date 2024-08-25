@@ -3,10 +3,7 @@ import {
   Button,
   Typography,
   Modal,
-  ListItemButton,
-  ListItemIcon,
   ListItemText,
-  List,
 } from "@mui/material";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { styled } from "@mui/system";
@@ -21,7 +18,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import ImageIcon from "@mui/icons-material/Image";
 import ListItem from "@mui/material/ListItem";
 import SchoolIcon from "@mui/icons-material/School";
 import "swiper/css";
@@ -42,7 +38,7 @@ import toast from "react-hot-toast";
 import RatingMentor from "./RatingMentor";
 import ConfirmMentorShipPayment from "../ConfirmMentorShipPayment/ConfirmMentorShipPayment";
 import MetaData from "../../utils/Metadata";
-
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 const MentorProfile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -404,7 +400,10 @@ const MentorProfile = () => {
                             variant="outlined"
                             sx={{ width: { xs: "18vmax", md: "12vmax" } }}
                             onClick={() => {
-                              if (isAuthenticated) {
+                              if (
+                                isAuthenticated &&
+                                !(user?.activeMentee >= 3)
+                              ) {
                                 setShowPage(true);
                                 setSubscription({
                                   type: "daily",
@@ -415,6 +414,21 @@ const MentorProfile = () => {
                                 mentor?.user?.signedUpFor === "mentor"
                               ) {
                                 toast.error("Mentors Can't Buy Mentorship");
+                              } else if (user?.activeMentee >=3) {
+                                toast(
+                                  `Oops! ${
+                                    user?.name?.split(" ")[0]
+                                  } is busy with other mentees. Try again later or explore other mentorships!`,
+                                  {
+                                    id: "month",
+
+                                    icon: (
+                                      <EventAvailableIcon
+                                        sx={{ color: "var(--button2)" }}
+                                      />
+                                    ),
+                                  }
+                                );
                               } else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");
@@ -432,7 +446,10 @@ const MentorProfile = () => {
                               mt: 0,
                             }}
                             onClick={() => {
-                              if (isAuthenticated) {
+                              if (
+                                isAuthenticated &&
+                                !(user?.activeMentee >= 3)
+                              ) {
                                 setShowPage(true);
                                 setSubscription({
                                   type: "weekly",
@@ -443,6 +460,20 @@ const MentorProfile = () => {
                                 mentor?.user?.signedUpFor === "mentor"
                               ) {
                                 toast.error("Mentors Can't Buy Mentorship");
+                              } else if (user?.activeMentee >= 3) {
+                                toast(
+                                  `Oops! ${
+                                    user?.name?.split(" ")[0]
+                                  } is busy with other mentees. Try again later or explore other mentorships!`,
+                                  {
+                                    id: "month",
+                                    icon: (
+                                      <EventAvailableIcon
+                                        sx={{ color: "var(--button2)" }}
+                                      />
+                                    ),
+                                  }
+                                );
                               } else {
                                 toast(" Login To Buy Your Mentorship");
                                 navigate("/login");

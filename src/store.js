@@ -89,7 +89,7 @@ const store = configureStore({
     changeCoverImage:changeCoverReducer,
     changeCoverImageStu:changeCoverReducerStu,
     popUp:popUpReducer,
-    tkid:tkidReducer
+    tkid:tkidReducer,
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

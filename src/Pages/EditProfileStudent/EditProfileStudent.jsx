@@ -48,8 +48,8 @@ const EditProfileStudent = () => {
       } = useSelector((state) => state.updateStudentInfo);
     const navigate = useNavigate();
     const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [mobileNo, setMobileNo] = React.useState("");
+    // const [email, setEmail] = React.useState("");
+    // const [mobileNo, setMobileNo] = React.useState("");
     const [avatar, setAvatar] = React.useState("");
     const [avatarUpdate, setAvatarUpdate] = React.useState("");
     const handleSubmit = (event) => {
@@ -57,8 +57,8 @@ const EditProfileStudent = () => {
       const studentInformation = new FormData();
   
       studentInformation.set("name", name);
-      studentInformation.set("email", email);
-      studentInformation.set("mobileNumber", mobileNo);
+      // studentInformation.set("email", email);
+      // studentInformation.set("mobileNumber", mobileNo);
       studentInformation.set("avatar", avatar);
   
       const serializedData = {};
@@ -140,8 +140,8 @@ const EditProfileStudent = () => {
     useEffect(() => {
         if(loading === false){
             setName(user.user.name)
-            setEmail(user.user.email)
-            setMobileNo(user.user.mobileNumber)
+            // setEmail(user.user.email)
+            // setMobileNo(user.user.mobileNumber)
             setAvatar(user.user.avatar.public_URI)
         }
     },[loading, user])
@@ -192,9 +192,11 @@ const EditProfileStudent = () => {
                     label="Full Name"
                     autoFocus
                     />
+                                  <Typography variant="p" component={'span'} sx={{fontSize:{xs:"1vmax", md:"0.5vmax"}, color:'red', fontStyle:'italic'}}>Features to update your mobile number, and email will be available soon.</Typography>
+
                 </Grid>
   
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -218,7 +220,7 @@ const EditProfileStudent = () => {
                     type="number"
                     autoComplete="number"
                   />
-                </Grid>
+                </Grid> */}
     
                 <Grid item xs={12}>
                 <Box display="flex" alignItems="center">

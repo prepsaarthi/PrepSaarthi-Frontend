@@ -192,7 +192,7 @@ useEffect(() => {
               dispatch(resetPassword(email));
             }}
           >
-            Send OTP
+            Submit
           </LoadingButton>
         </Box>
       </Box>

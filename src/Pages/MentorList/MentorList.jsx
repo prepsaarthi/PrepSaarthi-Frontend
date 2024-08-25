@@ -37,7 +37,7 @@ const MentorList = () => {
   }, [dispatch, error]);
   useEffect(() => {
     window.scrollTo(0, 0);
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (loading === false) {
@@ -184,7 +184,11 @@ const MentorList = () => {
                             sx={{
                               display: "flex",
                               width: { xs: "100%", md: "95%" },
-                              height:{xs:'20vmax', md:'15vmax', lg:'10vmax'},
+                              height: {
+                                xs: "20vmax",
+                                md: "15vmax",
+                                lg: "10vmax",
+                              },
                               borderRadius: "1vmax",
                               boxShadow: "-1px 1px 14px -5px rgba(0,0,0,0.4)",
                               alignItems: "center",
@@ -227,8 +231,8 @@ const MentorList = () => {
                                   sx={{
                                     fontSize: { xs: "2vmax", md: "1vmax" },
                                     fontWeight: 500,
-                                    mt:'0.6vmax',
-                                    mb:'1.2vmax'
+                                    mt: "0.6vmax",
+                                    mb: "1.2vmax",
                                   }}
                                 >
                                   <span>{`${item.collegeName
@@ -245,10 +249,26 @@ const MentorList = () => {
                                       "NATIONAL INSTITUTE OF TECHNOLOGY",
                                       "NIT"
                                     )} `}</span>
-                                     
+
                                   {/* <span>({item.branch.toUpperCase()})</span> */}
                                   <span>(B.Tech)</span>
                                 </Typography>
+                                {item?.totalActiveMentee >= 3 && (
+                                  <Box
+                                    sx={{
+                                      width: { xs: "6vmax" },
+                                      height: { xs: "2vmax" },
+                                      border: "1px solid #aaa62d",
+                                      color: "#aaa62d",
+                                      borderRadius: "5px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    Occupied
+                                  </Box>
+                                )}
                                 {/* <Typography
                                   variant="subtitle1"
                                   color="text.secondary"
@@ -279,6 +299,7 @@ const MentorList = () => {
                                 >
                                   Current Year : {item.yearOfStudy}
                                 </Typography> */}
+
                                 <Rating
                                   value={item?.ratings}
                                   size={
