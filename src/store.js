@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
+  addNewConnectionReducer,
   allAdminReducer,
   allConnectionReducerHead,
   allConnectionReducerMentor,
@@ -90,6 +91,7 @@ const store = configureStore({
     changeCoverImageStu:changeCoverReducerStu,
     popUp:popUpReducer,
     tkid:tkidReducer,
+    newConnection:addNewConnectionReducer
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

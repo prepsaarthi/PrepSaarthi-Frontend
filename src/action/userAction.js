@@ -249,6 +249,18 @@ export const getAllConnections = createAsyncThunk(
     }
   }
 );
+export const addNewConnection = createAsyncThunk(
+  "admin/add/connection/new",
+  async ({id,phnNo,duration,time,price}, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.post(`/v1/admin/add/connection`, {mobileNumber:phnNo, id:id,duration:duration,date:time,price:price});
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 //assign connection  (Admin)
 export const assignConnection = createAsyncThunk(
   "admin/connectionsAssign",

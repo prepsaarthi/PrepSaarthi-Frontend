@@ -22,6 +22,7 @@ import { Divider } from "@mui/material";
 import Students from "../Students/Students";
 import MentorAll from "../MentorAll/MentorAll.jsx";
 import AllAdmin from "../AllAdmin/AllAdmin.jsx";
+import ManageConnection from './ManageConnection.jsx'
 import Allconnction from "./Allconnction.jsx";
 import MetaData from "../../utils/Metadata.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -257,6 +258,7 @@ export default function AdminDashboard() {
           "Students",
           "Mentors",
           "Admins",
+          "Manage Connection"
         ].map((text, index) => (
           <ListItem
             key={text}
@@ -310,6 +312,7 @@ export default function AdminDashboard() {
         {menudata === "Students" && <Students />}
         {menudata === "Mentors" && <MentorAll />}
         {menudata === "Admins" && <AllAdmin />}
+        {menudata === "Manage Connection" && <ManageConnection />}
       </Box>
       <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}>
         <Box sx={{ margin: "0 auto" }}>

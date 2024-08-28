@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import { serializeError } from "serialize-error";
 import {
+  addNewConnection,
   allHeadConnection,
   allMentorConnection,
   allMentors,
@@ -1304,6 +1305,43 @@ export const changePasswordReducer = createReducer(initalState, (builder) => {
       };
     })
     .addCase(changePassword.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const addNewConnectionReducer = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(addNewConnection.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(addNewConnection.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+        message: action.payload.message
+      };
+    })
+    .addCase(addNewConnection.rejected, (state, action) => {
       return {
         ...state,
         loading: false,

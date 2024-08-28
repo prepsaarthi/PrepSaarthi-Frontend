@@ -4,9 +4,11 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Modal,
   Typography,
   styled,
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -20,6 +22,7 @@ import {
   resolveConnection,
 } from "../../action/userAction";
 import LoadingButton from "@mui/lab/LoadingButton";
+import ConnectionCard from './ConnectionCard.jsx'
 import toast from "react-hot-toast";
 const convertToIST = (time) => {
   const utcTimestampString = time;
@@ -82,6 +85,25 @@ const Connection = ({ connection }) => {
       return;
     }
   }, [error, rerror,dispatch]);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '98%',
+    height:'98%',
+    overflowY:'scroll',
+    bgcolor: 'background.paper',
+    borderRadius:'10px',
+    border:0,
+    outline:'none',
+    boxShadow: 24,
+    p: 1,
+  };
+    const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [connections, setConnections] = useState(null)
   const [loader, setLoading] = useState(-1);
   return (
     <>
@@ -122,6 +144,25 @@ const Connection = ({ connection }) => {
         </Box>
       ) : (
         <>
+         <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <CloseIcon 
+          sx={
+            {
+              cursor:'pointer',
+              transition:'color .5s',
+              "&:hover":{color:'blue'},
+            }
+          }
+          onClick={() => setOpen(false)} />
+          <ConnectionCard connection={connections}/>
+        </Box>
+      </Modal>
           {connection?.map((item, i) => (
             <Card
               key={i}
@@ -129,6 +170,10 @@ const Connection = ({ connection }) => {
                 maxWidth: { xs: "100%", md: "80%" },
                 m: "2vmax auto",
                 height: { xs: 150, md: 180, lg: 200 },
+              }}
+              onClick={() => {
+                handleOpen()
+                setConnections(item)
               }}
             >
               <CardActionArea sx={{ height: "100%" }}>

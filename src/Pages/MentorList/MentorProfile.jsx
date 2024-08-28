@@ -201,8 +201,7 @@ const MentorProfile = () => {
           const childHeight = childRef?.current?.offsetHeight;
           setParentHeight(`${childHeight}px`);
         }, 1500);
-        console.log("DHBDHB");
-        console.log(childRef?.current?.offsetHeight);
+       
       }
     };
 
@@ -290,7 +289,6 @@ const MentorProfile = () => {
           ) : (
             <Box>
               <Box height="45vh" maxWidth="100vw">
-                {console.log}
                 <Box
                   component="img"
                   src={user?.coverImg?.public_URI}
