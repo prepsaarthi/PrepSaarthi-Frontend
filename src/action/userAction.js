@@ -169,6 +169,17 @@ export const getUserDetails = createAsyncThunk(
     }
   }
 );
+export const getUserDetailsAdmin = createAsyncThunk(
+  "mentor/signleMentor/admin",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/v1/admin/user/info/${id}`);
+      return data.user;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 //Mentor Request Affirmation(Admin)
 export const updateRoleMentor = createAsyncThunk(
@@ -253,7 +264,6 @@ export const addNewConnection = createAsyncThunk(
   "admin/add/connection/new",
   async ({id,phnNo,duration,time,price}, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axiosInstance.post(`/v1/admin/add/connection`, {mobileNumber:phnNo, id:id,duration:duration,date:time,price:price});
       return data;
     } catch (err) {
@@ -313,6 +323,19 @@ export const allHeadConnection = createAsyncThunk(
         `/v1/head/all/connection`,
         { id },
         config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+export const allSelfConnection = createAsyncThunk(
+  "head/connection/specific",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/v1/mentor/all/connection`,
       );
       return data;
     } catch (err) {

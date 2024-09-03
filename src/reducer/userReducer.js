@@ -6,6 +6,7 @@ import {
   allHeadConnection,
   allMentorConnection,
   allMentors,
+  allSelfConnection,
   assignConnection,
   changePassword,
   clearError,
@@ -15,6 +16,7 @@ import {
   getAllMentors,
   getAllStudents,
   getUserDetails,
+  getUserDetailsAdmin,
   getVisitsData,
   isTKid,
   loadUser,
@@ -266,6 +268,36 @@ export const mentorDetailsReducer = createReducer(initalState, (builder) => {
       };
     })
     .addCase(getUserDetails.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const mentorDetailsReducerAdmin = createReducer(initalState, (builder) => {
+  builder
+
+    .addCase(getUserDetailsAdmin.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getUserDetailsAdmin.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+    })
+    .addCase(getUserDetailsAdmin.rejected, (state, action) => {
       return {
         ...state,
         loading: false,
@@ -823,6 +855,39 @@ export const allConnectionReducerHead = createReducer(
         };
       })
       .addCase(allHeadConnection.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      })
+      .addCase(clearError.fulfilled, (state, action) => {
+        return {
+          ...state,
+          error: null,
+        };
+      });
+  }
+);
+export const allMentorSelfCoonnection = createReducer(
+  initalState,
+  (builder) => {
+    builder
+
+      .addCase(allSelfConnection.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(allSelfConnection.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          connection: action.payload.connection,
+        };
+      })
+      .addCase(allSelfConnection.rejected, (state, action) => {
         return {
           ...state,
           loading: false,

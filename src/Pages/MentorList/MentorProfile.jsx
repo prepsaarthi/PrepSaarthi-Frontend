@@ -636,7 +636,7 @@ const MentorProfile = () => {
                                 idcard={user?.idCard}
                               />
                             </TabPanel>
-                            <TabPanel value={2}>
+                            <TabPanel value={2} sx={{maxHeight:{xs:'350px', md:'600px', overflowY:'scroll'}}}>
                               <RatingMentor
                                 mentorId={user?.id}
                                 student={stuUser?.user}

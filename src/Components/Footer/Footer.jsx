@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import SendIcon from "@mui/icons-material/Send";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -23,19 +22,19 @@ const Footer = () => {
               Connecting those striving for success with those who've achieved it
               </p>
               <div className="social">
-                <Link to="/d">
+                <Link to="https://www.youtube.com/channel/UC728uW0a_X0N5Whl1SyB_4Q" target="_blank">
                   <YouTubeIcon />
                 </Link>
-                <Link to="https://whatsapp.com/channel/0029Va5GsedDjiOTf1Xvew27">
+                <Link to="https://whatsapp.com/channel/0029Va5GsedDjiOTf1Xvew27" target="_blank">
                   <WhatsAppIcon />
                 </Link>
-                <Link to="/d">
+                {/* <Link to="/d">
                   <XIcon />
-                </Link>
-                <Link to="/d">
+                </Link> */}
+                <Link to="https://www.instagram.com/prepsaarthi/" target="_blank">
                   <InstagramIcon />
                 </Link>
-                <Link to="/d">
+                <Link to="https://www.linkedin.com/company/prepsaarthi/posts/?feedView=all" target="_blank">
                   <LinkedInIcon />
                 </Link>
               </div>
@@ -64,7 +63,7 @@ const Footer = () => {
               <div className="contact-details">
                 <PlaceIcon />
                 <p>
-                B606 Luxuria Estate,<br />
+                Luxuria Estate,<br />
                 Aditya World City NH9 ,<br />
                   Ghaziabad-201002, India
                 </p>

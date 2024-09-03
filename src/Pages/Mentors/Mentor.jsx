@@ -1,16 +1,41 @@
 import React, { useEffect, useState } from "react";
 import Tab from "@mui/material/Tab";
 import "./mentor.css";
+import PropTypes from "prop-types";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Collapse from "@mui/material/Collapse";
 import LockIcon from "@mui/icons-material/Lock";
+import { usePDF } from "react-to-pdf";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import minMax from "dayjs/plugin/minMax";
 import {
+  Backdrop,
   Box,
   Button,
+  Card,
+  CardActionArea,
+  CardContent,
   Checkbox,
+  Fade,
   IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tabs,
   Typography,
 } from "@mui/material";
-import AttachEmailIcon from '@mui/icons-material/AttachEmail';
+import AttachEmailIcon from "@mui/icons-material/AttachEmail";
 import MenorInfo from "../MentorInfo/MenorInfo";
 import MenorInfoConnection from "../MenorInfoConnection/MenorInfoConnection";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +43,7 @@ import imageCompression from "browser-image-compression";
 import { Link, useNavigate } from "react-router-dom";
 import {
   allMentorConnection,
+  allSelfConnection,
   clearError,
   clearMessage,
   loadUser,
@@ -45,6 +71,7 @@ import {
   reset as sReset,
   clearError as sClearError,
 } from "../../action/studentAction";
+dayjs.extend(minMax);
 
 const style = {
   position: "absolute",
@@ -71,6 +98,32 @@ const style1 = {
   outline: "none",
   borderRadius: "15px",
   p: 2,
+};
+const style3 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "98vw", md: "50vw" },
+  borderRadius: "15px",
+  bgcolor: "background.paper",
+  maxHeight: "95vh",
+  overflowY: "scroll",
+  boxShadow: 24,
+  p: 4,
+};
+const style4 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "98vw", md: "70vw" },
+  borderRadius: "15px",
+  bgcolor: "background.paper",
+  maxHeight: "95vh",
+  overflowY: "scroll",
+  boxShadow: 24,
+  p: 4,
 };
 
 const convertBase64 = (file) => {
@@ -115,6 +168,10 @@ const Mentor = () => {
     isAuthenticated: stuAuth,
   } = useSelector((state) => state.student);
 
+  const { loading: connectionLoad, connection } = useSelector(
+    (state) => state.connectionsHead
+  );
+
   useEffect(() => {
     if (coverImgSuccess) {
       toast.success("Cover Photo updated successfully");
@@ -136,6 +193,7 @@ const Mentor = () => {
       toast.success(coverImgErrorStu.message);
       dispatch(sClearError());
     }
+    dispatch(allSelfConnection());
   }, [
     dispatch,
     coverImgError,
@@ -219,6 +277,7 @@ const Mentor = () => {
   }
 
   const [value, setValue] = React.useState(0);
+  const [openConnection, setModalConenction] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [avatar, setAvatar] = React.useState("");
 
@@ -257,11 +316,33 @@ const Mentor = () => {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
+  const { toPDF, targetRef } = usePDF({ filename: `${user?.user?.name}'s Earning From PrepSaarthi` });
   const [prgress, setProgress] = React.useState(0);
   const [success, setSuccess] = React.useState(false);
   const [uploading, setuploading] = React.useState(false);
   const [isChecked, setIsChecked] = React.useState(false);
+  const [openEarning, setEarningModal] = React.useState(false);
 
+  const dates = connection
+    ?.map((item) => dayjs(item?.boughtAt))
+    .filter((date) => date.isValid()); 
+
+  const minDate = dates?.length > 0 ? dayjs.min(...dates) : null; 
+  const maxDate = dates?.length > 0 ? dayjs.max(...dates) : null; 
+  const getCurrentDateTimeInIST = () => {
+    const now = new Date();
+    const options = {
+      timeZone: 'Asia/Kolkata', 
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+    const istDate = now.toLocaleString('en-US', options);
+    return istDate;
+  };
   React.useEffect(() => {
     if (prgress === 100) {
       setSuccess(true);
@@ -325,10 +406,30 @@ const Mentor = () => {
   const closedConnection = connSuccess?.connection?.filter(
     (item) => !item.isActive
   );
+  const [display, setDisplay] = useState("none");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [filteredConnection, setConnection] = useState(connection);
   const [openPop, setPop] = useState(false);
   useEffect(() => {
     setPop(user?.user?.popUp);
   }, [user?.user?.popUp]);
+
+  useEffect(() => {
+    const filterData = () => {
+      if (!startDate || !endDate) return connection; // Return all data if dates are not selected
+      const filteredData = connection?.filter((item) => {
+        const itemDate = dayjs(item?.boughtAt); // Convert the date string to a Day.js object
+        // Check if the item date is between or exactly matches the start and end dates
+        return itemDate?.isBetween(startDate, endDate, "day", "[]");
+      });
+      return filteredData;
+    };
+
+    setConnection(filterData());
+    console.log(filterData());
+    console.log("hss");
+  }, [startDate, endDate, connection]);
   return (
     <>
       {loading || stuLoading ? (
@@ -702,8 +803,10 @@ const Mentor = () => {
                               sx={{
                                 backgroundColor: "var(--button1)",
                                 color: "#fff",
-                                "&:hover": { backgroundColor: "var(--button1Hover)" },
-                                mb:'2vmax'
+                                "&:hover": {
+                                  backgroundColor: "var(--button1Hover)",
+                                },
+                                mb: "2vmax",
                               }}
                               startIcon={<AttachEmailIcon />}
                               href="/files/Message To Mentors.pdf" // Replace with the correct path to your PDF file
@@ -717,24 +820,26 @@ const Mentor = () => {
                   </div>
 
                   {stuLoading === false &&
-                          stuUser?.user?.role === "student" && (
-                            <div>
-                            <Button
-                              variant="contained"
-                              sx={{
-                                backgroundColor: "var(--button1)",
-                                color: "#fff",
-                                "&:hover": { backgroundColor: "var(--button1Hover)" },
-                                mb:'2vmax'
-                              }}
-                              startIcon={<AttachEmailIcon />}
-                              href="/files/Message To Students.pdf" // Replace with the correct path to your PDF file
-                              download
-                            >
-                              Message To Students
-                            </Button>
-                          </div>
-                          )}
+                    stuUser?.user?.role === "student" && (
+                      <div>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "var(--button1)",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "var(--button1Hover)",
+                            },
+                            m: "2vmax 0",
+                          }}
+                          startIcon={<AttachEmailIcon />}
+                          href="/files/Message To Students.pdf" // Replace with the correct path to your PDF file
+                          download
+                        >
+                          Message To Students
+                        </Button>
+                      </div>
+                    )}
                   {user?.user?.isHeadMentor && user?.user?.isHeadMentor && (
                     <>
                       <div>
@@ -851,49 +956,608 @@ const Mentor = () => {
                 ) : (
                   <>
                     <Box sx={{ width: "100%" }}>
-                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <Tabs
-                          value={value}
-                          onChange={handleChange}
-                          aria-label="basic tabs example"
-                          sx={{
-                            justifyContent: "center",
-                            backgroundColor: "#2b2b2b",
-                          }}
-                        >
-                          <Tab
-                            sx={{ minWidth: "50%", color: "white" }}
-                            label="Active Mentorship"
-                            {...a11yProps(0)}
-                          />
-                          <Tab
-                            sx={{ minWidth: "50%", color: "white" }}
-                            label="Past Mentoships"
-                            {...a11yProps(1)}
-                          />
-                        </Tabs>
+                      <Box
+                        sx={{
+                          borderBottom: 1,
+                          borderColor: "divider",
+                          overflow: "hidden  ",
+                        }}
+                      >
+                        {stuLoading === false &&
+                          stuUser?.user?.role === "student" && (
+                            <>
+                              <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                aria-label="basic tabs example"
+                                sx={{
+                                  justifyContent: "center",
+                                  backgroundColor: "#2b2b2b",
+                                }}
+                              >
+                                <Tab
+                                  sx={{ minWidth: "50%", color: "white" }}
+                                  label="Active Mentorship"
+                                  {...a11yProps(0)}
+                                />
+                                <Tab
+                                  sx={{ minWidth: "50%", color: "white" }}
+                                  label="Past Mentoships"
+                                  {...a11yProps(1)}
+                                />
+                              </Tabs>
+                            </>
+                          )}
+                        {loading === false && user?.user?.role === "mentor" && (
+                          <>
+                            <Modal
+                              aria-labelledby="transition-modal-title"
+                              aria-describedby="transition-modal-description"
+                              open={openEarning}
+                              onClose={() => setEarningModal(false)}
+                              closeAfterTransition
+                              slots={{ backdrop: Backdrop }}
+                              slotProps={{
+                                backdrop: {
+                                  timeout: 500,
+                                },
+                              }}
+                            >
+                              <Fade in={openEarning}>
+                                <Box sx={style3}>
+                                  <Box sx={{width:'100%', display:'flex', justifyContent:'end'}}><CloseIcon onClick={() => setEarningModal(false)}/></Box>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      flexDirection: {
+                                        xs: "column",
+                                        md: "row",
+                                        marginBottom: "10px",
+                                      },
+                                    }}
+                                  >
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDayjs}
+                                    >
+                                      <DemoContainer
+                                        components={["DatePicker"]}
+                                      >
+                                        <DatePicker
+                                          format="YYYY/MM/DD"
+                                          label="Start Date"
+                                          value={startDate}
+                                          onChange={(newValue) =>
+                                            setStartDate(newValue)
+                                          }
+                                          minDate={minDate}
+                                          maxDate={maxDate}
+                                        />
+                                      </DemoContainer>
+                                    </LocalizationProvider>
+                                    <Button
+                                      disabled={
+                                        filteredConnection?.length === 0
+                                      }
+                                      sx={{ m: "10px 0" }}
+                                      variant="contained"
+                                      onClick={() => {
+                                        setDisplay("block");
+                                        setTimeout(() => {
+                                          toPDF();
+                                        }, 500);
+                                        setTimeout(() => {
+                                          setDisplay("none");
+                                        }, 1000);
+                                      }}
+                                    >
+                                      Download PDF
+                                    </Button>
+
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDayjs}
+                                    >
+                                      <DemoContainer
+                                        components={["DatePicker"]}
+                                      >
+                                        <DatePicker
+                                          format="YYYY/MM/DD"
+                                          value={endDate}
+                                          label="End Date"
+                                          onChange={(newValue) =>
+                                            setEndDate(newValue)
+                                          }
+                                          minDate={minDate}
+                                          maxDate={maxDate}
+                                        />
+                                      </DemoContainer>
+                                    </LocalizationProvider>
+                                  </Box>
+                                  <TableContainer component={Paper}>
+                                    <Table aria-label="collapsible table">
+                                      <TableHead>
+                                        <TableRow>
+                                          <TableCell sx={{ fontWeight: 800 }}>
+                                            Mentee
+                                          </TableCell>
+                                          <TableCell
+                                            align="right"
+                                            sx={{ fontWeight: 800 }}
+                                          >
+                                            Earning&nbsp;(&#8377;)
+                                          </TableCell>
+                                          <TableCell />
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {filteredConnection?.map((row, k) => (
+                                          <Row key={k} row={row} />
+                                        ))}
+                                      </TableBody>
+                                      <TableRow>
+                                        <TableCell
+                                          sx={{
+                                            fontWeight: 900,
+                                            color: "darkgreen",
+                                          }}
+                                        >
+                                          Total:-
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{
+                                            fontWeight: 900,
+                                            color: "darkgreen",
+                                          }}
+                                        >
+                                          &#8377;
+                                          {filteredConnection
+                                            ?.reduce((total, current) => {
+                                              return (
+                                                total +
+                                                (current?.price * 73) / 100
+                                              );
+                                            }, 0)
+                                            ?.toFixed(1)}
+                                          &asymp;&#8377;
+                                          {Math.round(
+                                            filteredConnection?.reduce(
+                                              (total, current) => {
+                                                return (
+                                                  total +
+                                                  (current?.price * 73) / 100
+                                                );
+                                              },
+                                              0
+                                            )
+                                          )}
+                                        </TableCell>
+                                      </TableRow>
+                                    </Table>
+                                  </TableContainer>
+                                </Box>
+                              </Fade>
+                            </Modal>
+                            <Modal
+                              aria-labelledby="transition-modal-title"
+                              aria-describedby="transition-modal-description"
+                              open={openConnection}
+                              onClose={() => setModalConenction(false)}
+                              closeAfterTransition
+                              slots={{ backdrop: Backdrop }}
+                              slotProps={{
+                                backdrop: {
+                                  timeout: 500,
+                                },
+                              }}
+                            >
+                              <Fade in={openConnection}>
+                                <Box sx={style4}>
+                                <Box sx={{width:'100%', display:'flex', justifyContent:'end', mb:'1vmax'}}><CloseIcon onClick={() => setModalConenction(false)}/></Box>
+
+                                  <>
+                                    <Tabs
+                                      value={value}
+                                      onChange={handleChange}
+                                      aria-label="basic tabs example"
+                                      sx={{
+                                        justifyContent: "center",
+                                        backgroundColor: "#2b2b2b",
+                                      }}
+                                    >
+                                      <Tab
+                                        sx={{
+                                          minWidth: "50%",
+                                          color: "white",
+                                          fontSize: {
+                                            xs: "1.5vmax",
+                                            md: "1vmax",
+                                          },
+                                        }}
+                                        label="Active Mentorship"
+                                        {...a11yProps(0)}
+                                      />
+                                      <Tab
+                                        sx={{
+                                          minWidth: "50%",
+                                          color: "white",
+                                          fontSize: {
+                                            xs: "1.5vmax",
+                                            md: "1vmax",
+                                          },
+                                        }}
+                                        label="Past Mentoships"
+                                        {...a11yProps(1)}
+                                      />
+                                    </Tabs>
+                                    <Box sx={{ width: "100%" }}>
+                                      <CustomTabPanel value={value} index={0}>
+                                        {loading === false &&
+                                          user?.user?.role === "mentor" && (
+                                            <>
+                                              {connLoading === false ? (
+                                                <MenorInfoConnection
+                                                  active={activeConnection}
+                                                />
+                                              ) : (
+                                                <Loader />
+                                              )}
+                                            </>
+                                          )}
+                                      </CustomTabPanel>
+                                      <CustomTabPanel value={value} index={1}>
+                                        {loading === false &&
+                                          user?.user?.role === "mentor" && (
+                                            <>
+                                              {connLoading === false ? (
+                                                <MenorInfoConnection
+                                                  active={closedConnection}
+                                                />
+                                              ) : (
+                                                <Loader />
+                                              )}
+                                            </>
+                                          )}
+                                      </CustomTabPanel>
+                                    </Box>
+                                  </>
+                                </Box>
+                              </Fade>
+                            </Modal>
+                            <Box
+                              sx={{
+                                width: "95%",
+                                m: "0 auto",
+                                minHeight: "70vh",
+                                display: "flex",
+                                flexDirection: { xs: "column" },
+
+                                bgcolor: "#e9e9e9",
+                                borderRadius: "20px",
+                                p: "10px",
+                              }}
+                            >
+                              <Typography
+                                component={"p"}
+                                sx={{
+                                  fontSize: {
+                                    xs: "3vmax",
+                                    md: "1.5vmax",
+                                    textAlign: "center",
+                                  },
+                                  fontWeight: "600",
+                                  m: "3vmax 0",
+                                }}
+                              >
+                                Your Dashboard
+                              </Typography>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: { xs: "column", md: "row" },
+                                  justifyContent: "space-around",
+                                  alignItems: {
+                                    xs: "center",
+                                    md: "start",
+                                    gap: "11px",
+                                  },
+                                }}
+                              >
+                                <Card
+                                  onClick={() => setEarningModal(true)}
+                                  sx={{
+                                    width: { xs: "80vw", md: "25vmax" },
+                                    height: { xs: "25vmax", md: "15vmax" },
+                                    borderRadius: "2vmax",
+                                  }}
+                                >
+                                  <CardActionArea
+                                    sx={{
+                                      width: "100%",
+                                      height: "100%",
+                                      alignItems: "center",
+                                      justifyContent: "flex-start",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <CardContent>
+                                      <CurrencyRupeeIcon
+                                        sx={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          padding: {
+                                            xs: "0.5vmax",
+                                            md: "0.2vmax",
+                                          },
+                                          color: "white",
+                                          width: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          height: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          fontSize: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          backgroundColor: "var(--button1)",
+
+                                          borderRadius: "50%",
+                                        }}
+                                      />
+                                      <Typography
+                                        sx={{ fontSize: 20, fontWeight: 600 }}
+                                        color="text.secondary"
+                                        gutterBottom
+                                      >
+                                        Earning
+                                      </Typography>
+                                      <Typography variant="h3">
+                                      &#8377;{(connectionLoad === false &&
+                                          Math.round(
+                                            connection?.reduce(
+                                              (total, current) => {
+                                                return (
+                                                  total +
+                                                  (current?.price * 73) / 100
+                                                );
+                                              },
+                                              0
+                                            )
+                                          )) || <CircularProgress />}
+                                      </Typography>
+                                    </CardContent>
+                                  </CardActionArea>
+                                </Card>
+                                <Card
+                                  onClick={() => setModalConenction(true)}
+                                  sx={{
+                                    width: { xs: "80vw", md: "25vmax" },
+                                    height: { xs: "25vmax", md: "15vmax" },
+                                    borderRadius: "2vmax",
+                                  }}
+                                >
+                                  <CardActionArea
+                                    sx={{
+                                      width: "100%",
+                                      height: "100%",
+                                      alignItems: "center",
+                                      justifyContent: "flex-start",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <CardContent>
+                                      <SyncAltIcon
+                                        sx={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          padding: {
+                                            xs: "0.5vmax",
+                                            md: "0.2vmax",
+                                          },
+                                          color: "white",
+                                          width: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          height: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          fontSize: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          backgroundColor: "blue",
+
+                                          borderRadius: "50%",
+                                        }}
+                                      />
+                                      <Typography
+                                        sx={{ fontSize: 20, fontWeight: 600 }}
+                                        color="text.secondary"
+                                        gutterBottom
+                                      >
+                                        Connections
+                                      </Typography>
+                                      <Typography variant="h3">
+                                        {(connectionLoad === false &&
+                                          connection?.length) || (
+                                          <CircularProgress />
+                                        )}
+                                      </Typography>
+                                    </CardContent>
+                                  </CardActionArea>
+                                </Card>
+                              </Box>
+                              {/* <Card sx={{width:{xs:'38vmax'}}}>
+                                <CardContent>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    Earning
+                                    <CurrencyRupeeIcon />
+                                    <Typography>
+                                      {connectionLoad === false &&
+                                        Math.round(
+                                          connection?.reduce(
+                                            (total, current) => {
+                                              return (
+                                                total +
+                                                (current?.price * 73) / 100
+                                              );
+                                            },
+                                            0
+                                          )
+                                        )}
+                                    </Typography>
+                                  </Box>
+                                </CardContent>
+                                <CardActions>
+                                  <Button
+                                    size="small"
+                                    onClick={() => setEarningModal(true)}
+                                  >
+                                    Learn More
+                                  </Button>
+                                </CardActions>
+                              </Card> */}
+                              <Typography sx={{fontSize:{xs:"1.8vmax", md:'0.8vmax'}, textAlign:{xs:'center', md:'start'}, fontStyle:'italic', color:'var(--theme2)', mt:'1vmax', ml:{xs:0, md:'1.4vmax'}}}>More features will be added soon.-Team PrepSaarthi</Typography>
+                            </Box>
+                            <Box
+                              ref={targetRef}
+                              sx={{
+                                width: "1000px",
+                                position: "absolute",
+                                top: "-1000vw",
+                                display,
+                              }}
+                            >
+                              <Typography
+                                component={"p"}
+                                sx={{
+                                  width: "100%",
+                                  textAlign: "center",
+                                  fontWeight: 700,
+                                  color: "var(--theme2)",
+                                  fontSize: "20px",
+                                }}
+                              >
+                                {user?.user?.name}'s Earning from PrepSaarthi
+                              </Typography>
+                              <TableContainer component={Paper}>
+                                <Table aria-label="simple table">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>Mentee Name</TableCell>
+                                      <TableCell align="right">
+                                        Purchase Date(YYYY/MM/DD)
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Mentorship Duration
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        (&#8377;)Subscription Price
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        (&#8377;)Platform Fee(27%)
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        (&#8377;)Earning
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {filteredConnection?.map((row, k) => (
+                                      <TableRow
+                                        key={k}
+                                        sx={{
+                                          "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                          },
+                                        }}
+                                      >
+                                        <TableCell component="th" scope="row">
+                                          {row?.studentDetails?.name}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          {row?.boughtAt?.split("T")[0]}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          {(new Date(row?.expiresIn) -
+                                            new Date(row?.boughtAt)) /
+                                            (1000 * 60 * 60 * 24) <
+                                          10
+                                            ? "Weekly"
+                                            : "Monthly"}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          {row?.price}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          {((row?.price * 27) / 100)?.toFixed(
+                                            1
+                                          )}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          {((row?.price * 73) / 100)?.toFixed(
+                                            1
+                                          )}
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                    <TableRow>
+                                      <TableCell>Total Earning</TableCell>
+                                      <TableCell />
+                                      <TableCell />
+                                      <TableCell />
+                                      <TableCell />
+                                      <TableCell align="right">
+                                        {filteredConnection
+                                          ?.reduce((total, current) => {
+                                            return (
+                                              total +
+                                              (current?.price * 73) / 100
+                                            );
+                                          }, 0)
+                                          ?.toFixed(1)}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                              <Box>
+                               <Typography component={'p'} fontSize={'10px'} sx={{mt:'10px', ml:'5px'}}> Downloaded At:- {getCurrentDateTimeInIST()}</Typography>
+                              </Box>
+                            </Box>
+                          </>
+                        )}
                       </Box>
                       <CustomTabPanel value={value} index={0}>
                         {stuLoading === false &&
                           stuUser?.user?.role === "student" && (
                             <MenorInfo active={true} />
                           )}
-                        {loading === false && user?.user?.role === "mentor" && (
-                          <>
-                            {connLoading === false ? (
-                              <MenorInfoConnection active={activeConnection} />
-                            ) : (
-                              <Loader />
-                            )}
-                          </>
-                        )}
                       </CustomTabPanel>
                       <CustomTabPanel value={value} index={1}>
                         {stuLoading === false &&
                           stuUser?.user?.role === "student" && (
                             <MenorInfo active={false} />
                           )}
-                        {loading === false && user?.user?.role === "mentor" && (
+                        {/* {loading === false && user?.user?.role === "mentor" && (
                           <>
                             {connLoading === false ? (
                               <MenorInfoConnection active={closedConnection} />
@@ -901,7 +1565,7 @@ const Mentor = () => {
                               <Loader />
                             )}
                           </>
-                        )}
+                        )} */}
                       </CustomTabPanel>
                     </Box>
                   </>
@@ -913,6 +1577,116 @@ const Mentor = () => {
       )}
     </>
   );
+};
+
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <React.Fragment>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+        <TableCell
+          component="th"
+          scope="row"
+          sx={{ fontWeight: 800, color: "var(--theme2)" }}
+        >
+          {row?.studentDetails?.name}
+        </TableCell>
+        <TableCell align="right" sx={{ color: "green" }}>
+          <strong>&#8377;{((row?.price * 73) / 100)?.toFixed(1)}</strong>
+        </TableCell>
+        {/* <TableCell align="right">{row.fat}</TableCell>
+        <TableCell align="right">{row.carbs}</TableCell>
+        <TableCell align="right">{row.protein}</TableCell> */}
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 0 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6" gutterBottom component="div">
+                  Details
+                </Typography>
+                <Typography
+                  variant="p"
+                  gutterBottom
+                  component="div"
+                  sx={{ fontWeight: 800 }}
+                >
+                  Date :- {row?.boughtAt?.split("T")[0]}
+                </Typography>
+              </Box>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Mentorship Price</TableCell>
+                    <TableCell sx={{ color: "green" }}>
+                      &#8377;{row?.price}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Platform Fee(27%)</TableCell>
+                    <TableCell sx={{ color: "red" }}>
+                      -&#8377;{((row?.price * 27) / 100)?.toFixed(1)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Total</TableCell>
+                    <TableCell sx={{ color: "green" }}>
+                      <strong>
+                        &#8377;{((row?.price * 73) / 100)?.toFixed(1)}
+                      </strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                {/* <TableBody>
+                    <TableRow key={row?.price}>
+                      <TableCell>{row?.price}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {row?.boughtAt?.split("T")[0]}
+                      </TableCell>
+                       <TableCell align="right">{historyRow.amount}</TableCell>
+                      <TableCell align="right">
+                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                      </TableCell>
+                    </TableRow>
+                </TableBody> */}
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+Row.propTypes = {
+  row: PropTypes.shape({
+    Mentee: PropTypes.string.isRequired,
+    Earning: PropTypes.number.isRequired,
+    Deatails: PropTypes.arrayOf(
+      PropTypes.shape({
+        amount: PropTypes.number.isRequired,
+        date: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export default Mentor;

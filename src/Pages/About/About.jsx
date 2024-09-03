@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Typography, Grid, Avatar, Link } from "@mui/material";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import MailIcon from '@mui/icons-material/Mail';
 const AboutPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -122,8 +123,10 @@ const AboutPage = () => {
             <Typography variant="body2" sx={{ fontStyle: "italic", color: "#777" }}>
               Technical Lead & Full-Stack Developer
             </Typography>
-            <Link href="https://www.linkedin.com/in/vaibhav-markandeya-singh-21ab50242/" target="_blank" sx={{ color: "#ffc43b", textDecoration: "none", mt: 1 }}>
-            <LinkedInIcon />
+            <Link
+    href="mailto:vaibhavsingh4141@gmail.com"  // Replace with your email address
+    sx={{ color: '#ffc43b', textDecoration: 'none', mt: 1 }}
+  >            <MailIcon />
             </Link>
           </Grid>
         </Grid>

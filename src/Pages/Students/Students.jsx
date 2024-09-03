@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
+import StudentCard from './StudentCard.jsx'
 import {
   Grid,
   Card,
@@ -8,7 +9,10 @@ import {
   CardMedia,
   Typography,
   Box,
+  Button,
+  Modal,
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -29,7 +33,15 @@ const Students = () => {
     loading: deleteLoder,
   } = useSelector((state) => state.deleteUser);
   const [loaderButton, setLoad] = useState(null);
-
+  const [array, setArray] = useState(null);
+  const [status, setStatus] = useState(false);
+  const reverseArray = () => {
+    setArray([...array].reverse());
+    setStatus((prev) => !prev)
+  };
+   useEffect(() => {
+    setArray(users?.users)
+   }, [users])
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -50,16 +62,59 @@ const Students = () => {
   useEffect(() => {
     dispatch(getAllStudents());
   }, [dispatch]);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: {xs:"98%", md:'60%'},
+    overflowY:'scroll',
+    bgcolor: 'background.paper',
+    borderRadius:'10px',
+    border:0,
+    outline:'none',
+    boxShadow: 24,
+    p: 1,
+  };
+  const [open, setOpen] = React.useState(false);
+  const [student, setStudent] = React.useState(null);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <>
         {loading ? (
           <Loader />
         ) : (
+          <>
+             <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <CloseIcon 
+          sx={
+            {
+              cursor:'pointer',
+              transition:'color .5s',
+              "&:hover":{color:'blue'},
+            }
+          }
+          onClick={() => setOpen(false)} />
+          <StudentCard student={student}/>
+        </Box>
+      </Modal>
+            <Button variant="contained" onClick={reverseArray}>{status ? <>OLD</> :<>RECENT</>}</Button>
           <Grid container>
-            {users?.users?.map((item, i) => (
+            {array?.map((item, i) => (
               <Grid key={i} item xs={12} sm={6} lg={4}>
                 <Card
+                onClick={() => {
+                  setStudent(item)
+                  setOpen(true)
+                }}
                   sx={{
                     width: { xs: "100%", lg: "90%" },
                     height: { xs: 180, md: 200, xl: "14vmax" },
@@ -154,6 +209,7 @@ const Students = () => {
               </Grid>
             ))}
           </Grid>
+          </>
         )}
       </>
     </>

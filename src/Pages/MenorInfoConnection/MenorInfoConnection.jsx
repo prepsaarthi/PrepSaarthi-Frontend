@@ -8,12 +8,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../Components/Loader/Loader";
-import toast from "react-hot-toast";
-import { clearError } from "../../action/studentAction";
-import { allMentorConnection } from "../../action/userAction";
+import React from "react";
 import MetaData from "../../utils/Metadata";
 const convertToIST = (time) => {
   const utcTimestampString = time;
@@ -26,7 +21,6 @@ const convertToIST = (time) => {
   return istTimestampString;
 };
 const MenorInfoConnection = ({ active }) => {
-
   const RoundedImg = styled("img")(({ theme }) => ({
     width: 60,
     aspectRatio: "1/1",
@@ -135,7 +129,6 @@ const MenorInfoConnection = ({ active }) => {
                       </Card>
                     );
                   
-                  return false;
                 })}
               </Box>
             </>

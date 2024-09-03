@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../../action/userAction";
+import { getUserDetailsAdmin } from "../../action/userAction";
 import { getSuccessMentorConnection } from "../../action/metorListAction";
 import { styled } from "@mui/system";
 import { Tabs } from "@mui/base/Tabs";
@@ -14,11 +14,12 @@ import RatingMentor from "../../Pages/MentorList/RatingMentor";
 import Authenticity from "../../Pages/MentorList/Authenticity";
 
 const MentorAbout = ({ id }) => {
-  const { user } = useSelector((state) => state.mentorDeatil);
+  const { user } = useSelector((state) => state.mentorDeatilAdmin);
   const { connection } = useSelector((state) => state.connectionCount);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUserDetails(id));
+    console.log(id, 'MentorDetal')
+    dispatch(getUserDetailsAdmin(id));
     dispatch(getSuccessMentorConnection(id));
   }, [dispatch, id]);
 
@@ -200,6 +201,7 @@ box-shadow: 0px 4px 30px ${
                           <Tab value={0}>Mentor Video</Tab>
                           <Tab value={1}>Authenticity</Tab>
                           <Tab value={2}>Ratings</Tab>
+                          <Tab value={3}>Conn.</Tab>
                         </TabsList>
                         <TabPanel value={0}>
                           <MentorIntro />
@@ -211,6 +213,12 @@ box-shadow: 0px 4px 30px ${
                           />
                         </TabPanel>
                         <TabPanel value={2}>
+                          <RatingMentor
+                            mentorId={id}
+                            student={id}
+                          />
+                        </TabPanel>
+                        <TabPanel value={3}>
                           <RatingMentor
                             mentorId={id}
                             student={id}

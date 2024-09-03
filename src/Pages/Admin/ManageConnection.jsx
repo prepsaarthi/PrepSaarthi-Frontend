@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import { Box, MenuItem, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewConnection, clearError, reset } from "../../action/userAction";
@@ -24,7 +24,7 @@ const ManageConnection = () => {
         toast.error(error.message)
         dispatch(clearError())
      }
-    }, [success,message])
+    }, [success,message, dispatch, error])
   return (
     <>
       <Box sx={{ width: "100vw", minHeight: "60vh" }}>

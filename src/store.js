@@ -6,6 +6,7 @@ import {
   allConnectionReducerMentor,
   allMentorHead,
   allMentorReducer,
+  allMentorSelfCoonnection,
   allStudentsReducer,
   assignConnectionReducer,
   changeCoverReducer,
@@ -14,6 +15,7 @@ import {
   getVisitReducer,
   grantStatusHeadMentor,
   mentorDetailsReducer,
+  mentorDetailsReducerAdmin,
   mentorSignup,
   mentoringStatus,
   popUpReducer,
@@ -52,6 +54,7 @@ const store = configureStore({
     mentor: mentorSignup,
     student: studentSignup,
     mentorDeatil: mentorDetailsReducer,
+    mentorDeatilAdmin: mentorDetailsReducerAdmin,
     mentorUpdateLastStep: updateMentorFinalReducer,
     mentorList: mentorListReducer,
     updateMentorInfo: updateMentor,
@@ -91,7 +94,8 @@ const store = configureStore({
     changeCoverImageStu:changeCoverReducerStu,
     popUp:popUpReducer,
     tkid:tkidReducer,
-    newConnection:addNewConnectionReducer
+    newConnection:addNewConnectionReducer,
+    selfConnection:allMentorSelfCoonnection
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Tab from "@mui/material/Tab";
-import { Box, Tabs } from "@mui/material";
+import { Box, Button, Tabs } from "@mui/material";
 
 import Connection from "./Connection";
 import { useSelector } from "react-redux";
@@ -15,10 +15,18 @@ const Allconnction = () => {
   // useEffect(() => {
   //   dispatch(getAllConnections());
   // }, [dispatch]);
-
+  const [array, setArray] = useState(null);
+  const [status, setStatus] = useState(false);
+  const reverseArray = () => {
+    setArray([...array].reverse());
+    setStatus((prev) => !prev)
+  };
+   useEffect(() => {
+    setArray(connection?.connection)
+   }, [connection])
   useEffect(() => {
     if (loading === false) {
-      const pendingConnections = connection?.connection?.filter((item) => {
+      const pendingConnections = array?.filter((item) => {
         if (item.isActive === true && item.isConnected === false) {
           return item;
         }
@@ -27,13 +35,13 @@ const Allconnction = () => {
           return false
         }
       });
-      const approvedConnections = connection?.connection?.filter((item) => {
+      const approvedConnections = array?.filter((item) => {
         if (item.isActive === true && item.isConnected === true) {
           return item;
         }
         return false
       });
-      const resolvedConnections = connection?.connection?.filter((item) => {
+      const resolvedConnections = array?.filter((item) => {
         if (item.isActive === false && item.isConnected === false) {
           return item;
         }
@@ -44,7 +52,7 @@ const Allconnction = () => {
       setActiveConnection(approvedConnections);
       setResolvedConnection(resolvedConnections);
     }
-  }, [loading,connection?.connection]);
+  }, [loading,connection?.connection, array]);
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
@@ -80,6 +88,8 @@ const Allconnction = () => {
         <MetaData title="Connections" />
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Button sx={{mb:'8px', width:{xs:'20vmax', md:'10vmax'}}} variant="contained" onClick={reverseArray}>{status ? <>OLD</> :<>RECENT</>}</Button>
+
         <Tabs
           value={value}
           onChange={handleChange}

@@ -1,8 +1,7 @@
 import { Box, Button, Modal } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allHeadConnection, getAllConnections, getUserDetails } from "../../action/userAction";
-import { getSuccessMentorConnection } from "../../action/metorListAction";
+import { allHeadConnection, getUserDetails } from "../../action/userAction";
 import { styled } from "@mui/system";
 import { Tabs } from "@mui/base/Tabs";
 import { TabsList as BaseTabsList } from "@mui/base/TabsList";
@@ -13,7 +12,6 @@ import MentorIntro from "../../Pages/MentorList/MentorIntro";
 import RatingMentor from "../../Pages/MentorList/RatingMentor";
 import Authenticity from "../../Pages/MentorList/Authenticity";
 import CloseIcon from '@mui/icons-material/Close';
-import Connection from "../Admin/Connection";
 import AllConnectionMentors from "./AllConnectionMentors.jsx";
 import Loader from "../../Components/Loader/Loader.jsx";
 
