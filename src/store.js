@@ -12,6 +12,8 @@ import {
   changeCoverReducer,
   changePasswordReducer,
   deleteUserReducer,
+  getConnectionByMob,
+  getMentorByMob,
   getVisitReducer,
   grantStatusHeadMentor,
   mentorDetailsReducer,
@@ -25,6 +27,7 @@ import {
   resoveConnectionReducer,
   sendOTPReducer,
   stuSendOTPReducer,
+  swapConnectionReducer,
   tkidReducer,
   updateMentor,
   updateMentorFinalReducer,
@@ -95,7 +98,10 @@ const store = configureStore({
     popUp:popUpReducer,
     tkid:tkidReducer,
     newConnection:addNewConnectionReducer,
-    selfConnection:allMentorSelfCoonnection
+    selfConnection:allMentorSelfCoonnection,
+    getMentorMob:getMentorByMob,
+    getConnectonMob:getConnectionByMob,
+    swapConnection:swapConnectionReducer
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });

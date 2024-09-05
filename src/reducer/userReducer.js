@@ -12,6 +12,8 @@ import {
   clearError,
   clearMessage,
   deleteUser,
+  findConnectionByMob,
+  findMentorByMob,
   getAllAdmin,
   getAllMentors,
   getAllStudents,
@@ -33,6 +35,7 @@ import {
   stuVerifyOTP,
   sturesendOTP,
   stusendOTP,
+  swapConnection,
   updateCoverImage,
   updateMentorFinalInfo,
   updateMentorFinalInfoAfter,
@@ -1407,6 +1410,116 @@ export const addNewConnectionReducer = createReducer(initalState, (builder) => {
       };
     })
     .addCase(addNewConnection.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const getConnectionByMob = createReducer(initalState, (builder) => {
+  builder
+    .addCase(findConnectionByMob.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(findConnectionByMob.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        activeConnection: action.payload.activeConnection,
+        name: action.payload.name,
+        stuId:action.payload.stuId
+      };
+    })
+    .addCase(findConnectionByMob.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+        activeConnection:null,
+        name: null,
+        stuId:null
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const getMentorByMob = createReducer(initalState, (builder) => {
+  builder
+    .addCase(findMentorByMob.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(findMentorByMob.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        mentor:action.payload.mentor
+      };
+    })
+    .addCase(findMentorByMob.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        success: null,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    });
+});
+export const swapConnectionReducer = createReducer(initalState, (builder) => {
+  builder
+    .addCase(swapConnection.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(swapConnection.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        success:action.payload.success
+      };
+    })
+    .addCase(swapConnection.rejected, (state, action) => {
       return {
         ...state,
         loading: false,

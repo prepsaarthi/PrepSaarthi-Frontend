@@ -264,7 +264,44 @@ export const addNewConnection = createAsyncThunk(
   "admin/add/connection/new",
   async ({id,phnNo,duration,time,price}, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(`/v1/admin/add/connection`, {mobileNumber:phnNo, id:id,duration:duration,date:time,price:price});
+      const config = {headers:{"Content-Type":"application/json"}}
+      const { data } = await axiosInstance.post(`/v1/admin/add/connection`, {mobileNumber:phnNo, id:id,duration:duration,date:time,price:price}, config);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const findConnectionByMob = createAsyncThunk(
+  "admin/find/connection/student",
+  async ({mobileNumber}, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type":"application/json"}}
+      const { data } = await axiosInstance.post(`/v1/admin/mentors/find/conn`, {mobileNumber}, config);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const findMentorByMob = createAsyncThunk(
+  "admin/find/mentor/mob",
+  async ({mobileNumber}, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type":"application/json"}}
+      const { data } = await axiosInstance.post(`/v1/admin/mentors/find/mob`, {mobileNumber}, config);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const swapConnection = createAsyncThunk(
+  "admin/swap/connection",
+  async ({id,mentorId}, { rejectWithValue }) => {
+    try {
+      const config = {headers:{"Content-Type":"application/json"}}
+      const { data } = await axiosInstance.post(`/v1/admin/mentors/swap/connection`, {id,mentorId}, config);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
