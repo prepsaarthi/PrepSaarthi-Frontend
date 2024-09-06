@@ -141,7 +141,7 @@ const ManageConnection = () => {
         <Box sx={{display:{xs:'block', md:'flex'}, alignItems:'center', gap:'1.5vmax'}}>
          <Card onClick={() => setClick(prev => !prev)} sx={clicked ? {maxWidth:{xs:"90vw", md:'25vw'},height:{xs:"26vmax",md:'10vmax'}, display:'flex', alignItems:'center', justifyContent:'center', border:'3px solid var(--theme2)',boxShadow:'inset 0px 5px 7px 1px rgba(0, 0, 0, .3)'}:{maxWidth:{xs:"90vw",md:'25vw'},height:{xs:"26vmax", md:"10vmax"}, display:'flex', alignItems:'center', justifyContent:'center'}}>
          <CardMedia
-           sx={{ height: 100, width:100 }}
+           sx={{ height: 100, width:100, borderRadius:'50%',ml:'10px' }}
            image={item?.mentorDetails?.avatar?.public_URI}
            title="green iguana"
          />
