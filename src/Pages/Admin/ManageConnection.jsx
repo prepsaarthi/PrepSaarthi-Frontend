@@ -63,6 +63,7 @@ const ManageConnection = () => {
      }
      if(conError){
       toast.error(conError.message)
+      dispatch(reset())
       dispatch(clearError())
      }
     }, [success,message, dispatch, error, conError,swapSuccess,swapError,menError])
@@ -187,8 +188,12 @@ const ManageConnection = () => {
        </Box>
        </Box>
        ))}
-       
         </Box>
+       {(activeConnection?.length === 0 && stuId) && (
+        <>
+        {name} don't have any active mentorship
+        </>
+       ) }
       </Box>
     </>
   );
