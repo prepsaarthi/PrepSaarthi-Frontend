@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography, Box, Paper } from "@mui/material";
+import { Container, Typography, Box, Paper, List, ListItem, ListItemText } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -111,7 +111,65 @@ const PrivacyPolicy = () => {
               information we collect online.
             </Typography>
           </Box>
+          <Box mt={4}>
+  <Typography variant="h5" color="secondary" gutterBottom>
+    Prohibited Conduct: Off-Platform Transactions and Refund Manipulation
+  </Typography>
+  <Typography variant="body1" paragraph>
+    We are committed to maintaining a fair and trustworthy environment for both students and mentors. Engaging in off-platform transactions or manipulating the refund process is strictly prohibited. This includes, but is not limited to:
+  </Typography>
+  
+  <List sx={{ listStyleType: 'disc' }}>
+    <ListItem >
+      <ListItemText
+        primary="Mentors suggesting or advising students to cancel their mentorship and request a refund, followed by offering services at a discounted rate privately."
+      />
+    </ListItem>
+    <ListItem>
+      <ListItemText
+        primary="Students proposing or agreeing to such off-platform arrangements with mentors."
+      />
+    </ListItem>
+  </List>
 
+  <Typography variant="h6" color="primary" gutterBottom>
+        Consequences of Violations:
+  </Typography>
+  
+  <List>
+    <ListItem>
+      <ListItemText
+        primary="If a mentor is found engaging in these activities, their account will be permanently disabled without any prior notice. Any pending payments owed to the mentor will be forfeited."
+      />
+    </ListItem>
+    <ListItem>
+      <ListItemText
+        primary="If a student is found engaging in these activities, their account will also be permanently disabled without prior notice. Access to mentorship services will be immediately revoked."
+      />
+    </ListItem>
+  </List>
+
+  <Typography variant="h6" color="primary" gutterBottom>
+    Reporting and Investigation:
+  </Typography>
+  
+  <List>
+    <ListItem>
+      <ListItemText
+        primary="We encourage both students and mentors to report any suspicious or prohibited conduct without fear of unjust consequences. Reports will be thoroughly investigated, and actions will only be taken against the party found guilty of the violation."
+      />
+    </ListItem>
+    <ListItem>
+      <ListItemText
+        primary="The account of the offending party will be banned based on the investigation's findings, ensuring that innocent parties are not penalized."
+      />
+    </ListItem>
+  </List>
+
+  <Typography variant="body1" paragraph>
+    By using our platform, you agree to adhere strictly to these guidelines. Violations will be addressed with immediate and decisive actions to protect the integrity of our mentorship community.
+  </Typography>
+</Box>
           <Box mt={4}>
             <Typography variant="h5" color="secondary" gutterBottom>
               Your Rights
