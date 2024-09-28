@@ -38,12 +38,13 @@ import MetaData from "./utils/Metadata.jsx";
 import OTPVerification from "./Pages/OTPVerification/OTPVerification.jsx";
 const App = () => {
   const dispatch = useDispatch();
+  
   const [notification,setNotification] = useState([])
   const [soundEnabled, setSoundEnabled] = useState(false); // Control sound permissions
   const sound = new Audio(notificationSound); 
-  const socket = useMemo(
+  let socket = useMemo(
     () =>
-      io("http://localhost:5000", {
+      io(process.env.REACT_APP_API_URL, {
           withCredentials: true
          }),
       []
@@ -148,6 +149,9 @@ const App = () => {
         <Route element={<PrivateRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Route>
+        <Route element={<PrivateRoutes allowedRoles={["mentor", "student"]} />}>
+        </Route>
+        <Route path="/chat" element={<ChatService userId={stuUser?.user?._id|| user?.user?._id} role={stuUser?.user?.role|| user?.user?.role} userAvatar={stuUser?.user?.avatar|| user?.user?.avatar}/> }></Route>
 
 
         <Route element={<PrivateRouteStu allowedRoles={["student"]} />}>
@@ -166,7 +170,6 @@ const App = () => {
         {/* <Route path="/verify/account" element={<OTPVerification />}></Route> */}
         <Route path="/" element={<Home />}></Route>
         <Route path="/faq" element={<Home />}></Route>
-        <Route path="/chat" element={<ChatService userId={stuUser?.user?._id|| user?.user?._id} role={stuUser?.user?.role|| user?.user?.role} userAvatar={stuUser?.user?.avatar|| user?.user?.avatar}/> }></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/bm" element={<Signup />}></Route>
         <Route path="/login" element={<SignIn />}></Route>

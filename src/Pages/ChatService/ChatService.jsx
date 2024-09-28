@@ -45,7 +45,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     const navigate = useNavigate()
     let typingTimeout;
     const [typingstate,setTypingState] = useState({})
-    
+
     const styles = {
       searchContainer: {
         display: 'flex',
@@ -118,7 +118,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     } = useSelector((state) => state.getAllConnectionMenPast);
     const socket = useMemo(
       () =>
-        io("http://localhost:5000", {
+        io(process.env.REACT_APP_API_URL, {
             withCredentials: true
            }),
         []
