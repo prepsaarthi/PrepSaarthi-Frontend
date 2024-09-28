@@ -7,16 +7,20 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import Backdrop from '@mui/material/Backdrop';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import Drawer from "@mui/material/Drawer";
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import MailIcon from "@mui/icons-material/Mail";
 import SchoolIcon from "@mui/icons-material/School";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -33,25 +37,36 @@ import {
   logoutUser as stuLogout,
 } from "../../action/studentAction";
 import toast from "react-hot-toast";
+import { Badge, CardMedia } from "@mui/material";
 // import './navbar'
 const drawerWidth = 240;
 let navbarRef = null;
 let previosPos = 0;
 const readScroll = () => {
-  if(navbarRef){
-  if (window.scrollY > 270 && window.scrollY > previosPos) {
-    navbarRef.style.top = "-100px";
+  if (navbarRef) {
+    if (window.scrollY > 270 && window.scrollY > previosPos) {
+      navbarRef.style.top = "-100px";
+    }
+    if (window.scrollY < previosPos) {
+      navbarRef.style.top = "0px";
+    }
+    previosPos = window.scrollY;
   }
-  if(window.scrollY < previosPos){
-    navbarRef.style.top = "0px";
-  }
-  previosPos = window.scrollY;
-}
-}
-window.addEventListener('scroll', readScroll);
+};
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+window.addEventListener("scroll", readScroll);
 function ResponsiveAppBar(props) {
   const navbarRefInternal = React.useRef(null);
-
   React.useEffect(() => {
     navbarRef = navbarRefInternal.current;
     return () => {
@@ -118,7 +133,8 @@ function ResponsiveAppBar(props) {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+  const [open, setOpen] = React.useState(false);
+ 
   const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
   };
@@ -127,6 +143,10 @@ function ResponsiveAppBar(props) {
     navigate("/role/mentor/final");
   };
 
+  const handleOpen = () => {setOpen(true)};
+  const handleClose = () =>{ setOpen(false)
+
+  };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -137,7 +157,7 @@ function ResponsiveAppBar(props) {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", minHeight: "100vh", bgcolor: "#fefeff"}}
+      sx={{ textAlign: "center", minHeight: "100vh", bgcolor: "#fefeff" }}
     >
       <Typography
         variant="h6"
@@ -157,63 +177,82 @@ function ResponsiveAppBar(props) {
           flexDirection: "column",
           justifyContent: "space-between",
           height: "calc(85% - 50px)",
-          pt:0
+          pt: 0,
         }}
       >
-        {isAuthenticated || stuAuth ? <Link to={`/user/${stuUser?.user?._id || user?.user?._id}`} >
-                <ListItem sx={{ p: 0 , width:240}}>
-                  <ListItemButton
-                    sx={pathname === `/user/${stuUser?.user?._id || user?.user?._id}`?
-                      {
+        {isAuthenticated || stuAuth ? (
+          <Link to={`/user/${stuUser?.user?._id || user?.user?._id}`}>
+            <ListItem sx={{ p: 0, width: 240 }}>
+              <ListItemButton
+                sx={
+                  pathname === `/user/${stuUser?.user?._id || user?.user?._id}`
+                    ? {
                         textAlign: "start",
                         color: "black",
                         "& .MuiSvgIcon-root": { color: "grey" },
-                        bgcolor:'#d1e8ff',
-                      }:{
-                      textAlign: "start",
-                      color: "black",
-                      "& .MuiSvgIcon-root": { color: "grey" },
-                      
-                    }}
-                  >
-                    < AccountCircleIcon/>
-                    <ListItemText sx={{ ml: "1.5vmax",
-                      color: "grey",
-                      "& .MuiTypography-root": {
-                        fontWeight: 700,
-                        fontSize: "2.2vmax",
-                      }}} primary="Your Profile" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>:<Link to="/" >
-                <ListItem sx={{ p: 0 , width:240}}>
-                  <ListItemButton
-                    sx={pathname === '/'?
-                      {
+                        bgcolor: "#d1e8ff",
+                      }
+                    : {
                         textAlign: "start",
                         color: "black",
                         "& .MuiSvgIcon-root": { color: "grey" },
-                        bgcolor:'#d1e8ff'
-                      }:{
-                      textAlign: "start",
-                      color: "black",
-                      "& .MuiSvgIcon-root": { color: "grey" },
-                    }}
-                  >
-                    <HomeIcon />
-                    <ListItemText sx={{ ml: "1.5vmax",
-                      color: "grey",
-                      "& .MuiTypography-root": {
-                        fontWeight: 700,
-                        fontSize: "2.2vmax",
-                      }}} primary="Home" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>}
+                      }
+                }
+              >
+                <AccountCircleIcon />
+                <ListItemText
+                  sx={{
+                    ml: "1.5vmax",
+                    color: "grey",
+                    "& .MuiTypography-root": {
+                      fontWeight: 700,
+                      fontSize: "2.2vmax",
+                    },
+                  }}
+                  primary="Your Profile"
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ) : (
+          <Link to="/">
+            <ListItem sx={{ p: 0, width: 240 }}>
+              <ListItemButton
+                sx={
+                  pathname === "/"
+                    ? {
+                        textAlign: "start",
+                        color: "black",
+                        "& .MuiSvgIcon-root": { color: "grey" },
+                        bgcolor: "#d1e8ff",
+                      }
+                    : {
+                        textAlign: "start",
+                        color: "black",
+                        "& .MuiSvgIcon-root": { color: "grey" },
+                      }
+                }
+              >
+                <HomeIcon />
+                <ListItemText
+                  sx={{
+                    ml: "1.5vmax",
+                    color: "grey",
+                    "& .MuiTypography-root": {
+                      fontWeight: 700,
+                      fontSize: "2.2vmax",
+                    },
+                  }}
+                  primary="Home"
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
         <Box sx={{ width: "100%" }}>
           {navItems.map((item, i) => (
             <Link to={item.link}>
-              <ListItem key={i} disablePadding >
+              <ListItem key={i} disablePadding>
                 <ListItemButton
                   sx={
                     pathname === item.link.split("#")[0] ||
@@ -255,25 +294,33 @@ function ResponsiveAppBar(props) {
               <Link to="/settings">
                 <ListItem sx={{ p: 0 }}>
                   <ListItemButton
-                    sx={pathname === '/settings'?
-                      {
-                        textAlign: "start",
-                        color: "black",
-                        "& .MuiSvgIcon-root": { color: "grey" },
-                        bgcolor:'#d1e8ff'
-                      }:{
-                      textAlign: "start",
-                      color: "black",
-                      "& .MuiSvgIcon-root": { color: "grey" },
-                    }}
+                    sx={
+                      pathname === "/settings"
+                        ? {
+                            textAlign: "start",
+                            color: "black",
+                            "& .MuiSvgIcon-root": { color: "grey" },
+                            bgcolor: "#d1e8ff",
+                          }
+                        : {
+                            textAlign: "start",
+                            color: "black",
+                            "& .MuiSvgIcon-root": { color: "grey" },
+                          }
+                    }
                   >
                     <SettingsIcon />
-                    <ListItemText sx={{ ml: "1.5vmax",
-                      color: "grey",
-                      "& .MuiTypography-root": {
-                        fontWeight: 700,
-                        fontSize: "2.2vmax",
-                      }}} primary="Setings" />
+                    <ListItemText
+                      sx={{
+                        ml: "1.5vmax",
+                        color: "grey",
+                        "& .MuiTypography-root": {
+                          fontWeight: 700,
+                          fontSize: "2.2vmax",
+                        },
+                      }}
+                      primary="Setings"
+                    />
                   </ListItemButton>
                 </ListItem>
               </Link>
@@ -295,12 +342,17 @@ function ResponsiveAppBar(props) {
                     }}
                   >
                     <LogoutIcon />
-                    <ListItemText sx={{ ml: "1.5vmax",
-                      color: "grey",
-                      "& .MuiTypography-root": {
-                        fontWeight: 700,
-                        fontSize: "2.2vmax",
-                      }}} primary="Logout" />
+                    <ListItemText
+                      sx={{
+                        ml: "1.5vmax",
+                        color: "grey",
+                        "& .MuiTypography-root": {
+                          fontWeight: 700,
+                          fontSize: "2.2vmax",
+                        },
+                      }}
+                      primary="Logout"
+                    />
                   </ListItemButton>
                 </ListItem>
               </Link>
@@ -342,9 +394,59 @@ function ResponsiveAppBar(props) {
     window !== undefined ? () => window().document.body : undefined;
   return (
     <>
-      <AppBar position="sticky"  ref={navbarRefInternal} sx={{transition:'top 0.5s ease-in-out'}}className="voooppp">
+     <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Notification
+            </Typography>
+           
+            {props.notification?.length > 0 ? (
+              <>{props.notification?.map((i) => (
+                <Box sx={{height:{md:'80px'}, width:'100%', bgcolor:'#dddddd', display:'flex', alignItems:'center', borderRadius:'20px'}} onClick={() => {
+                  setOpen(false)
+                  navigate('/chat', { state: { senderId: i?.senderId } });
+                  
+                  console.log(i?.senderId)
+                }}>
+                  <Box sx={{margin:'10px'}}>
+                    <CardMedia sx={{width:'50px', height:'50px', borderRadius:'50%'}} component={'img'} src={i?.senderAvatar}>
+  
+                    </CardMedia>
+                  </Box>
+                  <Box>
+                    <Typography component={'p'} sx={{fontWeight:'600'}}>{i?.senderName}</Typography>
+                    <Typography>{(((i?.senderContent?.length > 16 || i?.senderContent?.length > 16) && window.innerWidth > 900)) ? ((i?.senderContent|| i?.senderContent)?.substr(0,16) + '...'): (((i?.senderContent || i?.senderContent)?.length > 25)?(((i?.senderContent || i?.senderContent)?.substr(0,25))+'...'):(i?.senderContent || i?.senderContent))}</Typography>
+                  </Box>
+                </Box>
+              ))}</>
+            ) : (<>
+            <Box>No New Notification</Box>
+            </>)}
+            
+          </Box>
+        </Fade>
+      </Modal>
+      <AppBar
+        position="sticky"
+        ref={navbarRefInternal}
+        sx={{ transition: "top 0.5s ease-in-out" }}
+        className="voooppp"
+      >
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{height:70}}>
+          <Toolbar disableGutters sx={{ height: 70 }}>
             <Typography
               variant="h6"
               noWrap
@@ -435,8 +537,9 @@ function ResponsiveAppBar(props) {
                     width: { xs: "10vmax", md: "8vmax" },
                     mr: "1vmax",
                     fontSize: { xs: "1.2vmax", md: "0.9vmax" },
-                    borderRadius:'20px'
-                  }}                >
+                    borderRadius: "20px",
+                  }}
+                >
                   Mentorship
                 </Button>
               </Box>
@@ -445,6 +548,14 @@ function ResponsiveAppBar(props) {
             <Box sx={{ flexGrow: 0 }}>
               {Boolean(loggedIn) || Boolean() ? (
                 <>
+                  <IconButton onClick={() => handleOpen()} aria-label="cart">
+                    <Badge
+                      badgeContent={props.notification?.length}
+                      color="error"
+                    >
+                      <MailIcon color="action" />
+                    </Badge>
+                  </IconButton>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
@@ -537,7 +648,7 @@ function ResponsiveAppBar(props) {
                 </>
               ) : (
                 <>
-                  <Box to="/login" component={Link} sx={{display:'flex'}}>
+                  <Box to="/login" component={Link} sx={{ display: "flex" }}>
                     {/* <IconButton components={Link} to="/login" sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
@@ -558,7 +669,7 @@ function ResponsiveAppBar(props) {
                         Sign Up
                       </Button>
                     </Link>
-                    <Link to="/login" >
+                    <Link to="/login">
                       <Button
                         variant="contained"
                         disableElevation
@@ -567,7 +678,7 @@ function ResponsiveAppBar(props) {
                           width: { xs: "10vmax", md: "8vmax" },
                           ml: "1vmax",
                           fontSize: { xs: "1.2vmax", md: "0.9vmax" },
-                          display:{xs:'none', md:'block'}
+                          display: { xs: "none", md: "block" },
                         }}
                       >
                         Login

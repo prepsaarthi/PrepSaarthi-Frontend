@@ -376,7 +376,7 @@ export const allSelfConnection = createAsyncThunk(
       );
       return data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -568,7 +568,64 @@ export const changePassword = createAsyncThunk(
     }
   }
 );
+export const getAllChats = createAsyncThunk(
+  "user/all/chats",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/v1/mentor/all/chats/`
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
+export const getAllChatsStu = createAsyncThunk(
+  "stu/all/chats",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/v1/student/all/chats/`
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const getAllNotification = createAsyncThunk(
+  "men/all/not",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.post(
+        `/v1/mentor/all/notification/`,
+        {id},
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const getAllNotificationStu = createAsyncThunk(
+  "stu/all/not",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axiosInstance.post(
+        `/v1/student/all/notification/`,{id},
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 // update mentoring status
 export const getVisitsData = createAsyncThunk(
   "all/visiting/data",

@@ -162,7 +162,7 @@ const PrivacyPolicy = () => {
     <ListItem>
       <ListItemText
         primary="The account of the offending party will be banned based on the investigation's findings, ensuring that innocent parties are not penalized."
-      />
+      /> 
     </ListItem>
   </List>
 
@@ -187,7 +187,6 @@ const PrivacyPolicy = () => {
             </Typography>
             <Typography variant="body1" paragraph>
               Delete Your Information: Request the deletion of your personal
-              information, subject to certain exceptions as required by law.
             </Typography>
           </Box>
 

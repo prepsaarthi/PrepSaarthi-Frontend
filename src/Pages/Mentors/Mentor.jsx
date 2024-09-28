@@ -205,7 +205,7 @@ const Mentor = () => {
     success: connSuccess,
     loading: connLoading,
     error: connError,
-  } = useSelector((state) => state.getAllConnectionMenPast);
+  } = useSelector((state) => state.getAllConnectionMenPast); //this
 
   useEffect(() => {
     if (connError) {
@@ -817,6 +817,25 @@ const Mentor = () => {
                           </div>
                         </>
                       )}
+                          <div>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                backgroundColor: "var(--button1)",
+                                color: "#fff",
+                                "&:hover": {
+                                  backgroundColor: "var(--button1Hover)",
+                                },
+                                mb: "2vmax",
+                              }}
+                              startIcon={<AttachEmailIcon />}
+                              onClick={() => {
+                                navigate('/chat')
+                              }}
+                            >
+                              Open Chats
+                            </Button>
+                          </div>
                   </div>
 
                   {stuLoading === false &&

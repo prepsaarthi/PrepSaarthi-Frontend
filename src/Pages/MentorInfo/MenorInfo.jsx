@@ -28,7 +28,7 @@ const convertToIST = (time) => {
 const MenorInfo = ({ active }) => {
   const dispatch = useDispatch();
   const { connection, loading, error } = useSelector(
-    (state) => state.getAllConnectionStuPast
+    (state) => state.getAllConnectionStuPast  //thia
   );
   const RoundedImg = styled("img")(({ theme }) => ({
     width: 60,

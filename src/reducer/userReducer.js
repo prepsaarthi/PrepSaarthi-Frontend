@@ -15,7 +15,11 @@ import {
   findConnectionByMob,
   findMentorByMob,
   getAllAdmin,
+  getAllChats,
+  getAllChatsStu,
   getAllMentors,
+  getAllNotification,
+  getAllNotificationStu,
   getAllStudents,
   getUserDetails,
   getUserDetailsAdmin,
@@ -1539,3 +1543,141 @@ export const swapConnectionReducer = createReducer(initalState, (builder) => {
       };
     });
 });
+export const chatMentor = createReducer(initalState, (builder) => {
+  builder
+    .addCase(getAllChats.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getAllChats.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        chats:action.payload.chats
+      };
+    })
+    .addCase(getAllChatsStu.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getAllChatsStu.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        chats:action.payload.chats
+      };
+    })
+    .addCase(getAllChatsStu.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(getAllChats.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    // .addCase(reset.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     success: null,
+    //   };
+    // })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        chats:null,
+      };
+    });
+});
+export const notificationUser = createReducer(initalState, (builder) => {
+  builder
+    .addCase(getAllNotification.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getAllNotification.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        notificatioin:action.payload.notification
+      };
+    })
+    .addCase(getAllNotificationStu.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getAllNotificationStu.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        notificatioin:action.payload.notification
+      };
+    })
+    .addCase(getAllNotificationStu.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(getAllNotification.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    // .addCase(reset.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     success: null,
+    //   };
+    // })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    })
+    .addCase(reset.fulfilled, (state, action) => {
+      return {
+        ...state,
+        chats:null,
+      };
+    });
+});
+// export const chatStudent = createReducer(initalState, (builder) => {
+//   builder
+
+//     // .addCase(reset.fulfilled, (state, action) => {
+//     //   return {
+//     //     ...state,
+//     //     success: null,
+//     //   };
+//     // })
+//     .addCase(clearError.fulfilled, (state, action) => {
+//       return {
+//         ...state,
+//         error: null,
+//       };
+//     });
+// });

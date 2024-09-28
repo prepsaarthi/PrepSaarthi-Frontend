@@ -493,6 +493,24 @@ const MentorProfile = () => {
                           </Typography>
                         )
                       )}
+                     {isAuthenticated && <>
+                      <Button
+                       sx={{
+                        backgroundColor: "var(--button1)",
+                        color: "#fff",
+                        "&:hover": {
+                          backgroundColor: "var(--button1Hover)",
+                        },
+                        mt:{
+                          xs:'20px',
+                          md:0
+                        }
+                      }}
+                      onClick={() => {
+                            navigate('/chat', { state: { reciverId: id, name:user?.name, avatar:user?.avatar?.public_URI } });
+
+                      }}>Chat with {user?.name?.split(" ")[0]}</Button>
+                     </>}
                     </Box>
                     {isAuthenticated || menAuth ? (
                       <>

@@ -11,6 +11,7 @@ import {
   assignConnectionReducer,
   changeCoverReducer,
   changePasswordReducer,
+  chatMentor,
   deleteUserReducer,
   getConnectionByMob,
   getMentorByMob,
@@ -20,6 +21,7 @@ import {
   mentorDetailsReducerAdmin,
   mentorSignup,
   mentoringStatus,
+  notificationUser,
   popUpReducer,
   reSendOTPReducer,
   reSendOTPReducerStu,
@@ -101,7 +103,10 @@ const store = configureStore({
     selfConnection:allMentorSelfCoonnection,
     getMentorMob:getMentorByMob,
     getConnectonMob:getConnectionByMob,
-    swapConnection:swapConnectionReducer
+    swapConnection:swapConnectionReducer,
+    mentorChat:chatMentor,
+    notification:notificationUser,
+    // studentChat:chatStudent
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });
