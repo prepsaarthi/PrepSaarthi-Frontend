@@ -149,7 +149,6 @@ const MentorAll = () => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-                {console.log(user, 'fssdd')}
                 <CloseIcon
                   sx={{
                     cursor: "pointer",
@@ -194,7 +193,6 @@ const MentorAll = () => {
                               <Card
                               onClick={() => {
                                 setUser(item._id)
-                                console.log(item._id, user)
                                 setOpen(true)
                               }}
                                 sx={{

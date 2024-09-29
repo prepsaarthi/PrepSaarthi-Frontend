@@ -18,7 +18,6 @@ const MentorAbout = ({ id }) => {
   const { connection } = useSelector((state) => state.connectionCount);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(id, 'MentorDetal')
     dispatch(getUserDetailsAdmin(id));
     dispatch(getSuccessMentorConnection(id));
   }, [dispatch, id]);

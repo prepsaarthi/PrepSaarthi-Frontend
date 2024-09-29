@@ -2,7 +2,6 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 
 const StudentCard = ({student}) => {
-    console.log(student)
   return (
     <Box sx={{display:'flex',alignItems:'center', padding:'0 5vmax',flexDirection:{xs:"column", md:'row'}}}>
     <Box sx={{width:{xs:"100%",md:'70%'}, bgcolor:'var(--theme2)', borderRadius:'10px', overflow:'hidden', minHeight:'32vmax', m:'0 auto'}}>

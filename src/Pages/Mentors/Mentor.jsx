@@ -427,8 +427,6 @@ const Mentor = () => {
     };
 
     setConnection(filterData());
-    console.log(filterData());
-    console.log("hss");
   }, [startDate, endDate, connection]);
   return (
     <>

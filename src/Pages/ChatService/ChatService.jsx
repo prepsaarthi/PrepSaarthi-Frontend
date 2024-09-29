@@ -101,11 +101,10 @@ const ChatService = ({userId, role, userAvatar}) => {
     };
 
     useEffect(() => {
-      if(senderId){
+      if(senderId && loading){
         joinChat(senderId)
       }
-      console.log(senderId)
-    }, [senderId])
+    }, [senderId, loading])
     
     // Scroll to the bottom whenever convo changes
     const { connection, loading:menConLoading, error:menConError } = useSelector(
@@ -173,11 +172,9 @@ const ChatService = ({userId, role, userAvatar}) => {
           updateUserChats([])
         }
       }, [searchParams])
-
       useEffect(() => {
         if(loading === false && name && avatar && reciverId){
         if( loadedUsers?.length > 0){
-          console.log('falser')
           const index = loadedUsers.findIndex(obj => obj?.id === reciverId);
           if(index === -1){
             setTempUser({
@@ -207,11 +204,10 @@ const ChatService = ({userId, role, userAvatar}) => {
       
       useEffect(() => {
         socket.on("connect", () => {
-          console.log("connected", socket.id);
+          console.log("connected");
         });
      
         socket.on('mystatus', ({userId, status}) => {
-          console.log(userId, status)
           updateUserStatus(userId, status);
         })
         // socket.on('welcome', (m) => {
@@ -222,9 +218,7 @@ const ChatService = ({userId, role, userAvatar}) => {
         // })
   
         socket.on('recive-message', ({message, age, name, avatar,status,chatLeft}) => {
-          console.log(recipientIdRef.current, message, loggedinUser.current,age)
           if(age === 'new'){
-              console.log(message, age)
              setLoadedUsers((prev) => {
               return [message, ...prev]
             })
@@ -233,7 +227,6 @@ const ChatService = ({userId, role, userAvatar}) => {
             if(age === 'old'){
               if((recipientIdRef.current === message?.senderId) || (message?.senderId === loggedinUser.current)){
                 setChatRemain(chatLeft)
-                console.log(loadedUsers)
                 setConvo((convo) => [...convo, message])
                 setLoadedUsers((prevChats) => {
                   const index = prevChats?.findIndex(item => item?.chatId === message?.chatId);
@@ -247,20 +240,16 @@ const ChatService = ({userId, role, userAvatar}) => {
                     // Return the updated array with the chat at the top
                     return [{...chatToMove,message:message?.content, unseenFor:message?.reciverId}, ...updatedArr];
                   }
-                  console.log(message)
                   // If the chat isn't found, return the array as is
                   return [{avatar, chatId:message?.chatId,id:message?.reciverId, message:message?.content, name, senderId:message?.senderId, status,unseenFor:message?.reciverId, time:message?.timeStamp},...prevChats];
                 });
                 setTempUser(null)
               }else{
-                console.log(loadedUsers, 'asdad',message)
                 setLoadedUsers((prevArr) => {
                   // Find the index of the chat you want to move
                   const index = prevArr.findIndex((chat) => chat?.chatId === message?.chatId);
                   // If the chat is found, remove it from the array and add it to the front
-                  console.log('trueeeeeee1', index)
                   if (index !== -1) {
-                    console.log('trueeeeeee')
                     const updatedArr = [...prevArr];
                     const chatToMove = updatedArr.splice(index, 1)[0]; // Remove the chat from the array
                     return [{...chatToMove, unreadChat:chatToMove?.unreadChat + 1, message:message?.content,isHighlighted:true,unseenFor:message?.reciverId}, ...updatedArr]; // Add the chat to the front
@@ -274,11 +263,11 @@ const ChatService = ({userId, role, userAvatar}) => {
 
         })
         socket.on('chat-retrival', ({message, chatId}) => {
-            setConvo(message)
-            setLoadedUsers((prevUsers) => {
+          
+          setConvo(message)
+          setLoadedUsers((prevUsers) => {
               const index = prevUsers.findIndex(user => user?.chatId === chatId);
               if (index === -1) return prevUsers; // No change if the item is not found
-              console.log("jhsdbfhbkshbkfhsbkbfs")
               const updatedUsers = [...prevUsers]; // Make a shallow copy of the array
               updatedUsers[index] = {
                 ...updatedUsers[index], 
@@ -318,7 +307,6 @@ const ChatService = ({userId, role, userAvatar}) => {
               return item.chatDetails.studentId
             }
           })
-          console.log(chats)
 
           socket.emit('getonlineusers', chatsId )
           socket.on('onlineusers', (users) => {
@@ -400,9 +388,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     //     setPrev(room)
     //   }
   
-  useEffect(() => {
-    console.log(recipientId)
-  }, [recipientId])
+
       const handleSubmit = () => {
         // if(containsNumbers(message)){
           
@@ -422,6 +408,7 @@ const ChatService = ({userId, role, userAvatar}) => {
         recipientIdRef.current = id;
         setConvo([])
         setLoader(true)
+        
         socket.emit('join-chat', ({loged:userId ,userId:id, role}))
       }
 
@@ -472,7 +459,6 @@ const ChatService = ({userId, role, userAvatar}) => {
         }}
         onClick={() => {joinChat(id)}
 }      >
-        {console.log(item, userId)}
         <CardMedia
           component="img"
           sx={{
@@ -516,7 +502,6 @@ const ChatService = ({userId, role, userAvatar}) => {
         ): ((item?.content?.length > 16 || item?.message?.length > 16 && window.innerWidth > 900)) ? ((item?.content || item?.message)?.substr(0,16) + '...'): (((item?.content || item?.message)?.length > 25)?(((item?.content || item?.message)?.substr(0,25))+'...'):(item?.content || item?.message))}
            {}
             </Typography>
-         {console.log(window.innerWidth)}
           </CardContent>
          
         </Box>
@@ -536,12 +521,7 @@ const ChatService = ({userId, role, userAvatar}) => {
         "zero", "one", "two", "three", "four", "five",
         "six", "seven", "eight", "nine", "ten"
       ];
-      const containsNumbers = (message) => {
-        // Regular expression to match sequences of digits or numeric words
-        const numberPattern = /(\d[\s.-]*){10,}|(zero|one|two|three|four|five|six|seven|eight|nine)([\s.-]*){9,}/i;
-
-        return numberPattern.test(message) || blockedWords.some(word => message.toLowerCase().includes(word));
-      };
+   
 
       function convertToIST(timestamp) {
         const date = new Date(timestamp);
@@ -623,12 +603,11 @@ const ChatService = ({userId, role, userAvatar}) => {
         })
       },[socket])
 
-      useEffect(() => {
-        console.log(message, message?.length)
-      }, [message])
+      
   return (
     <>
-    {loading ? <Loader /> : <>
+    {loading ? <Loader /> :
+     <>
       <Box display={'flex'} sx={{width:'100vw',height:'calc(100vh)', overflowY:'hidden', position:'absolute', top:0,left:0, zIndex:{xs:zIndexApp,md:1111}, padding:{md:'10px'}, bgcolor:'#b4c6da'}}> 
       <Box sx={{width:{xs:'100vw',md:'32vw'},height:'100%', borderRight:'0.3px solid #b8b8b8', overflowY:'scroll', position:{xs:'absolute', md:'static'}, top:'70px', left:`${position}vw`,zIndex:2, bgcolor:'white', transition:'0.5s',borderRadius:'10px 0px 0px 30px ', overflow:'hidden'}}>
         <Box sx={{width:'98%' ,height:'70px',borderRadius:'0 35px 35px 0' ,display:{xs:'none',md:'flex'}, alignItems:'center',bgcolor:'var(--theme2)'  }}>
@@ -650,14 +629,37 @@ const ChatService = ({userId, role, userAvatar}) => {
           <ChatCard item={tempUserChat} id={reciverId}/>
       )}
     
-    {(loadedUsers?.length === 0 && tempUserChat === null) ? <>No chats to show</> : <>
+    {(loadedUsers?.length === 0 && tempUserChat === null) ? 
+    <Box
+    sx={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight: 800,
+      color: 'grey',
+      textAlign: 'center',
+    }}
+  >
+    <h2 style={{ marginBottom: '8px' }}>
+    It looks like you haven't had any conversations yet.
+
+</h2>
+
+    <p>
+     Connect with a {role === 'student' ? <>mentor</> : <>student</>} to start your chat journey!
+    </p>
+  </Box>
+   : <>
     {loadedUsers?.map((i, key) => (
       <ChatCard key={key} item={i} id={i?.id}/>
       
     ))}
     </>}
       </Box>
-      <Box sx={{width:{xs:'100vw',md:'68vw'},height:{xs:'100vh', md:'calc(100vh - 20px)'},position:{xs:'absolute', md:'relative'}, bgcolor:'white', borderRadius:'0 10px 10px 0 ', overflow:'hidden'}}>
+      <Box sx={{width:{xs:'100vw',md:'68vw'},height:{xs:'100svh', md:'calc(100svh - 20px)'},position:{xs:'absolute', md:'relative'}, bgcolor:'white', borderRadius:'0 10px 10px 0 ', overflow:'hidden'}}>
     {recipientIdRef.current && <Box sx={{width:{xs:'100vw',md:'67vw'},ml:'auto', height:'70px',bgcolor:'var(--theme2)', display:'flex', alignItems:'center', borderRadius:{md:'0px 0 0 0px'}}}>
         <ArrowBackIosIcon onClick={()=>{setPosition(0) 
         setIndex(111)
@@ -672,129 +674,50 @@ const ChatService = ({userId, role, userAvatar}) => {
       </Box>
     </Box>}
     {recipientIdRef.current === null && (
-    <Box sx={{ width:{xs:'100vw',md:'68vw'}, overflowY:'scroll', height:'calc(100% - 140px)',display:{xs:'none', md:'flex'}, flexDirection:'column', padding:'10px 0', overflowX:'hidden','&::-webkit-scrollbar':{ display: 'none',},'-ms-overflow-style': 'none', 'scrollbar-width': 'none'}} />
+    <Box sx={{ width:{xs:'100vw',md:'68vw'},overflowY:'scroll', height:'calc(100% - 140px)',display:{xs:'none', md:'flex'}, flexDirection:'column', padding:'10px 0',alignItems:'center',color:'grey', fontSize:'1.2vmax',fontWeight:'800',justifyContent:'center', overflowX:'hidden','&::-webkit-scrollbar':{ display: 'none',},'-ms-overflow-style': 'none', 'scrollbar-width': 'none'}}>{!tempUserChat && loadedUsers?.length === 0? <>You currently have no users to chat with.</> :<>  There are no conversation to begin withChoose a chat to dive into your conversation</>}</Box>
 
     )}
-      {(!connLoading && !menConLoading)&& (
-         <Box ref={scrollRef} sx={{ width:{xs:'100vw',md:'100%'}, overflowY:'scroll', height:'calc(100% - 140px)',display:'flex', flexDirection:'column', padding:'10px 0', overflowX:'hidden','&::-webkit-scrollbar':{ display: 'none',},'-ms-overflow-style': 'none', 'scrollbar-width': 'none'}}>
-        {convo?.length > 0 && convo?.map((i, key) => (
-          <Box display={'flex'}sx={i?.senderId === userId ? {
-            alignSelf:'flex-end',
-            padding:'4px',
-            bgcolor:'#bedfff',
-            borderRadius:'5px',
-            margin:'1.5px 5px'
-          }:{bgcolor:'#ffe5a9',
-            margin:'1.5px 5px',
-            borderRadius:'5px',
-            alignSelf:'flex-start',
-            padding:'4px',
-       
-          }}>
-          <Box sx={{wordWrap: 'break-word',  
-            maxWidth:'30vmax',
-            whiteSpace: 'normal',}}  key = {key}>{i?.content}</Box>
-        <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', marginLeft:'1px'}}>
-            <Box component={'span'} sx={{fontSize:'0.8vmax', mt:'8px', ml:'3px'}} >
-         {convertToIST(i.timeStamp)}
-         </Box>
-        </Box>
-       {i?.senderId === userId  && (
-        <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', marginLeft:'1px'}}>
-        <Box component={'span'} sx={{fontSize:'0.8vmax'}} >
-     {i?.seen ? <DoneAllIcon  sx={{color:'green'}}/> : (i?.delivered ? <DoneAllIcon/> : <DoneIcon />)} 
-     </Box>
-    </Box>
-       )} 
-        </Box>
-        ))}
-        {activeConnection?.find((item) => item?.mentorDetails?._id === recipientIdRef.current) ? (
-<>{recipientIdRef.current && (
-   <Box sx={{position:'absolute', bottom:0, width:'100%',bgcolor:'#eaeaea',padding:'0 5px'}}>
-   <div style={styles.searchContainer}>
-        <input
-    value={message}
-        onChange={(e) => {
-          setMessage(e.target.value)
-      
-            setTyping(true)
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-             setTyping(false)
-            }, 1300);
-          
-          }}
-          type="text"
-          placeholder="Type your message..."
-          style={styles.searchInput}
-        />
-        <div style={styles.buttonContainer}>
-          <svg
-            style={styles.svgCircle}
-            width="52" // Adjusted width
-            height="52" // Adjusted height
-            viewBox="0 0 52 52"
-          >
-            <circle
-              cx="26" // Centered x position
-              cy="26" // Centered y position
-              r={radius} // Radius for the circle// Black stroke
-              strokeWidth="4" // Stroke width increased for visibility
-              fill="none"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
-            />
-          </svg>
-          <button onClick={handleSubmit} disabled={message?.length === 0 || message?.length >= chatRemain} style={styles.button}><SendIcon /></button>
-        </div>
-      </div>
-  {/* <LoadingButton loading={messageLoader} onClick={handleSubmit}>Send</LoadingButton> */}
-  </Box>
-)}</>
-        ):<>{
-  recipientIdRef.current && (
-    <Box sx={{position:'absolute', bottom:0, width:'100%',bgcolor:'#eaeaea',padding:'0 0 0 10px'}}>
-    {role === 'student'?<>
-      <div style={styles.searchContainer}>
+     {(!connLoading && !menConLoading)&& (
+     <>
+     {socketLoader ? <Loader/> : (
+          <Box ref={scrollRef} sx={{ width:{xs:'100vw',md:'100%'}, overflowY:'scroll', height:'calc(100% - 140px)',display:'flex', flexDirection:'column', padding:'10px 0', overflowX:'hidden','&::-webkit-scrollbar':{ display: 'none',},'-ms-overflow-style': 'none', 'scrollbar-width': 'none'}}>
+          {convo?.length > 0 && convo?.map((i, key) => (
+            <Box display={'flex'}sx={i?.senderId === userId ? {
+              alignSelf:'flex-end',
+              padding:'4px',
+              bgcolor:'#bedfff',
+              borderRadius:'5px',
+              margin:'1.5px 5px'
+            }:{bgcolor:'#ffe5a9',
+              margin:'1.5px 5px',
+              borderRadius:'5px',
+              alignSelf:'flex-start',
+              padding:'4px',
+         
+            }}>
+            <Box sx={{wordWrap: 'break-word',  
+              maxWidth:'30vmax',
+              whiteSpace: 'normal',}}  key = {key}>{i?.content}</Box>
+          <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', marginLeft:'1px'}}>
+              <Box component={'span'} sx={{fontSize:'0.8vmax', mt:'8px', ml:'3px'}} >
+           {convertToIST(i.timeStamp)}
+           </Box>
+          </Box>
+         {i?.senderId === userId  && (
+          <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', marginLeft:'1px'}}>
+          <Box component={'span'} sx={{fontSize:'0.8vmax'}} >
+       {i?.seen ? <DoneAllIcon  sx={{color:'green'}}/> : (i?.delivered ? <DoneAllIcon/> : <DoneIcon />)} 
+       </Box>
+      </Box>
+         )} 
+          </Box>
+          ))}
+          {activeConnection?.find((item) => item?.mentorDetails?._id === recipientIdRef.current) ? (
+  <>{recipientIdRef.current && (
+     <Box sx={{position:'absolute', bottom:0, width:'100%',bgcolor:'#eaeaea',padding:'0 5px'}}>
+     <div style={styles.searchContainer}>
           <input
-      value={message?.slice(0,chatRemain)}
-          onChange={(e) => {
-            setMessage(e.target.value)
-            if(message?.slice(0,chatRemain)?.length < chatRemain){
-              setTyping(true)
-              clearTimeout(typingTimeout);
-              typingTimeout = setTimeout(() => {
-               setTyping(false)
-              }, 1300);
-            }
-            }}
-            type="text"
-            placeholder="Type your message..."
-            style={styles.searchInput}
-          />
-          <div style={styles.buttonContainer}>
-            <svg
-              style={styles.svgCircle}
-              width="52" // Adjusted width
-              height="52" // Adjusted height
-              viewBox="0 0 52 52"
-            >
-              <circle
-                cx="26" // Centered x position
-                cy="26" // Centered y position
-                r={radius} // Radius for the circle
-                stroke={message?.length>= (chatRemain) ? 'red' : 'black'} // Black stroke
-                strokeWidth="4" // Stroke width increased for visibility
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={offset}
-              />
-            </svg>
-            <button onClick={handleSubmit} disabled={message?.length === 0 || message?.length >= chatRemain} style={styles.button}><SendIcon /></button>
-          </div>
-        </div></>:<>
-        <div style={styles.searchContainer}>
-          <input
+          disabled={messageLoader}
       value={message}
           onChange={(e) => {
             setMessage(e.target.value)
@@ -829,13 +752,98 @@ const ChatService = ({userId, role, userAvatar}) => {
             </svg>
             <button onClick={handleSubmit} disabled={message?.length === 0 || message?.length >= chatRemain} style={styles.button}><SendIcon /></button>
           </div>
-        </div></>}
-    
+        </div>
+    {/* <LoadingButton loading={messageLoader} onClick={handleSubmit}>Send</LoadingButton> */}
     </Box>
-  )
-        }</>}
+  )}</>
+          ):<>{
+    recipientIdRef.current && (
+      <Box sx={{position:'absolute', bottom:0, width:'100%',bgcolor:'#eaeaea',padding:'0 0 0 10px'}}>
+      {role === 'student'?<>
+        <div style={styles.searchContainer}>
+            <input
+                    disabled={messageLoader}
+        value={message?.slice(0,chatRemain)}
+            onChange={(e) => {
+              setMessage(e.target.value)
+              if(message?.slice(0,chatRemain)?.length < chatRemain){
+                setTyping(true)
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                 setTyping(false)
+                }, 1300);
+              }
+              }}
+              type="text"
+              placeholder="Type your message..."
+              style={styles.searchInput}
+            />
+            <div style={styles.buttonContainer}>
+              <svg
+                style={styles.svgCircle}
+                width="52" // Adjusted width
+                height="52" // Adjusted height
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  cx="26" // Centered x position
+                  cy="26" // Centered y position
+                  r={radius} // Radius for the circle
+                  stroke={message?.length>= (chatRemain) ? 'red' : 'black'} // Black stroke
+                  strokeWidth="4" // Stroke width increased for visibility
+                  fill="none"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={offset}
+                />
+              </svg>
+              <button onClick={handleSubmit} disabled={message?.length === 0 || message?.length >= chatRemain || messageLoader} style={styles.button}>{messageLoader? <CircularProgress size="30px" /> :<SendIcon /> }</button>
+            </div>
+          </div></>:<>
+          <div style={styles.searchContainer}>
+            <input
+        value={message}
+            onChange={(e) => {
+              setMessage(e.target.value)
+          
+                setTyping(true)
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                 setTyping(false)
+                }, 1300);
+              
+              }}
+              type="text"
+              placeholder="Type your message..."
+              style={styles.searchInput}
+            />
+            <div style={styles.buttonContainer}>
+              <svg
+                style={styles.svgCircle}
+                width="52" // Adjusted width
+                height="52" // Adjusted height
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  cx="26" // Centered x position
+                  cy="26" // Centered y position
+                  r={radius} // Radius for the circle// Black stroke
+                  strokeWidth="4" // Stroke width increased for visibility
+                  fill="none"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={offset}
+                />
+              </svg>
+              <button onClick={handleSubmit} disabled={message?.length === 0 || message?.length >= chatRemain || messageLoader} style={styles.button}>{messageLoader? <CircularProgress size="30px" /> :<SendIcon /> }</button>
+            </div>
+          </div></>}
       
       </Box>
+    )
+          }</>}
+        
+        </Box>
+     )}
+     </>
       )}
      
       {/* { recipientIdRef.current === null ? <>Please select a chat</> : 

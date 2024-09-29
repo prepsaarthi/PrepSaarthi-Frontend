@@ -42,6 +42,7 @@ const App = () => {
   const [notification,setNotification] = useState([])
   const [soundEnabled, setSoundEnabled] = useState(false); // Control sound permissions
   const sound = new Audio(notificationSound); 
+  
   let socket = useMemo(
     () =>
       io(process.env.REACT_APP_API_URL, {
@@ -52,7 +53,7 @@ const App = () => {
 
   const { user, error } = useSelector((state) => state.mentor);
   const { user:stuUser ,error: stuError } = useSelector((state) => state.student);
-  const {notificatioin} = useSelector(state => state.notification)
+  
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
@@ -80,51 +81,28 @@ const App = () => {
     }
   }, [error, dispatch, stuError]);
 
-  useEffect(() => {
-    // console.log(user?.isAuthenticated,stuUser?.isAuthenticated )
-    if(user?.user){
-      dispatch(getAllNotification(user?.user?._id))
-    }
-    if(stuUser?.user){
-      dispatch(getAllNotificationStu(stuUser?.user?._id))
-    }
-  }, [user,stuUser])
 
 
-  useEffect(() => {
-    if(notificatioin){
-    setNotification(notificatioin)
-    }
-  }, [notificatioin])
+
+  // useEffect(() => {
+  //   if(notificatioin){
+  //   setNotification(notificatioin)
+  //   }
+  // }, [notificatioin])
 
   useEffect(() => {
     if(user?.user || stuUser?.user){
       socket.on("connect", () => {
-        console.log("connected", socket.id);
+        console.log("connected");
       });
       
       socket.emit('main-s', (user?.user?._id || stuUser?.user?._id))
       socket.on('send-not', ({ notificationUser }) => {
-        console.log(notificationUser);
         if (soundEnabled) {
           sound.play().catch(error => console.log('Error playing sound:', error));
         }
-        setNotification((prev) => {
-          // Find the index of the notification if it exists
-          const index = prev?.findIndex(item => item._id === notificationUser._id);
+        setNotification(notificationUser);
   
-          // If the notification exists, reorder it at the top
-          if (index !== -1) {
-            const arr = [...prev];
-            const notToMove = arr.splice(index, 1)[0];
-            return [notToMove, ...arr]; // Move the notification to the top
-          }
-  
-          // Otherwise, add the new notification to the top
-          return [notificationUser, ...prev];
-        });
-  
-        console.log("Updated notifications:", notification);
       });
   
     }

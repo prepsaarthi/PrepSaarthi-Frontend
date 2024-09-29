@@ -30,7 +30,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useSelector, useDispatch } from "react-redux";
-import { clearError, clearMessage, logoutUser } from "../../action/userAction";
+import { clearError, clearMessage, getAllNotification, getAllNotificationStu, logoutUser } from "../../action/userAction";
 import {
   clearError as stuErrorClear,
   clearMessage as stuClrMssg,
@@ -75,9 +75,13 @@ function ResponsiveAppBar(props) {
   }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [notification,setNot] = React.useState([])
   const { message, user, isAuthenticated, error } = useSelector(
     (state) => state.mentor
   );
+  const {notificatioin} = useSelector((state) => state.notification)
+
+
   const {
     message: stuMessage,
     user: stuUser,
@@ -102,6 +106,22 @@ function ResponsiveAppBar(props) {
       icon: <PersonPinIcon />,
     },
   ];
+
+  React.useEffect(() => {
+    // console.log(user?.isAuthenticated,stuUser?.isAuthenticated )
+    if(isAuthenticated){
+      dispatch(getAllNotification(user?.user?._id))
+    }
+    if(stuAuth){
+      dispatch(getAllNotificationStu(stuUser?.user?._id))
+    }
+  }, [user,stuUser])
+
+   React.useEffect(() => {
+    if(notificatioin){
+    setNot(notificatioin)
+    }
+  }, [notificatioin])
   React.useEffect(() => {
     if (isAuthenticated || stuAuth) {
       setLogin(true);
@@ -154,6 +174,23 @@ function ResponsiveAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  React.useEffect(() => {
+    setNot((prev) => {
+      // Find the index of the notification if it exists
+      const index = prev?.findIndex(item => item._id === props.notification._id);
+
+      // If the notification exists, reorder it at the top
+      if (index !== -1) {
+        const arr = [...prev];
+        const notToMove = arr.splice(index, 1)[0];
+        return [notToMove, ...arr]; // Move the notification to the top
+      }
+
+      // Otherwise, add the new notification to the top
+      return [props.notification, ...prev];
+    });
+
+  }, [props.notification])
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
@@ -413,13 +450,12 @@ function ResponsiveAppBar(props) {
               Notification
             </Typography>
            
-            {props.notification?.length > 0 ? (
-              <>{props.notification?.map((i) => (
+            {notification?.length > 0 ? (
+              <>{notification?.map((i) => (
                 <Box sx={{height:{md:'80px'}, width:'100%', bgcolor:'#dddddd', display:'flex', alignItems:'center', borderRadius:'20px'}} onClick={() => {
                   setOpen(false)
                   navigate('/chat', { state: { senderId: i?.senderId } });
-                  
-                  console.log(i?.senderId)
+                  setNot((prev) => prev.filter(item => item._id !== i._id))
                 }}>
                   <Box sx={{margin:'10px'}}>
                     <CardMedia sx={{width:'50px', height:'50px', borderRadius:'50%'}} component={'img'} src={i?.senderAvatar}>
@@ -550,7 +586,7 @@ function ResponsiveAppBar(props) {
                 <>
                   <IconButton onClick={() => handleOpen()} aria-label="cart">
                     <Badge
-                      badgeContent={props.notification?.length}
+                      badgeContent={notification?.length}
                       color="error"
                     >
                       <MailIcon color="action" />

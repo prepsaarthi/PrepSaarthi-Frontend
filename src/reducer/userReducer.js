@@ -1604,6 +1604,7 @@ export const chatMentor = createReducer(initalState, (builder) => {
       };
     });
 });
+
 export const notificationUser = createReducer(initalState, (builder) => {
   builder
     .addCase(getAllNotification.pending, (state, action) => {
@@ -1661,7 +1662,7 @@ export const notificationUser = createReducer(initalState, (builder) => {
     .addCase(reset.fulfilled, (state, action) => {
       return {
         ...state,
-        chats:null,
+        notificatioin:[],
       };
     });
 });
