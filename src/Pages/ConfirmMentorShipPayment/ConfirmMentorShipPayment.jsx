@@ -121,7 +121,7 @@ const ConfirmMentorShipPayment = ({ item, sub, stu }) => {
 
       dispatch(reset());
     }
-  }, [dispatch, loading, paymentError, order, item.id, sub.price, duration, item.name, stu.email,stu.mobileNumber,stu.name]);
+  }, [dispatch, loading, paymentError, order, item?.id, sub?.price, duration, item?.name, stu?.email,stu?.mobileNumber,stu?.name]);
   return (
     <>
         <MetaData title="Confirm Your Mentorship" />
