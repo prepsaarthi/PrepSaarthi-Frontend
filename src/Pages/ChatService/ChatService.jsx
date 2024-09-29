@@ -659,7 +659,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     ))}
     </>}
       </Box>
-      <Box sx={{width:{xs:'100vw',md:'68vw'},height:{xs:'100dvh', md:'calc(100dvh - 20px)'},position:{xs:'absolute', md:'relative'}, bgcolor:'white', borderRadius:'0 10px 10px 0 ', overflow:'hidden'}}>
+      <Box sx={{width:{xs:'100vw',md:'68vw'},height:{xs:'100vh', md:'calc(100vh - 20px)'},position:{xs:'absolute', md:'relative'}, bgcolor:'white', borderRadius:'0 10px 10px 0 ', overflow:'hidden'}}>
     {recipientIdRef.current && <Box sx={{width:{xs:'100vw',md:'67vw'},ml:'auto', height:'70px',bgcolor:'var(--theme2)', display:'flex', alignItems:'center', borderRadius:{md:'0px 0 0 0px'}}}>
         <ArrowBackIosIcon onClick={()=>{setPosition(0) 
         setIndex(111)
