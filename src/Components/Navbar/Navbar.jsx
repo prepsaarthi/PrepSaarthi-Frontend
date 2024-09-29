@@ -464,7 +464,7 @@ function ResponsiveAppBar(props) {
                   </Box>
                   <Box>
                     <Typography component={'p'} sx={{fontWeight:'600'}}>{i?.senderName}</Typography>
-                    <Typography>{(((i?.senderContent?.length > 16 || i?.senderContent?.length > 16) && window.innerWidth > 900)) ? ((i?.senderContent|| i?.senderContent)?.substr(0,16) + '...'): (((i?.senderContent || i?.senderContent)?.length > 25)?(((i?.senderContent || i?.senderContent)?.substr(0,25))+'...'):(i?.senderContent || i?.senderContent))}</Typography>
+                    <Typography>{(((i?.senderContent?.length > 16 || i?.senderContent?.length > 16) && window?.innerWidth > 900)) ? ((i?.senderContent|| i?.senderContent)?.substr(0,16) + '...'): (((i?.senderContent || i?.senderContent)?.length > 25)?(((i?.senderContent || i?.senderContent)?.substr(0,25))+'...'):(i?.senderContent || i?.senderContent))}</Typography>
                   </Box>
                 </Box>
               ))}</>
