@@ -41,18 +41,23 @@ export default function SignIn() {
   const [loginPassword, setLoginPassword] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    event.target.name === "stu"
+    event.currentTarget.name === "stu"
       ? dispatch(stuLogin({ loginEmail, loginPassword }))
       : dispatch(loginUser({ loginEmail, loginPassword }));
   };
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        id:'signin-mentor'
+      });
       dispatch(clearError());
     }
     if (stuError) {
-      toast.error(stuError.message);
+    
+      toast.error(stuError.message,{
+          id:'signin-mentor'
+      });
       dispatch(stuErrorClean());
     }
     if (isAuthenticated && loginMessage) {
