@@ -15,6 +15,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import OutlinedFlagIcon from '@mui/icons-material/OutlinedFlag';
 import minMax from "dayjs/plugin/minMax";
 import {
   Backdrop,
@@ -1510,7 +1511,7 @@ const Mentor = () => {
                                     }}
                                   >
                                     <CardContent>
-                                      <CurrencyRupeeIcon
+                                      <OutlinedFlagIcon
                                         sx={{
                                           display: "inline-flex",
                                           alignItems: "center",
@@ -1548,7 +1549,7 @@ const Mentor = () => {
                                         Total Progress
                                       </Typography>
                                       <Typography variant="h3">
-                                      {stuUser?.completion?.total + "%"|| <CircularProgress />}
+                                      {stuUser?.completion?.total || 0 + "%"|| <CircularProgress />}
                                       </Typography>
                                     </CardContent>
                                   </CardActionArea>
@@ -1682,7 +1683,7 @@ const Mentor = () => {
                                       </Typography>
                                       <Typography variant="h3">
                                         {(connectionLoad === false &&
-                                          connection?.length || stuCon?.connection?.length) || (
+                                          connection?.length || stuCon?.connection?.length || 0) || (
                                           <CircularProgress />
                                         )}
                                       </Typography>
