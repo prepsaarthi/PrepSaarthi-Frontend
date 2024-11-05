@@ -45,7 +45,7 @@ const VideoLecture = () => {
         backgroundColor: '#f0f0f0',
         p: 2,
         // height: { xs: "480px", md: '338px' }
-        minHeight:{xs:'65vh', md:'45vh'}
+        maxHeight:{xs:'65vh', md:'45vh'}
       }}
     >
       <Box

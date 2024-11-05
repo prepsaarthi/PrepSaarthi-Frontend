@@ -45,9 +45,9 @@ const FlipBook = () => {
   return (
     <Box sx={{ width: '100%',height:'100%' }}>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-        <Tab label="IIT JEE Video Lectures" {...a11yProps(0)}  sx={{ fontSize: {xs:'1vmax',md:'0.9vmax'} }}/>
-        <Tab label="IIT JEE Syllabus Tracker" {...a11yProps(1)} sx={{ fontSize: {xs:'1vmax',md:'0.9vmax'} }}/>
+      <Tabs sx={{"& .MuiTabs-flexContainer":{justifyContent:'center'}}} value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tab label="IIT JEE Video Lectures" {...a11yProps(0)}  sx={{ fontSize: {xs:'1.25vmax',md:'0.9vmax'} }}/>
+        <Tab label="IIT JEE Syllabus Tracker" {...a11yProps(1)} sx={{ fontSize: {xs:'1.25vmax',md:'0.9vmax'} }}/>
       </Tabs>
     </Box>
     <CustomTabPanel  value={value} index={0}>
