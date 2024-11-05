@@ -1683,7 +1683,7 @@ const Mentor = () => {
                                       </Typography>
                                       <Typography variant="h3">
                                         {(connectionLoad === false &&
-                                          connection?.length || stuCon?.connection?.length || 0) || (
+                                          <>{connection?.length || stuCon?.connection?.length}</>) || (
                                           <CircularProgress />
                                         )}
                                       </Typography>
