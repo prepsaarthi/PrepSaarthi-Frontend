@@ -170,6 +170,34 @@ export const logoutUser = createAsyncThunk(
       }
     }
   );
+  export const getSyllabusTracker  = createAsyncThunk(
+    "student/get/tracker",
+    async ({ subject,division }, { rejectWithValue }) => {
+      try {
+        const config = {
+          headers: { "Content-Type": "application/json" },
+        };
+        const { data } = await axiosInstance.post(`/v1/student/get/tracker`, {subject,division}, config);
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.response.data);
+      }
+    }
+  );
+  export const updateSyllabusTracker  = createAsyncThunk(
+    "student/update/tracker",
+    async ({unitIndex, field, value,subject,division}, { rejectWithValue }) => {
+      try {
+        const config = {
+          headers: { "Content-Type": "application/json" },
+        };
+        const { data } = await axiosInstance.put(`/v1/student/update/tracker`,{unitIndex, field, value,subject,division},config);
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.response.data);
+      }
+    }
+  );
   export const updatePasswordStudent = createAsyncThunk(
     "student/mentoring/update/password",
     async (payload, { rejectWithValue }) => {

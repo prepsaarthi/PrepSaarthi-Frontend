@@ -33,6 +33,7 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import AttachEmailIcon from "@mui/icons-material/AttachEmail";
@@ -70,6 +71,7 @@ import {
   loadUser as stuLoad,
   reset as sReset,
   clearError as sClearError,
+  getAllConnectionsStu,
 } from "../../action/studentAction";
 dayjs.extend(minMax);
 
@@ -109,6 +111,19 @@ const style3 = {
   bgcolor: "background.paper",
   maxHeight: "95vh",
   overflowY: "scroll",
+  boxShadow: 24,
+  p: 4,
+};
+const style5 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "85vw", md: "30vw" },
+  borderRadius: "15px",
+  bgcolor: "background.paper",
+  textAlign:'center',
+  maxHeight: "95vh",
   boxShadow: 24,
   p: 4,
 };
@@ -152,6 +167,19 @@ const Mentor = () => {
   const { error, loading, user, isAuthenticated } = useSelector(
     (state) => state.mentor
   );
+  const { connection:stuCon, loading:stuConLoad, error:stuConErr } = useSelector(
+    (state) => state.getAllConnectionStuPast  
+  );
+
+  const [tooltipOpen, setTooltipOpen] = useState({ physics: false, chemistry: false, math: false });
+
+  const handleTooltipToggle = (subject) => {
+    setTooltipOpen((prev) => ({
+      ...prev,
+      [subject]: !prev[subject],
+    }));
+  };
+
   const {
     error: coverImgError,
     loading: coverImgLoading,
@@ -310,6 +338,9 @@ const Mentor = () => {
     isAuthenticated,
     stuAuth,
   ]);
+  useEffect(() => {
+    dispatch(getAllConnectionsStu());
+  }, [dispatch]);
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -322,6 +353,7 @@ const Mentor = () => {
   const [uploading, setuploading] = React.useState(false);
   const [isChecked, setIsChecked] = React.useState(false);
   const [openEarning, setEarningModal] = React.useState(false);
+  const [openCompletion, setCompletion] = React.useState(false);
 
   const dates = connection
     ?.map((item) => dayjs(item?.boughtAt))
@@ -404,6 +436,12 @@ const Mentor = () => {
     (item) => item.isActive
   );
   const closedConnection = connSuccess?.connection?.filter(
+    (item) => !item.isActive
+  );
+  const activeStuConnection = stuCon?.connection?.filter(
+    (item) => item.isActive
+  );
+  const closedStuConnection = stuCon?.connection?.filter(
     (item) => !item.isActive
   );
   const [display, setDisplay] = useState("none");
@@ -1005,156 +1043,332 @@ const Mentor = () => {
                               </Tabs>
                             </>
                           )}
-                        {loading === false && user?.user?.role === "mentor" && (
+                        {loading === false && user?.user?.role === "mentor"||stuUser?.user?.role === "student" && (
                           <>
+                          {user?.user?.role === "mentor" && (
                             <Modal
-                              aria-labelledby="transition-modal-title"
-                              aria-describedby="transition-modal-description"
-                              open={openEarning}
-                              onClose={() => setEarningModal(false)}
-                              closeAfterTransition
-                              slots={{ backdrop: Backdrop }}
-                              slotProps={{
-                                backdrop: {
-                                  timeout: 500,
-                                },
-                              }}
-                            >
-                              <Fade in={openEarning}>
-                                <Box sx={style3}>
-                                  <Box sx={{width:'100%', display:'flex', justifyContent:'end'}}><CloseIcon onClick={() => setEarningModal(false)}/></Box>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      flexDirection: {
-                                        xs: "column",
-                                        md: "row",
-                                        marginBottom: "10px",
-                                      },
+                            aria-labelledby="transition-modal-title"
+                            aria-describedby="transition-modal-description"
+                            open={openEarning}
+                            onClose={() => setEarningModal(false)}
+                            closeAfterTransition
+                            slots={{ backdrop: Backdrop }}
+                            slotProps={{
+                              backdrop: {
+                                timeout: 500,
+                              },
+                            }}
+                          >
+                            <Fade in={openEarning}>
+                              <Box sx={style3}>
+                                <Box sx={{width:'100%', display:'flex', justifyContent:'end'}}><CloseIcon onClick={() => setEarningModal(false)}/></Box>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    flexDirection: {
+                                      xs: "column",
+                                      md: "row",
+                                      marginBottom: "10px",
+                                    },
+                                  }}
+                                >
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <DemoContainer
+                                      components={["DatePicker"]}
+                                    >
+                                      <DatePicker
+                                        format="YYYY/MM/DD"
+                                        label="Start Date"
+                                        value={startDate}
+                                        onChange={(newValue) =>
+                                          setStartDate(newValue)
+                                        }
+                                        minDate={minDate}
+                                        maxDate={maxDate}
+                                      />
+                                    </DemoContainer>
+                                  </LocalizationProvider>
+                                  <Button
+                                    disabled={
+                                      filteredConnection?.length === 0
+                                    }
+                                    sx={{ m: "10px 0" }}
+                                    variant="contained"
+                                    onClick={() => {
+                                      setDisplay("block");
+                                      setTimeout(() => {
+                                        toPDF();
+                                      }, 500);
+                                      setTimeout(() => {
+                                        setDisplay("none");
+                                      }, 1000);
                                     }}
                                   >
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <DemoContainer
-                                        components={["DatePicker"]}
-                                      >
-                                        <DatePicker
-                                          format="YYYY/MM/DD"
-                                          label="Start Date"
-                                          value={startDate}
-                                          onChange={(newValue) =>
-                                            setStartDate(newValue)
-                                          }
-                                          minDate={minDate}
-                                          maxDate={maxDate}
-                                        />
-                                      </DemoContainer>
-                                    </LocalizationProvider>
-                                    <Button
-                                      disabled={
-                                        filteredConnection?.length === 0
-                                      }
-                                      sx={{ m: "10px 0" }}
-                                      variant="contained"
-                                      onClick={() => {
-                                        setDisplay("block");
-                                        setTimeout(() => {
-                                          toPDF();
-                                        }, 500);
-                                        setTimeout(() => {
-                                          setDisplay("none");
-                                        }, 1000);
-                                      }}
-                                    >
-                                      Download PDF
-                                    </Button>
+                                    Download PDF
+                                  </Button>
 
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <DemoContainer
+                                      components={["DatePicker"]}
                                     >
-                                      <DemoContainer
-                                        components={["DatePicker"]}
-                                      >
-                                        <DatePicker
-                                          format="YYYY/MM/DD"
-                                          value={endDate}
-                                          label="End Date"
-                                          onChange={(newValue) =>
-                                            setEndDate(newValue)
-                                          }
-                                          minDate={minDate}
-                                          maxDate={maxDate}
-                                        />
-                                      </DemoContainer>
-                                    </LocalizationProvider>
-                                  </Box>
-                                  <TableContainer component={Paper}>
-                                    <Table aria-label="collapsible table">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell sx={{ fontWeight: 800 }}>
-                                            Mentee
-                                          </TableCell>
-                                          <TableCell
-                                            align="right"
-                                            sx={{ fontWeight: 800 }}
-                                          >
-                                            Earning&nbsp;(&#8377;)
-                                          </TableCell>
-                                          <TableCell />
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {filteredConnection?.map((row, k) => (
-                                          <Row key={k} row={row} />
-                                        ))}
-                                      </TableBody>
+                                      <DatePicker
+                                        format="YYYY/MM/DD"
+                                        value={endDate}
+                                        label="End Date"
+                                        onChange={(newValue) =>
+                                          setEndDate(newValue)
+                                        }
+                                        minDate={minDate}
+                                        maxDate={maxDate}
+                                      />
+                                    </DemoContainer>
+                                  </LocalizationProvider>
+                                </Box>
+                                <TableContainer component={Paper}>
+                                  <Table aria-label="collapsible table">
+                                    <TableHead>
                                       <TableRow>
-                                        <TableCell
-                                          sx={{
-                                            fontWeight: 900,
-                                            color: "darkgreen",
-                                          }}
-                                        >
-                                          Total:-
+                                        <TableCell sx={{ fontWeight: 800 }}>
+                                          Mentee
                                         </TableCell>
                                         <TableCell
                                           align="right"
-                                          sx={{
-                                            fontWeight: 900,
-                                            color: "darkgreen",
-                                          }}
+                                          sx={{ fontWeight: 800 }}
                                         >
-                                          &#8377;
-                                          {filteredConnection
-                                            ?.reduce((total, current) => {
+                                          Earning&nbsp;(&#8377;)
+                                        </TableCell>
+                                        <TableCell />
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {filteredConnection?.map((row, k) => (
+                                        <Row key={k} row={row} />
+                                      ))}
+                                    </TableBody>
+                                    <TableRow>
+                                      <TableCell
+                                        sx={{
+                                          fontWeight: 900,
+                                          color: "darkgreen",
+                                        }}
+                                      >
+                                        Total:-
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{
+                                          fontWeight: 900,
+                                          color: "darkgreen",
+                                        }}
+                                      >
+                                        &#8377;
+                                        {filteredConnection
+                                          ?.reduce((total, current) => {
+                                            return (
+                                              total +
+                                              (current?.price * 73) / 100
+                                            );
+                                          }, 0)
+                                          ?.toFixed(1)}
+                                        &asymp;&#8377;
+                                        {Math.round(
+                                          filteredConnection?.reduce(
+                                            (total, current) => {
                                               return (
                                                 total +
                                                 (current?.price * 73) / 100
                                               );
-                                            }, 0)
-                                            ?.toFixed(1)}
-                                          &asymp;&#8377;
-                                          {Math.round(
-                                            filteredConnection?.reduce(
-                                              (total, current) => {
-                                                return (
-                                                  total +
-                                                  (current?.price * 73) / 100
-                                                );
-                                              },
-                                              0
-                                            )
-                                          )}
-                                        </TableCell>
-                                      </TableRow>
-                                    </Table>
-                                  </TableContainer>
-                                </Box>
-                              </Fade>
-                            </Modal>
+                                            },
+                                            0
+                                          )
+                                        )}
+                                      </TableCell>
+                                    </TableRow>
+                                  </Table>
+                                </TableContainer>
+                              </Box>
+                            </Fade>
+                          </Modal>
+                          )}
+                          {stuUser?.user?.role === "student" && (
+                             <Modal
+                             aria-labelledby="transition-modal-title"
+                             aria-describedby="transition-modal-description"
+                             open={openCompletion}
+                             onClose={() => setCompletion(false)}
+                             closeAfterTransition
+                             slots={{ backdrop: Backdrop }}
+                             slotProps={{
+                               backdrop: {
+                                 timeout: 500,
+                               },
+                             }}
+                           >
+                             <Fade in={openCompletion}>
+                               <Box sx={style5}>
+                                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+                                   <CloseIcon onClick={() => setCompletion(false)} style={{ cursor: 'pointer' }} />
+                                 </Box>
+                       
+                                 <Typography variant="h6" sx={{ mb: 2 }}>Overall Progress</Typography>
+                       
+                                 <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
+                                   <CircularProgress
+                                     variant="determinate"
+                                     value={stuUser?.completion?.total}
+                                     size={120}
+                                     thickness={4}
+                                     sx={{ color: 'red' }}
+                                   />
+                                   <Box
+                                     sx={{
+                                       top: 0,
+                                       left: 0,
+                                       bottom: 0,
+                                       right: 0,
+                                       position: 'absolute',
+                                       display: 'flex',
+                                       alignItems: 'center',
+                                       justifyContent: 'center',
+                                     }}
+                                   >
+                                     <Typography variant="h4" component="div" color="textPrimary">
+                                       {`${stuUser?.completion?.total}%`}
+                                     </Typography>
+                                   </Box>
+                                 </Box>
+                       
+                                 {/* Subject Progress Bars */}
+                                 <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+                                   <Tooltip
+                                     title={`Physics 11: ${stuUser?.completion?.phys11}% and Physics 12: ${stuUser?.completion?.phys12}%`}
+                                     arrow
+                                     open={tooltipOpen.physics}
+                                     disableFocusListener
+                                     disableHoverListener
+                                     onClose={() => setTooltipOpen((prev) => ({ ...prev, physics: false }))}
+                                   >
+                                     <Box
+                                       sx={{ position: 'relative', textAlign: 'center', cursor: 'pointer' }}
+                                       onClick={() => handleTooltipToggle('physics')}
+                                       onTouchStart={() => handleTooltipToggle('physics')}
+                                     >
+                                       <CircularProgress
+                                         variant="determinate"
+                                         value={stuUser?.completion?.physicsTotalOb}
+                                         size={60}
+                                         thickness={4}
+                                         sx={{ color: '#3f51b5' }} // Blue for Physics
+                                       />
+                                       <Box
+                                         sx={{
+                                           top: 0,
+                                           left: 0,
+                                           bottom: 0,
+                                           right: 0,
+                                           position: 'absolute',
+                                           display: 'flex',
+                                           alignItems: 'center',
+                                           justifyContent: 'center',
+                                         }}
+                                       >
+                                         <Typography variant="body2" component="div" color="textPrimary">
+                                           {`${stuUser?.completion?.physicsTotalOb}%`}
+                                         </Typography>
+                                       </Box>
+                                     </Box>
+                                       <Typography variant="body2" color="textSecondary">Physics</Typography>
+                                   </Tooltip>
+                       
+                                   <Tooltip
+                                     title={`Chemistry 11: ${stuUser?.completion?.chem11}% and Chemistry 12: ${stuUser?.completion?.chem12}%`}
+                                     arrow
+                                     open={tooltipOpen.chemistry}
+                                     disableFocusListener
+                                     disableHoverListener
+                                     onClose={() => setTooltipOpen((prev) => ({ ...prev, chemistry: false }))}
+                                   >
+                                     <Box
+                                       sx={{ position: 'relative', textAlign: 'center', cursor: 'pointer' }}
+                                       onClick={() => handleTooltipToggle('chemistry')}
+                                       onTouchStart={() => handleTooltipToggle('chemistry')}
+                                     >
+                                       <CircularProgress
+                                         variant="determinate"
+                                         value={stuUser?.completion?.chemistryTotalOb}
+                                         size={60}
+                                         thickness={4}
+                                         sx={{ color: '#ff5722' }} // Orange for Chemistry
+                                       />
+                                       <Box
+                                         sx={{
+                                           top: 0,
+                                           left: 0,
+                                           bottom: 0,
+                                           right: 0,
+                                           position: 'absolute',
+                                           display: 'flex',
+                                           alignItems: 'center',
+                                           justifyContent: 'center',
+                                         }}
+                                       >
+                                         <Typography variant="body2" component="div" color="textPrimary">
+                                           {`${stuUser?.completion?.chemistryTotalOb}%`}
+                                         </Typography>
+                                       </Box>
+                                     </Box>
+                                       <Typography variant="body2" color="textSecondary">Chemistry</Typography>
+                                   </Tooltip>
+                       
+                                   <Tooltip
+                                     title={`Math 11: ${stuUser?.completion?.maths11}% and Math 12: ${stuUser?.completion?.maths12}%`}
+                                     arrow
+                                     open={tooltipOpen.math}
+                                     disableFocusListener
+                                     disableHoverListener
+                                     onClose={() => setTooltipOpen((prev) => ({ ...prev, math: false }))}
+                                   >
+                                     <Box
+                                       sx={{ position: 'relative', textAlign: 'center', cursor: 'pointer' }}
+                                       onClick={() => handleTooltipToggle('math')}
+                                       onTouchStart={() => handleTooltipToggle('math')}
+                                     >
+                                       <CircularProgress
+                                         variant="determinate"
+                                         value={stuUser?.completion?.mathsTotalOb}
+                                         size={60}
+                                         thickness={4}
+                                         sx={{ color: '#4caf50' }} // Green for Math
+                                       />
+                                       <Box
+                                         sx={{
+                                           top: 0,
+                                           left: 0,
+                                           bottom: 0,
+                                           right: 0,
+                                           position: 'absolute',
+                                           display: 'flex',
+                                           alignItems: 'center',
+                                           justifyContent: 'center',
+                                         }}
+                                       >
+                                         <Typography variant="body2" component="div" color="textPrimary">
+                                           {`${stuUser?.completion?.mathsTotalOb}%`}
+                                         </Typography>
+                                       </Box>
+                                     </Box>
+                                       <Typography variant="body2" color="textSecondary">Math</Typography>
+                                   </Tooltip>
+                                 </Box>
+                               </Box>
+                             </Fade>
+                           </Modal>
+                          )}
                             <Modal
                               aria-labelledby="transition-modal-title"
                               aria-describedby="transition-modal-description"
@@ -1210,31 +1424,29 @@ const Mentor = () => {
                                     <Box sx={{ width: "100%" }}>
                                       <CustomTabPanel value={value} index={0}>
                                         {loading === false &&
-                                          user?.user?.role === "mentor" && (
                                             <>
-                                              {connLoading === false ? (
-                                                <MenorInfoConnection
+                                              {connLoading === false && stuConLoad === false ? (
+                                                isAuthenticated ? (<MenorInfoConnection
                                                   active={activeConnection}
-                                                />
+                                                />):(stuAuth && (<MenorInfoConnection active={activeStuConnection}/>) )
                                               ) : (
                                                 <Loader />
                                               )}
                                             </>
-                                          )}
+                                          }
                                       </CustomTabPanel>
                                       <CustomTabPanel value={value} index={1}>
-                                        {loading === false &&
-                                          user?.user?.role === "mentor" && (
+                                      {loading === false &&
                                             <>
-                                              {connLoading === false ? (
-                                                <MenorInfoConnection
+                                              {connLoading === false && stuConLoad === false ? (
+                                                isAuthenticated ? (<MenorInfoConnection
                                                   active={closedConnection}
-                                                />
+                                                />):(stuAuth && (<MenorInfoConnection active={closedStuConnection}/>) )
                                               ) : (
                                                 <Loader />
                                               )}
                                             </>
-                                          )}
+                                          }
                                       </CustomTabPanel>
                                     </Box>
                                   </>
@@ -1280,7 +1492,68 @@ const Mentor = () => {
                                   },
                                 }}
                               >
-                                <Card
+                                {stuAuth &&<Card
+                                  onClick={() => setCompletion(true)}
+                                  sx={{
+                                    width: { xs: "80vw", md: "25vmax" },
+                                    height: { xs: "25vmax", md: "15vmax" },
+                                    borderRadius: "2vmax",
+                                  }}
+                                >
+                                  <CardActionArea
+                                    sx={{
+                                      width: "100%",
+                                      height: "100%",
+                                      alignItems: "center",
+                                      justifyContent: "flex-start",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <CardContent>
+                                      <CurrencyRupeeIcon
+                                        sx={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          padding: {
+                                            xs: "0.5vmax",
+                                            md: "0.2vmax",
+                                          },
+                                          color: "white",
+                                          width: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          height: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          fontSize: {
+                                            xs: "3vmax",
+                                            sm: "2vmax",
+                                            md: "1.8vmax",
+                                          },
+                                          backgroundColor: "var(--button1)",
+
+                                          borderRadius: "50%",
+                                        }}
+                                      />
+                                      <Typography
+                                        sx={{ fontSize: 20, fontWeight: 600 }}
+                                        color="text.secondary"
+                                        gutterBottom
+                                      >
+                                        Total Progress
+                                      </Typography>
+                                      <Typography variant="h3">
+                                      {stuUser?.completion?.total + "%"|| <CircularProgress />}
+                                      </Typography>
+                                    </CardContent>
+                                  </CardActionArea>
+                                </Card> }
+                                {isAuthenticated &&<Card
                                   onClick={() => setEarningModal(true)}
                                   sx={{
                                     width: { xs: "80vw", md: "25vmax" },
@@ -1351,7 +1624,7 @@ const Mentor = () => {
                                       </Typography>
                                     </CardContent>
                                   </CardActionArea>
-                                </Card>
+                                </Card> }
                                 <Card
                                   onClick={() => setModalConenction(true)}
                                   sx={{
@@ -1409,7 +1682,7 @@ const Mentor = () => {
                                       </Typography>
                                       <Typography variant="h3">
                                         {(connectionLoad === false &&
-                                          connection?.length) || (
+                                          connection?.length || stuCon?.connection?.length) || (
                                           <CircularProgress />
                                         )}
                                       </Typography>
@@ -1563,27 +1836,7 @@ const Mentor = () => {
                           </>
                         )}
                       </Box>
-                      <CustomTabPanel value={value} index={0}>
-                        {stuLoading === false &&
-                          stuUser?.user?.role === "student" && (
-                            <MenorInfo active={true} />
-                          )}
-                      </CustomTabPanel>
-                      <CustomTabPanel value={value} index={1}>
-                        {stuLoading === false &&
-                          stuUser?.user?.role === "student" && (
-                            <MenorInfo active={false} />
-                          )}
-                        {/* {loading === false && user?.user?.role === "mentor" && (
-                          <>
-                            {connLoading === false ? (
-                              <MenorInfoConnection active={closedConnection} />
-                            ) : (
-                              <Loader />
-                            )}
-                          </>
-                        )} */}
-                      </CustomTabPanel>
+      
                     </Box>
                   </>
                 )}

@@ -609,8 +609,8 @@ const ChatService = ({userId, role, userAvatar}) => {
     {loading ? <Loader /> :
      <>
       <Box display={'flex'} sx={{width:'100vw',height:'calc(100vh)', overflowY:'hidden', position:'absolute', top:0,left:0, zIndex:{xs:zIndexApp,md:1111}, padding:{md:'10px'}, bgcolor:'#b4c6da'}}> 
-      <Box sx={{width:{xs:'100vw',md:'32vw'},height:'100%', borderRight:'0.3px solid #b8b8b8', overflowY:'scroll', position:{xs:'absolute', md:'static'}, top:'70px', left:`${position}vw`,zIndex:2, bgcolor:'white', transition:'0.5s',borderRadius:'10px 0px 0px 30px ', overflow:'hidden'}}>
-        <Box sx={{width:'98%' ,height:'70px',borderRadius:'0 35px 35px 0' ,display:{xs:'none',md:'flex'}, alignItems:'center',bgcolor:'var(--theme2)'  }}>
+      <Box sx={{width:{xs:'100vw',md:'32vw'},height:{xs:'calc(100% - 70px)', md:'100%'}, borderRight:'0.3px solid #b8b8b8', overflowY:'scroll', position:{xs:'absolute', md:'static'}, top:'70px', left:`${position}vw`,zIndex:2, bgcolor:'white', transition:'0.5s',borderRadius:'10px 0px 0px 30px ', overflowY:'scroll'}}>
+        <Box sx={{width:'98%' ,height:'70px',borderRadius:'0 35px 35px 0' ,display:{xs:'none',md:'flex'}, alignItems:'center',bgcolor:'var(--theme2)' ,position:'sticky', top:0, zIndex:1000 }}>
        <ArrowBackIosIcon  onClick={() => navigate(`/user/${userId}`)} sx={{color:'white', ml:'1.4vmax', cursor:'pointer', fontSize:'22px'}} />
           <Typography component={'p'} sx={{color:'white', fontWeight:600, fontSize:'22px', ml:'0.3vmax',display:'flex',alignItems:'center'}}>Chats<Typography onClick={() => navigate('/')} component={'span'} sx={{fontSize:'10px', fontStyle:'italic', cursor:'pointer'}}>@PrepSaarthi</Typography></Typography>
           {/* <Typography component={'p'} sx={{color:'white', width:'100%' ,fontWeight:400, fontSize:'1vmax', m:'0 1.2vmax',justifyContent:'end',height:'100%', display:'flex', alignItems:'end', fontStyle:'italic'}}>@PrepSaarthi</Typography> */}
