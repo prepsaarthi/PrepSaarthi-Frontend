@@ -32,7 +32,7 @@ const Tracker = () => {
         textAlign: 'center',
         backgroundColor: '#f0f0f0',
         p: 2,
-        minHeight:{xs:'65vh', md:'45vh'}
+        maxHeight:{xs:'65vh', md:'45vh'}
       }}
     >
       <Box
@@ -44,7 +44,7 @@ const Tracker = () => {
           textAlign: 'center',
           maxWidth: '400px',
           width: '100%',
-          height: '60%',
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
