@@ -16,6 +16,8 @@ import {
   updateStudentFinalInfo,
   updatePasswordStudent,
   updateCoverImageStu,
+  updateSyllabusTracker,
+  getSyllabusTracker,
 } from "../action/studentAction";
 
 const initalState = {};
@@ -539,6 +541,77 @@ export const updateStudent = createReducer(initalState, (builder) => {
         error: null,
       };
     });
+});
+
+export const syllabusTrackerEditor = createReducer(initalState, (builder) => {
+  builder
+    .addCase(updateSyllabusTracker.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(updateSyllabusTracker.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        message:action.payload.syllabusProgress.progress
+      };
+    })
+    .addCase(updateSyllabusTracker.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    })
+    // .addCase(reset.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     notificatioin:[],
+    //   };
+    // });
+});
+export const syllabusGetter = createReducer(initalState, (builder) => {
+  builder
+    .addCase(getSyllabusTracker.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    })
+    .addCase(getSyllabusTracker.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        message:action.payload.message
+      };
+    })
+    .addCase(getSyllabusTracker.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    })
+    .addCase(clearError.fulfilled, (state, action) => {
+      return {
+        ...state,
+        error: null,
+      };
+    })
+    // .addCase(reset.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     notificatioin:[],
+    //   };
+    // });
 });
 // export const mentorDetailsReducer = createReducer(initalState, (builder) => {
 //     builder

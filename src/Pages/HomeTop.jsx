@@ -9,6 +9,7 @@ import {Modal } from "@mui/material";
 import { Link } from "react-router-dom";
 import FlipBook from "./FlipBook";
 import Roles from "./Roles.jsx";
+import { useSelector } from "react-redux";
 const HomeTop = () => {
   const HomeTopSecond = [
     {
@@ -30,7 +31,14 @@ const HomeTop = () => {
       link: "somelink",
     },
   ];
-
+  const {
+    loading: menLoading,
+    isAuthenticated: menAuth,
+  } = useSelector((state) => state.mentor);
+  const {
+    loading: stuLoading,
+    isAuthenticated,
+  } = useSelector((state) => state.student);
   // const [, setSrc] = useState(window.innerWidth)
   // const [src, setSrc] = useState(window.innerWidth)
   // useEffect(() => {
@@ -118,25 +126,43 @@ const HomeTop = () => {
               Explore Your Mentor
             </Button>
           </Box>
-          <Button
-            size="large"
-            sx={{
-              // display:'none',
-              bgcolor: "#ffc43b",
-              m: { xs: "2vmax", sm: 0 },
-              mr: { sm: "2vmax" },
-              mb:{sm:'1vmax', md:0},
-              width: { xs: "25vmax" ,sm:'16vmax', md:'15vmax', lg:'15vmax'},
-              height: { xs: "8vmax", sm:'5vmax',md:'4vmax', lg:'4vmax' },
-              fontWeight: 700,
-              fontSize:{xs:'1.8vmax',sm:'1.2vmax', md:'1vmax'},
-              "&:hover": { bgcolor: "#ffce5d" },
-            }}
-            variant="contained"
-            onClick={handleOpen}
-          >
-            Products
-          </Button>
+          <Box sx={{ position: 'relative', display: 'inline-block' }}>
+      <Button
+        size="large"
+        sx={{
+          bgcolor: "#ffc43b",
+          m: { xs: "2vmax", sm: 0 },
+          mr: { sm: "2vmax" },
+          mb: { sm: '1vmax', md: 0 },
+          width: { xs: "25vmax", sm: '16vmax', md: '15vmax', lg: '15vmax' },
+          height: { xs: "8vmax", sm: '5vmax', md: '4vmax', lg: '4vmax' },
+          fontWeight: 700,
+          fontSize: { xs: '1.8vmax', sm: '1.2vmax', md: '1vmax' },
+          "&:hover": { bgcolor: "#ffce5d" },
+        }}
+        variant="contained"
+        onClick={handleOpen}
+      >
+        Products
+      </Button>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: {xs:'35px',md:'25px'}, 
+          right: {xs:'5px',md:'20px'}, 
+          bgcolor: '#ff4081', 
+          color: '#fff', 
+          borderRadius: '4px',
+          px: 1, 
+          fontSize: { xs: '0.75rem', sm: '0.85rem' },
+          transform: 'rotate(45deg)', 
+          transformOrigin: 'top right', 
+        }}
+      >
+        Free
+      </Box>
+    </Box>
           <Modal
             open={open}
             onClose={handleClose}
@@ -147,7 +173,7 @@ const HomeTop = () => {
             
               <Box
                 sx={{
-                  width: { xs: "90%", md: "40%" },
+                  width: { xs: "90%", md: "60%" },
                   height: { xs: "80%", md: "60%" },
                   bgcolor: "white",
                   borderRadius: "10px",
@@ -163,9 +189,41 @@ const HomeTop = () => {
                 sx={{position:'absolute',
                   top:'10px',
                   right:'10px',
-                  cursor:'pointer'
+                  cursor:'pointer',
+                  zIndex:1111
                 }}/>
+                {menLoading === false && stuLoading === false && !isAuthenticated && !menAuth && (
+            <Box sx={{ bgcolor: '#ffc43b', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center', width: '95%',height:'85%',display:'flex', flexDirection:'column', justifyContent:'center' }}>
+              <Typography variant="h5" component="div" sx={{ mb: 2, color: '#1976d2' }}>
+                Login to Avail Free Products
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
+                Unlock exclusive access to our collection of free products by logging in now!
+              </Typography>
+              <Button variant="contained" color="primary" onClick={() => {/* Your login function */}}>
+                Login
+              </Button>
+            </Box>
+          )}
+          
+          {menLoading === false && stuLoading === false && menAuth && (
+            <Box sx={{ bgcolor: '#ff766c', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center', width: '100%' ,width: '95%',height:'85%',display:'flex', flexDirection:'column', justifyContent:'center'}}>
+              <Typography variant="h5" component="div" sx={{ mb: 2, color: '#fff' }}>
+    Hey Mentors! 🌟
+  </Typography>
+              <Typography variant="body2" sx={{ color: '#fff' }}>
+    Our products are currently on a little vacation with the students! 🏖️ 
+    But don’t worry, new products will be available for you soon. 
+    Thanks for your patience!
+  </Typography>
+            </Box>
+          )}
+                 {menLoading === false && stuLoading === false && isAuthenticated  && (
+                 
              <FlipBook />
+          )}
+                
+
               </Box>
             </Box>
           </Modal>

@@ -20,6 +20,8 @@ import ChatService from "./Pages/ChatService/ChatService.jsx";
 import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import MentorDashboard from "./Pages/MentorDashboard/MentorDashboard.jsx";
+import SyllabusTracker from "./Pages/SyllabusTracker/SyllabusTracker.jsx";
+import VideoLecture from "./Pages/VideoLecture/VideoLecture.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword.jsx";
 import TrackPageView from "./Pages/TrackPageView/TrackPageView.jsx";
@@ -36,6 +38,7 @@ import PrivateRoutes from "./Components/Route/PrivateRoutes.jsx";
 import PrivateRouteStu from "./Components/Route/PrivateRouteStu.jsx";
 import MetaData from "./utils/Metadata.jsx";
 import OTPVerification from "./Pages/OTPVerification/OTPVerification.jsx";
+import SyllabusDrawer from "./Pages/SyllabusTracker/SyllabusDrawer.jsx";
 const App = () => {
   const dispatch = useDispatch();
   
@@ -134,6 +137,7 @@ const App = () => {
 
         <Route element={<PrivateRouteStu allowedRoles={["student"]} />}>
         <Route path="/password/change" element={<PasswordUpdate />}></Route>
+        <Route path="/syllabus/drawer" element={<SyllabusDrawer />}></Route>
         <Route path="/settings" element={<Settings />} />
           <Route
             path="/update/profile/student"

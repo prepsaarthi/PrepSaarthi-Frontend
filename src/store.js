@@ -50,6 +50,8 @@ import {
   newReviewReducer,
   reviewReducer,
   studentSignup,
+  syllabusGetter,
+  syllabusTrackerEditor,
   updateStudent,
   updateStudentPassword,
 } from "./reducer/studentReducer";
@@ -106,7 +108,8 @@ const store = configureStore({
     swapConnection:swapConnectionReducer,
     mentorChat:chatMentor,
     notification:notificationUser,
-    // studentChat:chatStudent
+    syllabus:syllabusGetter,
+    syllabusUpdate:syllabusTrackerEditor
   },
   devTools:process.env.NODE_ENV === 'development' ? true : false
 });
