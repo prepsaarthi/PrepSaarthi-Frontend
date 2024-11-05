@@ -1221,7 +1221,7 @@ const Mentor = () => {
                                  <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
                                    <CircularProgress
                                      variant="determinate"
-                                     value={stuUser?.completion?.total}
+                                     value={stuUser?.completion?.total || 0}
                                      size={120}
                                      thickness={4}
                                      sx={{ color: 'red' }}
@@ -1239,7 +1239,7 @@ const Mentor = () => {
                                      }}
                                    >
                                      <Typography variant="h4" component="div" color="textPrimary">
-                                       {`${stuUser?.completion?.total}%`}
+                                       {`${stuUser?.completion?.total || 0}%`}
                                      </Typography>
                                    </Box>
                                  </Box>
@@ -1247,7 +1247,7 @@ const Mentor = () => {
                                  {/* Subject Progress Bars */}
                                  <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
                                    <Tooltip
-                                     title={`Physics 11: ${stuUser?.completion?.phys11}% and Physics 12: ${stuUser?.completion?.phys12}%`}
+                                     title={`Physics 11: ${stuUser?.completion?.phys11 || 0}% and Physics 12: ${stuUser?.completion?.phys12 || 0}%`}
                                      arrow
                                      open={tooltipOpen.physics}
                                      disableFocusListener
@@ -1261,7 +1261,7 @@ const Mentor = () => {
                                      >
                                        <CircularProgress
                                          variant="determinate"
-                                         value={stuUser?.completion?.physicsTotalOb}
+                                         value={stuUser?.completion?.physicsTotalOb || 0}
                                          size={60}
                                          thickness={4}
                                          sx={{ color: '#3f51b5' }} // Blue for Physics
@@ -1279,7 +1279,7 @@ const Mentor = () => {
                                          }}
                                        >
                                          <Typography variant="body2" component="div" color="textPrimary">
-                                           {`${stuUser?.completion?.physicsTotalOb}%`}
+                                           {`${stuUser?.completion?.physicsTotalOb || 0}%`}
                                          </Typography>
                                        </Box>
                                      </Box>
@@ -1287,7 +1287,7 @@ const Mentor = () => {
                                    </Tooltip>
                        
                                    <Tooltip
-                                     title={`Chemistry 11: ${stuUser?.completion?.chem11}% and Chemistry 12: ${stuUser?.completion?.chem12}%`}
+                                     title={`Chemistry 11: ${stuUser?.completion?.chem11 || 0}% and Chemistry 12: ${stuUser?.completion?.chem12 || 0}%`}
                                      arrow
                                      open={tooltipOpen.chemistry}
                                      disableFocusListener
@@ -1301,7 +1301,7 @@ const Mentor = () => {
                                      >
                                        <CircularProgress
                                          variant="determinate"
-                                         value={stuUser?.completion?.chemistryTotalOb}
+                                         value={stuUser?.completion?.chemistryTotalOb || 0}
                                          size={60}
                                          thickness={4}
                                          sx={{ color: '#ff5722' }} // Orange for Chemistry
@@ -1319,7 +1319,7 @@ const Mentor = () => {
                                          }}
                                        >
                                          <Typography variant="body2" component="div" color="textPrimary">
-                                           {`${stuUser?.completion?.chemistryTotalOb}%`}
+                                           {`${stuUser?.completion?.chemistryTotalOb || 0}%`}
                                          </Typography>
                                        </Box>
                                      </Box>
@@ -1327,7 +1327,7 @@ const Mentor = () => {
                                    </Tooltip>
                        
                                    <Tooltip
-                                     title={`Math 11: ${stuUser?.completion?.maths11}% and Math 12: ${stuUser?.completion?.maths12}%`}
+                                     title={`Math 11: ${stuUser?.completion?.maths11 || 0}% and Math 12: ${stuUser?.completion?.maths12 || 0}%`}
                                      arrow
                                      open={tooltipOpen.math}
                                      disableFocusListener
@@ -1341,7 +1341,7 @@ const Mentor = () => {
                                      >
                                        <CircularProgress
                                          variant="determinate"
-                                         value={stuUser?.completion?.mathsTotalOb}
+                                         value={stuUser?.completion?.mathsTotalOb || 0}
                                          size={60}
                                          thickness={4}
                                          sx={{ color: '#4caf50' }} // Green for Math
@@ -1359,7 +1359,7 @@ const Mentor = () => {
                                          }}
                                        >
                                          <Typography variant="body2" component="div" color="textPrimary">
-                                           {`${stuUser?.completion?.mathsTotalOb}%`}
+                                           {`${stuUser?.completion?.mathsTotalOb || 0}%`}
                                          </Typography>
                                        </Box>
                                      </Box>
