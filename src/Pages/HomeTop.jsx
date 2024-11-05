@@ -6,7 +6,7 @@ import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import CastleIcon from "@mui/icons-material/Castle";
 import CloseIcon from '@mui/icons-material/Close';
 import {Modal } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FlipBook from "./FlipBook";
 import Roles from "./Roles.jsx";
 import { useSelector } from "react-redux";
@@ -73,6 +73,7 @@ const HomeTop = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const navigate = useNavigate()
   const handleCloseJoin = () => {
     setOpenJoin(false);
   };
@@ -200,7 +201,7 @@ const HomeTop = () => {
               <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
                 Unlock exclusive access to our collection of free products by logging in now!
               </Typography>
-              <Button variant="contained" color="primary" onClick={() => {/* Your login function */}}>
+              <Button variant="contained" color="primary" onClick={() => {navigate('/login')}}>
                 Login
               </Button>
             </Box>
