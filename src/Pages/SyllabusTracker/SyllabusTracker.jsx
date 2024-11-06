@@ -47,7 +47,6 @@ const SyllabusTracker = ({tracker}) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const dispatch = useDispatch()
   const handleCheckboxChange = (index, field,value,i,unit) => {
-    console.log(tracker)
     setCheckbox({index:i, unit,field})
     dispatch(updateSyllabusTracker({unitIndex:index, field:field, value:value,subject:tracker.subject,division:tracker.division}))
   };
@@ -70,7 +69,6 @@ const SyllabusTracker = ({tracker}) => {
     if(updatedMessage){
         setProgress(updatedMessage)
     }
-    console.log(updatedMessage)
   }, [updatedMessage])
   useEffect(() => {
     if(message){
@@ -79,7 +77,6 @@ const SyllabusTracker = ({tracker}) => {
   }, [message])
 useEffect(() => {
     if (tracker) {
-        console.log(tracker)
         dispatch(getSyllabusTracker({subject:tracker.subject,division:tracker.division}))
     //   if (tracker.division === 11 && tracker.subject === "Chemistry") {
     //     const newData = [

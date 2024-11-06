@@ -38,7 +38,6 @@ import {
   Typography,
 } from "@mui/material";
 import AttachEmailIcon from "@mui/icons-material/AttachEmail";
-import MenorInfo from "../MentorInfo/MenorInfo";
 import MenorInfoConnection from "../MenorInfoConnection/MenorInfoConnection";
 import { useDispatch, useSelector } from "react-redux";
 import imageCompression from "browser-image-compression";
@@ -168,7 +167,7 @@ const Mentor = () => {
   const { error, loading, user, isAuthenticated } = useSelector(
     (state) => state.mentor
   );
-  const { connection:stuCon, loading:stuConLoad, error:stuConErr } = useSelector(
+  const { connection:stuCon, loading:stuConLoad} = useSelector(
     (state) => state.getAllConnectionStuPast  
   );
 
@@ -1044,9 +1043,9 @@ const Mentor = () => {
                               </Tabs>
                             </>
                           )}
-                        {loading === false && user?.user?.role === "mentor"||stuUser?.user?.role === "student" && (
+                        {(loading === false && (user?.user?.role === "mentor"||stuUser?.user?.role === "student") )&& (
                           <>
-                          {user?.user?.role === "mentor" && (
+                          {user?.user?.role === "mentor" && ( 
                             <Modal
                             aria-labelledby="transition-modal-title"
                             aria-describedby="transition-modal-description"
