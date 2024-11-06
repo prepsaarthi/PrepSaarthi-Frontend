@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import VideoLecture from './VideoLecture/VideoLecture';
-import tracker from './tracker/tracker.jsx';
 import Tracker from './tracker/tracker.jsx';
 const FlipBook = () => {
   function CustomTabPanel(props) {
@@ -43,7 +42,7 @@ const FlipBook = () => {
       setValue(newValue);
     };
   return (
-    <Box sx={{ width: '100%',height:'100%' }}>
+    <Box sx={{ width: '100%' }}>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <Tabs sx={{"& .MuiTabs-flexContainer":{justifyContent:'center'}}} value={value} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="IIT JEE Video Lectures" {...a11yProps(0)}  sx={{ fontSize: {xs:'1.25vmax',md:'0.9vmax'} }}/>

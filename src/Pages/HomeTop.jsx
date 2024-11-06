@@ -55,7 +55,7 @@ const HomeTop = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "100%",
-    // height: "100%",
+    height: "100vh",
     bgcolor: "background.paper",
     borderRadius: "10px",
     outline: "none",
@@ -174,8 +174,6 @@ const HomeTop = () => {
             
               <Box
                 sx={{
-                  width: { xs: "90%", md: "60%" },
-                  height: { xs: "80%", md: "60%" },
                   bgcolor: "white",
                   borderRadius: "10px",
                   display: "flex",
@@ -194,7 +192,7 @@ const HomeTop = () => {
                   zIndex:1111
                 }}/>
                 {menLoading === false && stuLoading === false && !isAuthenticated && !menAuth && (
-            <Box sx={{ bgcolor: '#ffc43b', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center', width: '95%',height:'85%',display:'flex', flexDirection:'column', justifyContent:'center' }}>
+            <Box sx={{ bgcolor: '#ffc43b', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center',width: { xs: "100%", md: "100%" },display:'flex', flexDirection:'column', justifyContent:'center' }}>
               <Typography variant="h5" component="div" sx={{ mb: 2, color: '#1976d2' }}>
                 Login to Avail Free Products
               </Typography>
@@ -208,14 +206,15 @@ const HomeTop = () => {
           )}
           
           {menLoading === false && stuLoading === false && menAuth && (
-            <Box sx={{ bgcolor: '#ff766c', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center', width: '100%' ,width: '95%',height:'85%',display:'flex', flexDirection:'column', justifyContent:'center'}}>
+            <Box sx={{ bgcolor: '#ff766c', borderRadius: 2, p: 3, boxShadow: 2, textAlign: 'center',width:'100%',display:'flex', flexDirection:'column', justifyContent:'center'}}>
               <Typography variant="h5" component="div" sx={{ mb: 2, color: '#fff' }}>
     Hey Mentors! 🌟
   </Typography>
               <Typography variant="body2" sx={{ color: '#fff' }}>
     Our products are currently on a little vacation with the students! 🏖️ 
-    But don’t worry, new products will be available for you soon. 
-    Thanks for your patience!
+    <br/>
+    But don’t worry, new products will be available for you soon. <br/>
+    <strong >Thanks for your patience!</strong>
   </Typography>
             </Box>
           )}

@@ -82,7 +82,6 @@ export default function SyllabusDrawer() {
     </Box>
   );
 React.useEffect(() => {
-    console.log(selection)
 },[selection])
   return (
     <div>

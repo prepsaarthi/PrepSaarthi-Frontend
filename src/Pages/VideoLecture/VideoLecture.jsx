@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem, Box, Typography, Dialog, DialogContent, IconButton, CircularProgress } from '@mui/material';
+import { Button, Box, Typography, Dialog, DialogContent, IconButton, CircularProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const VideoLecture = () => {
