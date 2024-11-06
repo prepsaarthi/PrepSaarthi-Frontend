@@ -1,30 +1,24 @@
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, TextField, Typography } from '@mui/material';
-import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Card, CardContent, CardMedia, CircularProgress, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import SendIcon from '@mui/icons-material/Send';  
 import { useSelector, useDispatch } from "react-redux";
-import { allMentorConnection, clearError, getAllChats, getAllChatsStu, loadUser, reset } from '../../action/userAction';
+import { allMentorConnection, clearError, getAllChats, getAllChatsStu, reset } from '../../action/userAction';
 import toast from 'react-hot-toast';
 import DoneIcon from '@mui/icons-material/Done';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Loader from '../../Components/Loader/Loader';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getAllConnectionsStu } from '../../action/studentAction';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const ChatService = ({userId, role, userAvatar}) => {
-    const [room, setRoom] = useState('')
     const [tempUserChat, setTempUser] = useState(null)
     const [message, setMessage] = useState([])
-    const [recipientId, setReciverId] = useState('')
     const recipientIdRef = useRef(null);  
-    const [reciverss, setrec] = useState('')
     const [loadedUsers, setLoadedUsers] = useState([])
     const [convo, setConvo] = useState([])
-    const [userChats, updateUserChats] = useState([])
     const [isTyping, setTyping] = useState(false)
-    const [onlineUsers, setOnlineUsers] = useState([]);
     const {error,loading , chats} = useSelector(state => state.mentorChat)
     const [socketLoader, setLoader] = useState(false)
     const [searchParams] = useSearchParams();
@@ -40,7 +34,6 @@ const ChatService = ({userId, role, userAvatar}) => {
     const [messageLoader, setMessageLoader] = useState(false)
     const avatar = location.state?.avatar;
     const [zIndexApp, setIndex] = useState(111);
-    const [isHovering, setIsHovering] = useState(false);
     const scrollRef = useRef(null);
     const navigate = useNavigate()
     let typingTimeout;
@@ -107,13 +100,12 @@ const ChatService = ({userId, role, userAvatar}) => {
     }, [senderId, loading])
     
     // Scroll to the bottom whenever convo changes
-    const { connection, loading:menConLoading, error:menConError } = useSelector(
+    const { connection, loading:menConLoading } = useSelector(
       (state) => state.getAllConnectionStuPast  //thia
     );
     const {
       success: connSuccess,
       loading: connLoading,
-      error: connError,
     } = useSelector((state) => state.getAllConnectionMenPast);
     const socket = useMemo(
       () =>
@@ -159,19 +151,7 @@ const ChatService = ({userId, role, userAvatar}) => {
         if(userId)
         loggedinUser.current = userId
       }, [userId])
-      useEffect(() => {
-        if(searchParams.get('rIdC') && searchParams.get('avatar') && searchParams.get('name')){
-          const userDetails = {
-            mentorId:{avatar:searchParams.get('avatar'),
-            name:searchParams.get('name')}
-          }
-          updateUserChats((userChats) => [...userChats, userDetails])
-        }
-
-        return () => {
-          updateUserChats([])
-        }
-      }, [searchParams])
+  
       useEffect(() => {
         if(loading === false && name && avatar && reciverId){
         if( loadedUsers?.length > 0){
@@ -198,14 +178,11 @@ const ChatService = ({userId, role, userAvatar}) => {
         dispatch(clearError())
        } 
        if(chats){
-        updateUserChats(chats)
        }
       }, [chats, error,dispatch])
       
       useEffect(() => {
-        socket.on("connect", () => {
-          console.log("connected");
-        });
+      
      
         socket.on('mystatus', ({userId, status}) => {
           updateUserStatus(userId, status);
@@ -281,7 +258,6 @@ const ChatService = ({userId, role, userAvatar}) => {
             setLoader(false)
             setPosition(-200)
             setIndex(1111)
-            setRoom(chatId)
         })
         return () => {
           socket.disconnect();
@@ -499,17 +475,13 @@ const ChatService = ({userId, role, userAvatar}) => {
             >
                {(typingstate?.isTyping &&  typingstate?.userId === id )? (
           <>Typing</>
-        ): ((item?.content?.length > 16 || item?.message?.length > 16 && window.innerWidth > 900)) ? ((item?.content || item?.message)?.substr(0,16) + '...'): (((item?.content || item?.message)?.length > 25)?(((item?.content || item?.message)?.substr(0,25))+'...'):(item?.content || item?.message))}
+        ): (((item?.content?.length > 16 || item?.message?.length > 16) && window.innerWidth > 900)) ? ((item?.content || item?.message)?.substr(0,16) + '...'): (((item?.content || item?.message)?.length > 25)?(((item?.content || item?.message)?.substr(0,25))+'...'):(item?.content || item?.message))}
            {}
             </Typography>
           </CardContent>
          
         </Box>
-       {/* {(item?.unseenFor === userId && item?.unreadChat) && (
-<Box sx={{position:'absolute', top:'50%', right:'15px', transform:'translateY(-50%)'}}>
-      { item?.unreadChat}
-        </Box>
-       ) }  */}
+
        {(item?.unseenFor === userId && item?.unreadChat > 0) && (
         <Box sx={{color:'white',position:'absolute', top:'50%', right:'15px', transform:'translateY(-50%)', bgcolor:'#ff9b01', borderRadius:'50%', p:'1vmax', width:'30px', height:'30px', display:'flex', alignItems:'center', justifyContent:'center'}}>
           {item?.unreadChat}
@@ -517,11 +489,7 @@ const ChatService = ({userId, role, userAvatar}) => {
        )}
       </Card>
       )
-      const blockedWords = [
-        "zero", "one", "two", "three", "four", "five",
-        "six", "seven", "eight", "nine", "ten"
-      ];
-   
+  
 
       function convertToIST(timestamp) {
         const date = new Date(timestamp);
@@ -579,7 +547,7 @@ const ChatService = ({userId, role, userAvatar}) => {
       useEffect(() => {
 
         socket.emit('handle-typing', {isTyping, reciverID:recipientIdRef.current, userId})
-      }, [isTyping,socket])
+      }, [isTyping,socket,userId])
 
     
       useEffect(() => {
@@ -609,7 +577,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     {loading ? <Loader /> :
      <>
       <Box display={'flex'} sx={{width:'100vw',height:'calc(100vh)', overflowY:'hidden', position:'absolute', top:0,left:0, zIndex:{xs:zIndexApp,md:1111}, padding:{md:'10px'}, bgcolor:'#b4c6da'}}> 
-      <Box sx={{width:{xs:'100vw',md:'32vw'},height:{xs:'calc(100% - 70px)', md:'100%'}, borderRight:'0.3px solid #b8b8b8', overflowY:'scroll', position:{xs:'absolute', md:'static'}, top:'70px', left:`${position}vw`,zIndex:2, bgcolor:'white', transition:'0.5s',borderRadius:'10px 0px 0px 30px ', overflowY:'scroll'}}>
+      <Box sx={{width:{xs:'100vw',md:'32vw'},height:{xs:'calc(100% - 70px)', md:'100%'}, borderRight:'0.3px solid #b8b8b8', overflowY:'scroll', position:{xs:'absolute', md:'static'}, top:'70px', left:`${position}vw`,zIndex:2, bgcolor:'white', transition:'0.5s',borderRadius:'10px 0px 0px 30px '}}>
         <Box sx={{width:'98%' ,height:'70px',borderRadius:'0 35px 35px 0' ,display:{xs:'none',md:'flex'}, alignItems:'center',bgcolor:'var(--theme2)' ,position:'sticky', top:0, zIndex:1000 }}>
        <ArrowBackIosIcon  onClick={() => navigate(`/user/${userId}`)} sx={{color:'white', ml:'1.4vmax', cursor:'pointer', fontSize:'22px'}} />
           <Typography component={'p'} sx={{color:'white', fontWeight:600, fontSize:'22px', ml:'0.3vmax',display:'flex',alignItems:'center'}}>Chats<Typography onClick={() => navigate('/')} component={'span'} sx={{fontSize:'10px', fontStyle:'italic', cursor:'pointer'}}>@PrepSaarthi</Typography></Typography>

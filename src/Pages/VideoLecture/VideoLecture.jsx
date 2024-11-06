@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem, Box, Typography, Dialog, DialogContent, IconButton, CircularProgress } from '@mui/material';
+import { Button, Box, Typography, Dialog, DialogContent, IconButton, CircularProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const VideoLecture = () => {
@@ -45,7 +45,7 @@ const VideoLecture = () => {
         backgroundColor: '#f0f0f0',
         p: 2,
         // height: { xs: "480px", md: '338px' }
-        minHeight:{xs:'65vh', md:'45vh'}
+        maxHeight:{xs:'65vh', md:'45vh'}
       }}
     >
       <Box
