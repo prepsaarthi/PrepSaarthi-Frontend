@@ -694,7 +694,7 @@ const ChatService = ({userId, role, userAvatar}) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '20%',
+            width: {xs:'30%', md:'20%'},
             m: '10px auto',
             py: 1,
             backgroundColor: '#fffbce',
@@ -723,7 +723,7 @@ const ChatService = ({userId, role, userAvatar}) => {
 }
   
 
-            <Box   onClick={() => seenAtToggle(key,true)} display={'flex'}sx={i?.senderId === userId ? {
+            <Box   onClick={() => i?.senderId === userId && seenAtToggle(key,true)} display={'flex'}sx={i?.senderId === userId ? {
               alignSelf:'flex-end',
               padding:'4px',
               bgcolor:'#bedfff',
