@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, CircularProgress, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import SendIcon from '@mui/icons-material/Send';  
@@ -38,7 +38,8 @@ const ChatService = ({userId, role, userAvatar}) => {
     const navigate = useNavigate()
     let typingTimeout;
     const [typingstate,setTypingState] = useState({})
-
+    const [seenOpen, setSeen] = useState(false)
+    const [seenTarger, setTarget] = useState(null)
     const styles = {
       searchContainer: {
         display: 'flex',
@@ -570,7 +571,10 @@ const ChatService = ({userId, role, userAvatar}) => {
           }
         })
       },[socket])
-
+      const seenAtToggle = (key,val) => {
+        setTarget(key)
+        setSeen(prev => key === seenTarger ? !prev : prev === false ? !prev : prev)
+      }
       
   return (
     <>
@@ -659,7 +663,7 @@ const ChatService = ({userId, role, userAvatar}) => {
     year: 'numeric',
     timeZone: 'Asia/Kolkata'
   })}` !==
-    `${new Date(convo[key +1]?.timeStamp).toLocaleDateString('en-IN', {
+    `${new Date(convo[key - 1]?.timeStamp).toLocaleDateString('en-IN', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -667,18 +671,23 @@ const ChatService = ({userId, role, userAvatar}) => {
     })}` &&
     (() => {
       const currentDate = new Date(i?.timeStamp);
-      const previousDate = new Date(convo[key +1]?.timeStamp);
+      const previousDate = new Date(convo[key - 1]?.timeStamp);
+      const previousDate1 = new Date(convo[key - 1]?.timeStamp);
       const today = new Date();
-      
+      console.log(i)
       // Normalize to remove time (so comparisons are just by date)
       today.setHours(0, 0, 0, 0);
       currentDate.setHours(0, 0, 0, 0);
       previousDate.setHours(0, 0, 0, 0);
+      previousDate1.setHours(0, 0, 0, 0);
 
       const oneDay = 24 * 60 * 60 * 1000;
-      const diffFromPrevMessage = Math.ceil(( previousDate-currentDate) / oneDay);
+      const diffFromPrevMessage = Math.ceil((currentDate - previousDate) / oneDay);
+      const diffFromPrevMessage1 = Math.ceil((currentDate- previousDate1) / oneDay);
       const diffFromToday = Math.ceil((today - currentDate) / oneDay);
-      console.log(diffFromPrevMessage, diffFromToday, i.content, previousDate, currentDate,today)
+      // console.log(diffFromPrevMessage, diffFromToday, i.content, previousDate, currentDate,today)
+      console.log(diffFromPrevMessage1, previousDate1, i.content, today)
+
       return (
         <Box
           sx={{
@@ -686,7 +695,7 @@ const ChatService = ({userId, role, userAvatar}) => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '20%',
-            m: '0 auto',
+            m: '10px auto',
             py: 1,
             backgroundColor: '#fffbce',
             borderRadius: '16px',
@@ -697,11 +706,11 @@ const ChatService = ({userId, role, userAvatar}) => {
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
           }}
         >
-          {
+          { 
           
-            diffFromToday === 0 ? "Today" : // If message is sent today
+            (diffFromToday === 0) ? "Today" : // If message is sent today
             (diffFromPrevMessage === 1 || !diffFromPrevMessage)  && diffFromToday === 1 ? "Yesterday" : // If message is from the previous day
-            currentDate.toLocaleDateString('en-IN', { // Default: Show the date
+            currentDate.toLocaleDateString('en-IN', { 
               day: '2-digit',
               month: '2-digit',
               year: 'numeric',
@@ -712,14 +721,15 @@ const ChatService = ({userId, role, userAvatar}) => {
       );
     })()
 }
+  
 
-
-            <Box display={'flex'}sx={i?.senderId === userId ? {
+            <Box   onClick={() => seenAtToggle(key,true)} display={'flex'}sx={i?.senderId === userId ? {
               alignSelf:'flex-end',
               padding:'4px',
               bgcolor:'#bedfff',
               borderRadius:'5px',
-              margin:'1.5px 5px'
+              margin:'1.5px 5px',
+              cursor:'pointer'
             }:{bgcolor:'#ffe5a9',
               margin:'1.5px 5px',
               borderRadius:'5px',
@@ -743,6 +753,41 @@ const ChatService = ({userId, role, userAvatar}) => {
       </Box>
          )} 
           </Box>
+          <Box display={(seenOpen && seenTarger === key) ? 'flex' : 'none'} sx={{
+              alignSelf:'flex-end',
+              padding:'2px',
+              bgcolor:'#eeeeee',
+              borderRadius:'5px',
+              margin:'0 5px',
+              marginBottom:'10px',
+              marginTop:'2px',
+              fontSize:{xs:'1.26vmax',md:'0.7vmax'},
+              cursor:'pointer'
+            }}>{i?.delivered && i?.seen ? (<>Delivered At :{new Date(i?.deliveredAt)?.toLocaleDateString('en-IN', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+              timeZone: 'Asia/Kolkata'
+            })}   Seen At:{new Date(i?.seenAt)?.toLocaleDateString('en-IN', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+              timeZone: 'Asia/Kolkata'
+            })}</>) : (i?.delivered && <>Delivered At: {new Date(i?.deliveredAt)?.toLocaleDateString('en-IN', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+              timeZone: 'Asia/Kolkata'
+            })}</>)} </Box>
           </>
           ))}
           {activeConnection?.find((item) => item?.mentorDetails?._id === recipientIdRef.current) ? (
