@@ -650,6 +650,70 @@ const ChatService = ({userId, role, userAvatar}) => {
      {socketLoader ? <Loader/> : (
           <Box ref={scrollRef} sx={{ width:{xs:'100vw',md:'100%'}, overflowY:'scroll', height:'calc(100% - 140px)',display:'flex', flexDirection:'column', padding:'10px 0', overflowX:'hidden','&::-webkit-scrollbar':{ display: 'none',},'-ms-overflow-style': 'none', 'scrollbar-width': 'none'}}>
           {convo?.length > 0 && convo?.map((i, key) => (
+            <>
+            
+            {
+  `${new Date(i?.timeStamp).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Asia/Kolkata'
+  })}` !==
+    `${new Date(convo[key +1]?.timeStamp).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      timeZone: 'Asia/Kolkata'
+    })}` &&
+    (() => {
+      const currentDate = new Date(i?.timeStamp);
+      const previousDate = new Date(convo[key +1]?.timeStamp);
+      const today = new Date();
+      
+      // Normalize to remove time (so comparisons are just by date)
+      today.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      previousDate.setHours(0, 0, 0, 0);
+
+      const oneDay = 24 * 60 * 60 * 1000;
+      const diffFromPrevMessage = Math.ceil(( previousDate-currentDate) / oneDay);
+      const diffFromToday = Math.ceil((today - currentDate) / oneDay);
+      console.log(diffFromPrevMessage, diffFromToday, i.content, previousDate, currentDate,today)
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '20%',
+            m: '0 auto',
+            py: 1,
+            backgroundColor: '#fffbce',
+            borderRadius: '16px',
+            color: '#6f6f6f',
+            fontWeight: 'bold',
+            fontSize: '0.875rem',
+            textAlign: 'center',
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          {
+          
+            diffFromToday === 0 ? "Today" : // If message is sent today
+            (diffFromPrevMessage === 1 || !diffFromPrevMessage)  && diffFromToday === 1 ? "Yesterday" : // If message is from the previous day
+            currentDate.toLocaleDateString('en-IN', { // Default: Show the date
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              timeZone: 'Asia/Kolkata'
+            })
+          }
+        </Box>
+      );
+    })()
+}
+
+
             <Box display={'flex'}sx={i?.senderId === userId ? {
               alignSelf:'flex-end',
               padding:'4px',
@@ -679,6 +743,7 @@ const ChatService = ({userId, role, userAvatar}) => {
       </Box>
          )} 
           </Box>
+          </>
           ))}
           {activeConnection?.find((item) => item?.mentorDetails?._id === recipientIdRef.current) ? (
   <>{recipientIdRef.current && (
