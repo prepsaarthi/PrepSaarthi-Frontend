@@ -20,6 +20,7 @@ import ChatService from "./Pages/ChatService/ChatService.jsx";
 import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import MentorDashboard from "./Pages/MentorDashboard/MentorDashboard.jsx";
+import CertificateVerify from "./Pages/CertificateVerify/CertificateVerify.jsx";
 import SyllabusTracker from "./Pages/SyllabusTracker/SyllabusTracker.jsx";
 import VideoLecture from "./Pages/VideoLecture/VideoLecture.jsx";
 import EditProfileStudent from "./Pages/EditProfileStudent/EditProfileStudent.jsx";
@@ -161,6 +162,7 @@ const App = () => {
         <Route path="/privacy" element={<PrivacyPolicy />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
+        <Route path="/verify/certification" element={<CertificateVerify />}></Route>
         <Route path="/forgot/password/:tkid" element={<ForgotPassword />}></Route>
         <Route exact path="/forgot/password/" element={<ForgotPassword />}></Route>
         <Route path="*" element={<NotFound />} /> 
