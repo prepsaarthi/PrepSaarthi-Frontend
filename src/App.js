@@ -68,6 +68,8 @@ const App = () => {
     const enableSound = () => {
       setSoundEnabled(true);  // Enable sound for the rest of the session
       document.removeEventListener('click', enableSound);
+      console.log("hi");
+      
     };
 
     document.addEventListener('click', enableSound);  // Listen for any user click
